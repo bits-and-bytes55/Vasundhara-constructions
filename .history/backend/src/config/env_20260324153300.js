@@ -11,7 +11,7 @@ const parsePort = (value, fallback) => {
 module.exports = {
   nodeEnv: process.env.NODE_ENV || 'development',
   port: parsePort(process.env.PORT, 5000),
-  clientUrl: process.env.CLIENT_URL || 'https://ashushafi.onrender.com',
+  clientUrl: process.env.CLIENT_URL || 'http://localhost:5173',
   mongoUri: process.env.MONGO_URI || '',
   adminPanelKey: process.env.ADMIN_PANEL_KEY || 'wallbolt-admin',
   authTokenSecret: process.env.AUTH_TOKEN_SECRET || 'wallbolt-auth-secret',
