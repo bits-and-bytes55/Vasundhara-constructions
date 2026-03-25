@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap');
+
+:root {
+  --font-display: "Playfair Display", Georgia, serif;
+  --font-body: "Manrope", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  --ink-900: #261d15;
+  --ink-700: #5f4f3e;
+  --accent-700: #88663e;
+  --accent-600: #9d7445;
+  --line-soft: #e8ddcc;
+
+  font-family: var(--font-body);
+  line-height: 1.55;
+  font-weight: 500;
+  color: var(--ink-900);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background:
+    radial-gradient(95% 130% at 0% 0%, rgba(220, 196, 158, 0.38), transparent 55%),
+    radial-gradient(90% 120% at 100% 100%, rgba(208, 182, 145, 0.24), transparent 60%),
+    linear-gradient(180deg, #f7f1e8 0%, #f8f5ef 46%, #f7f3ed 100%);
+}
+
+#root {
+  min-height: 100vh;
+}
