@@ -1,6 +1,6 @@
 .premium-page {
-  --page-accent: #d14c17;
-  --page-accent-strong: #eb5d25;
+  --page-accent: #1e83e8;
+  --page-accent-strong: #1e83e8;
   --page-accent-soft: rgba(232, 80, 30, 0.12);
   --page-accent-border: rgba(232, 80, 30, 0.16);
   --page-text: #231e19;
@@ -30,8 +30,8 @@
 }
 
 .premium-page--services {
-  --page-accent: #b85f33;
-  --page-accent-strong: #d77441;
+  --page-accent: #1e83e8;
+  --page-accent-strong: #1e83e8;
   --page-accent-soft: rgba(184, 95, 51, 0.12);
   --page-accent-border: rgba(184, 95, 51, 0.18);
   --page-bg: #fff9f3;
@@ -108,8 +108,8 @@
 }
 
 .premium-page--theme-copper {
-  --page-accent: #b86a37;
-  --page-accent-strong: #d7874f;
+  --page-accent: #1e83e8;
+  --page-accent-strong: #1e83e8;
   --page-accent-soft: rgba(184, 106, 55, 0.12);
   --page-accent-border: rgba(184, 106, 55, 0.18);
   --page-hero-glow-a: rgba(215, 135, 79, 0.14);
@@ -119,8 +119,8 @@
 }
 
 .premium-page--theme-sand {
-  --page-accent: #8b6a2f;
-  --page-accent-strong: #b78944;
+  --page-accent: #1e83e8;
+  --page-accent-strong: #1e83e8;
   --page-accent-soft: rgba(139, 106, 47, 0.12);
   --page-accent-border: rgba(139, 106, 47, 0.18);
   --page-bg: #fcfaf4;
@@ -183,8 +183,8 @@
 }
 
 .premium-page--theme-rose {
-  --page-accent: #b65f52;
-  --page-accent-strong: #d67d71;
+  --page-accent: #1e83e8;
+  --page-accent-strong: #1e83e8;
   --page-accent-soft: rgba(182, 95, 82, 0.12);
   --page-accent-border: rgba(182, 95, 82, 0.18);
   --page-bg: #fff8f6;

@@ -22,135 +22,161 @@ export type EstimatorCity = {
 }
 
 export const estimatorCities: EstimatorCity[] = [
-  { name: 'Bengaluru', code: 'BNG_KA_IN', factor: 1, note: 'Reference-aligned benchmark city' },
-  { name: 'Hyderabad', code: 'HYD_TG_IN', factor: 0.97, note: 'Slightly softer labour and finish cost mix' },
-  { name: 'Chennai', code: 'CHE_TN_IN', factor: 0.96, note: 'Balanced material basket with stable rates' },
-  { name: 'Pune', code: 'PUNE_MH_IND', factor: 1.03, note: 'Includes plinth and terrace caution in live market' },
-  { name: 'Noida', code: 'NOI_UP_IN', factor: 1.06, note: 'Premium NCR market adjustment' },
+  { name: 'Delhi NCR', code: 'NOI_UP_IN', factor: 1.0, note: 'Base location - Noida, Greater Noida, Ghaziabad' },
+  { name: 'Noida', code: 'NOI_UP_IN', factor: 1.0, note: 'Primary service area' },
+  { name: 'Greater Noida', code: 'GN_UP_IN', factor: 0.98, note: 'Slightly competitive rates' },
+  { name: 'Ghaziabad', code: 'GZB_UP_IN', factor: 0.97, note: 'Adjacent NCR region' },
+  { name: 'Faridabad', code: 'FAR_HR_IN', factor: 0.99, note: 'Delhi NCR region' },
+  { name: 'Gurugram', code: 'GUR_HR_IN', factor: 1.08, note: 'Premium NCR market' },
 ]
 
 export const estimatorPackages: EstimatorPackage[] = [
   {
     slug: 'basic',
     name: 'Basic Package',
-    rate: 1900,
+    rate: 1950,
     tag: 'Budget-Friendly',
-    summary: 'Standard material palette for practical turnkey construction.',
-    accent: '#f97316',
-    surface: '#fff7ed',
+    summary: 'Standard material palette for practical turnkey construction. Includes Shree cement, Rathi TMT, and essential finishes.',
+    accent: '#3b82f6',
+    surface: '#eff6ff',
     components: [
       {
-        name: 'Structure',
+        name: 'Structure & Civil',
         blocks: [
-          'Steel - Kamadhenu or Primegold',
-          'Cement - Dalmia or Bharathi, 43 or 53 grade',
-          'Aggregates - 20mm and 40mm',
-          'Standard solid concrete blocks, 6 inch and 4 inch',
+          'Cement - Shree',
+          'TMT Bars - Rathi',
+          'Red Brick - Premium quality',
+          'Dust - Premium quality',
+          'Concrete - Premium quality M20 Grade (1:1.5:3)',
+          'PCC (1:4:8) for foundation',
+          'RCC M20 Grade with rotary mixer & vibrator',
+          '12mm shuttering plywood for slab casting',
         ],
       },
       {
         name: 'Kitchen',
         blocks: [
-          'Ceramic wall dado up to Rs.40 per sqft',
-          'Main sink faucet up to Rs.1,300',
-          'ISI-marked accessory set',
-          'Single bowl stainless sink up to Rs.3,000',
+          'Kitchen interior in Laminate Finish',
+          'Ceramic wall dado up to standard',
+          'Single bowl stainless sink',
+          'Prince plumbing fittings',
         ],
       },
       {
         name: 'Bathroom',
         blocks: [
-          'Ceramic wall dado up to 7 feet height',
-          'Sanitaryware and CP fittings up to Rs.30,000 per 1,000 sqft',
-          'Apollo or Astral CPVC pipes',
-          'Waterproof flush or WPC bathroom doors',
+          'Sanitary fittings - Hind ware',
+          'Prince plumbing pipes & fittings',
+          'Waterproofing of toilets/kitchen (Dr fixit)',
+          'Ceramic wall dado',
         ],
       },
       {
         name: 'Doors & Windows',
         blocks: [
-          'Aluminium windows with mesh shutters',
-          'Flush main door with veneer and sal wood frame',
-          'Membrane or flush internal doors with laminate finish',
+          'Chowkhat - Marandi/Kapoor',
+          'Plywood doors with Laminate on both sides',
+          'Wooden windows',
         ],
       },
       {
         name: 'Flooring',
         blocks: [
-          'Living and dining tiles up to Rs.50 per sqft',
-          'Room and kitchen tiles up to Rs.50 per sqft',
-          'Balcony anti-skid tiles up to Rs.40 per sqft',
-          'Sadarahalli granite staircase up to Rs.70 per sqft',
+          'Tile - Vitrified tiles',
+          'Granite in Stairs',
+          'Kota Stone in Parking',
         ],
       },
       {
         name: 'Electrical',
         blocks: [
-          'Fire-proof wiring with Finolex, Anchor, or Havells',
-          'Legrand Allzy, GM G9, Hi-Fi, or Great White switches',
+          'Electrical Fittings/Conduit - Prince',
+          'Switch Board & Switches - Anchor',
+          'Electrical Wires - Anchor/Kaliga',
+          'Fire-proof standard wiring',
+        ],
+      },
+      {
+        name: 'Finishing',
+        blocks: [
+          'POP - Gypsum',
+          'Paint - Premium Emulsion',
+          'Internal plaster mix (1:4)',
+          'External plaster mix (1:4)',
         ],
       },
     ],
   },
   {
-    slug: 'comfort',
-    name: 'Classic Package',
-    rate: 2030,
-    tag: 'Balanced Upgrade',
-    summary: 'A comfort-led mix of better openings, fittings, and finishes.',
-    accent: '#ef4444',
-    surface: '#fff1f2',
+    slug: 'standard',
+    name: 'Standard Package',
+    rate: 2300,
+    tag: 'Most Popular',
+    summary: 'Balanced upgrade with better materials, wooden flooring in MBR, and premium finishes.',
+    accent: '#0ea5e9',
+    surface: '#f0f9ff',
     components: [
       {
-        name: 'Structure',
+        name: 'Structure & Civil',
         blocks: [
-          'Steel - Indus or Jindal Panther',
-          'Cement - Dalmia or Bharathi, 43 or 53 grade',
-          'Aggregates - 20mm and 40mm',
-          'Standard solid concrete blocks, 6 inch and 4 inch',
+          'Cement - Shree / JK Super',
+          'TMT Bars - Kamdhenu / Rathi',
+          'Red Brick - 1st Number Brick',
+          'Dust - 1st Number Quality',
+          'Concrete - Premium quality',
+          'RCC M20 Grade with vibrator',
+          '12mm shuttering plywood',
         ],
       },
       {
         name: 'Kitchen',
         blocks: [
-          'Ceramic wall dado up to Rs.60 per sqft',
-          'Main sink faucet up to Rs.2,000',
-          'ISI-marked accessory set',
-          'Single bowl stainless sink up to Rs.6,000',
+          'Kitchen in Acrylic Finish',
+          'Supreme plumbing fittings',
+          'Ceramic dado upgrade',
+          'Single bowl stainless sink',
         ],
       },
       {
         name: 'Bathroom',
         blocks: [
-          'Ceramic wall dado up to 7 feet height',
-          'Sanitaryware and CP fittings up to Rs.50,000 per 1,000 sqft',
-          'Apollo or Astral CPVC pipes',
-          'Waterproof flush or WPC bathroom doors',
+          'Sanitary - Parryware',
+          'Supreme CPVC pipes',
+          'Dr fixit waterproofing',
+          'Ceramic dado up to 7 feet',
         ],
       },
       {
         name: 'Doors & Windows',
         blocks: [
-          'UPVC windows with mesh shutters',
-          'Teak main door with 5 x 3 inch frame',
-          'Membrane or flush laminate internal doors',
+          'Chowkhat - Teak or Sal',
+          'Century Plyboard with Laminate on both sides',
+          'Wooden windows',
         ],
       },
       {
         name: 'Flooring',
         blocks: [
-          'Living and dining tiles or granite up to Rs.100 per sqft',
-          'Room and kitchen tiles up to Rs.80 per sqft',
-          'Balcony anti-skid tiles up to Rs.60 per sqft',
-          'Sadarahalli granite staircase up to Rs.80 per sqft',
+          'Tile with Wooden Flooring in MBR',
+          'Granite in Stairs',
+          'Kota Stone in Parking',
         ],
       },
       {
         name: 'Electrical',
         blocks: [
-          'Finolex, Anchor, or Havells fire-proof wiring',
-          'Roma, Lisha, Legrand Lyncus, or Havells Fabio switches',
-          'UPS wiring provision included',
+          'Electrical Fittings - Supreme',
+          'Switches - Polycab/GreatWhite',
+          'Wires - Polycab',
+          'UPS wiring provision',
+        ],
+      },
+      {
+        name: 'Finishing',
+        blocks: [
+          'POP with Sakarni',
+          'Premium Emulsion paint',
+          'Enhanced plaster mix',
         ],
       },
     ],
@@ -158,128 +184,156 @@ export const estimatorPackages: EstimatorPackage[] = [
   {
     slug: 'premium',
     name: 'Premium Package',
-    rate: 2350,
-    tag: 'High-End Build',
-    summary: 'Premium-grade structure and richer finish levels across the house.',
-    accent: '#0f766e',
-    surface: '#ecfeff',
+    rate: 2750,
+    tag: 'Luxury Choice',
+    summary: 'Premium-grade structure with Italian flooring, designer interiors, and top-tier brands.',
+    accent: '#f59e0b',
+    surface: '#fffbeb',
     components: [
       {
-        name: 'Structure',
+        name: 'Structure & Civil',
         blocks: [
-          'Steel - Indus or Jindal Panther',
-          'Cement - Ultratech or Ramco Supercrete',
-          'Aggregates - 20mm and 40mm',
-          'Standard solid concrete blocks, 6 inch and 4 inch',
+          'Cement - Ultratech / JK Super',
+          'TMT Bars - SAIL',
+          'Red Brick - 1st Number Brick',
+          'Premium quality aggregates',
+          'M20 Grade RCC with full vibration',
+          'Premium shuttering work',
         ],
       },
       {
         name: 'Kitchen',
         blocks: [
-          'Ceramic wall dado up to Rs.80 per sqft',
-          'Main sink faucet up to Rs.3,500',
-          'Parryware, Hindware, or Jaquar fittings',
-          'Granite finish or stainless sink up to Rs.8,000',
+          'Kitchen in Acrylic Finish',
+          'Mandir in Duco Finish',
+          'Crockery unit in Glass Finish',
+          'Ashirwad plumbing',
+          'Premium sink & faucet',
         ],
       },
       {
         name: 'Bathroom',
         blocks: [
-          'Ceramic wall dado up to 7 feet height',
-          'Jaquar sanitaryware up to Rs.70,000 per 1,000 sqft',
-          'Apollo or Astral CPVC pipes',
-          'Waterproof flush or WPC bathroom doors',
+          'Sanitary - Jaquar/Roca',
+          'Ashirwad pipes & fittings',
+          'Premium waterproofing',
+          'Designer ceramic dado',
         ],
       },
       {
         name: 'Doors & Windows',
         blocks: [
-          'Premium UPVC windows with mesh shutters',
-          'Teak main door with 5 x 3.5 inch frame',
-          'Higher-spec laminate internal doors',
-          'Pooja room teak door for larger packages',
+          'Chowkhat - Teak or Sal',
+          'Century Plyboard with Veneer & Polish',
+          'UPVC/ Wooden windows',
         ],
       },
       {
         name: 'Flooring',
         blocks: [
-          'Living and dining tiles or granite up to Rs.140 per sqft',
-          'Room and kitchen tiles or granite up to Rs.120 per sqft',
-          'Balcony anti-skid tiles up to Rs.80 per sqft',
-          'Sadarahalli granite staircase up to Rs.110 per sqft',
+          'Italian Flooring in Drawing & Dining',
+          'Tiles in Rooms & Bathroom',
+          'Granite in Stairs',
+          'Kota Stone in Parking',
         ],
       },
       {
         name: 'Electrical',
         blocks: [
-          'Finolex, Anchor, or Havells fire-proof wiring',
-          'Legrand Mylinc, Havells Coral, or Roma switches',
-          'UPS wiring provision included',
+          'Fittings - Ashirwad',
+          'Switches - Havells',
+          'Wires - Havells',
+          'Complete UPS wiring',
+          'Premium switch plates',
+        ],
+      },
+      {
+        name: 'Finishing',
+        blocks: [
+          'POP with Sakarni',
+          'Royal Shine paint',
+          'Superior plaster finish',
+          'Designer moldings',
         ],
       },
     ],
   },
   {
     slug: 'luxury',
-    name: 'Royale Package',
-    rate: 2585,
-    tag: 'Luxury Finish',
-    summary: 'Luxury-grade fittings, richer elevations, and premium feature depth.',
-    accent: '#7c3aed',
+    name: 'Luxury Package',
+    rate: 3000,
+    tag: 'Ultimate Luxury',
+    summary: 'Luxury-grade fittings, premium brands, Italian bathroom tiles, and Sagwan woodwork.',
+    accent: '#8b5cf6',
     surface: '#f5f3ff',
     components: [
       {
-        name: 'Structure',
+        name: 'Structure & Civil',
         blocks: [
-          'Steel - Indus or Jindal Panther',
-          'Cement - Ultratech or Ramco Supercrete',
-          'Aggregates - 20mm and 40mm',
-          'Standard solid concrete blocks, 6 inch and 4 inch',
+          'Cement - Ultratech',
+          'TMT Bars - Tata',
+          'Red Brick - 1st Number Brick',
+          'Premium quality materials',
+          'Superior M20 Grade RCC',
+          'Premium shuttering with smooth finish',
         ],
       },
       {
         name: 'Kitchen',
         blocks: [
-          'Ceramic wall dado up to Rs.90 per sqft',
-          'Main sink faucet up to Rs.3,500',
-          'Parryware, Hindware, or Jaquar fittings',
-          'Granite finish or stainless sink up to Rs.8,000',
+          'Kitchen in Acrylic Finish',
+          'Mandir in Duco Finish',
+          'Crockery unit in Glass Finish',
+          'Wardrobe in Glass/Wooden Finish with High Gloss Laminate',
+          'TV unit and Vanity in Laminate Finish',
+          'Ashirwad premium plumbing',
         ],
       },
       {
         name: 'Bathroom',
         blocks: [
-          'Ceramic wall dado up to 7 feet height',
-          'Kohler sanitaryware up to Rs.80,000 per 1,000 sqft',
-          'Apollo or Astral CPVC pipes',
-          'Waterproof flush or WPC bathroom doors',
+          'Sanitary - Jaguar/Kohler',
+          'Ashirwad/Astral pipes',
+          'Italian Flooring with Tiles in Bathroom',
+          'Premium shower panels',
+          'Designer CP fittings',
         ],
       },
       {
         name: 'Doors & Windows',
         blocks: [
-          'High-spec UPVC windows with mesh shutters',
-          'Teak main door with 5 x 3.5 inch frame',
-          'Premium laminate internal doors up to Rs.15,000',
-          'Burma teak pooja room door for larger packages',
+          'Chowkhat - Sagwan (Teak)',
+          'Century Plyboard with Veneer & Polish',
+          'Premium UPVC windows',
         ],
       },
       {
         name: 'Flooring',
         blocks: [
-          'Living and dining tiles or granite up to Rs.160 per sqft',
-          'Room and kitchen tiles or granite up to Rs.140 per sqft',
-          'Balcony anti-skid tiles up to Rs.90 per sqft',
-          'Sadarahalli granite staircase up to Rs.140 per sqft',
+          'Italian Flooring',
+          'Tiles in Bathroom',
+          'Granite in Stairs',
+          'Kota Stone in Parking',
         ],
       },
       {
         name: 'Electrical',
         blocks: [
-          'Finolex, Anchor, or Havells fire-proof wiring',
-          'Schneider Unica Pure, Legrand Myrius, or Jaquar switches',
-          'UPS wiring provision included',
-          'EV charging point at ground floor',
+          'Fittings - Ashirwad/Astral',
+          'Switches - Havells premium series',
+          'Wires - Havells',
+          'Complete UPS wiring',
+          'EV charging point provision',
+          'Smart home ready wiring',
+        ],
+      },
+      {
+        name: 'Finishing',
+        blocks: [
+          'POP with Sakarni premium',
+          'Royal Shine paint with extra coat',
+          'Premium wall finishes',
+          'Decorative moldings and cornices',
         ],
       },
     ],
@@ -288,46 +342,53 @@ export const estimatorPackages: EstimatorPackage[] = [
 
 export const estimatorFaqs = [
   {
-    question: 'What is a house construction cost calculator?',
-    answer:
-      'It is an online tool that estimates the cost of building your home based on location, built-up area, balcony and utility requirements, and parking count.',
+    question: 'What is included in the construction package?',
+    answer: 'Our packages include complete civil work - PCC, DPC, RCC M20 grade columns/beams/slabs, brick masonry, shuttering, reinforcement, plaster, flooring, plumbing, electrical, waterproofing, and interiors as per the package specifications.',
   },
   {
-    question: 'How are balcony and car parking costs handled?',
-    answer:
-      'This reference-style calculator assumes 40 sqft per balcony or utility unit and 130 sqft per car parking. Both are charged at 60 percent of the package rate.',
+    question: 'How are balcony and car parking areas calculated?',
+    answer: 'Extended ramp, trenches, drain, and outside area of plot are measured at open area rate (₹600/sq ft). Setback area development (1.0mtr) is charged at half rate, and above 1.0mtr at covered area rate.',
   },
   {
-    question: 'Does the estimate include everything?',
-    answer:
-      'The estimate is an indicative budget. Final project cost can still shift because of soil condition, approvals, plinth, terrace scope, elevation complexity, and selected brands.',
+    question: 'Does the estimate include GST?',
+    answer: 'No, GST @ 18% is extra and will be paid by the owner as per government regulations.',
   },
   {
     question: 'Which package should I choose?',
-    answer:
-      'Basic is value-focused, Classic balances quality and cost, Premium upgrades core finishes, and Royale targets luxury materials and richer detailing.',
+    answer: 'Basic is value-focused with essential finishes, Standard adds wooden flooring and better brands, Premium offers Italian flooring and designer interiors, and Luxury delivers top-tier materials like Tata Steel, Kohler fittings, and Sagwan woodwork.',
   },
   {
-    question: 'Can I use this for cities other than Bengaluru?',
-    answer:
-      'Yes. This page uses Bengaluru benchmark rates from the reference and applies city multipliers so you can preview cost movement across other served cities.',
+    question: 'What is the construction timeline?',
+    answer: 'The complete project timeline for a 3-floor building structure is 8 months from the date of work order issuance, subject to timely payments and material approvals.',
   },
   {
-    question: 'What should I do after getting the estimate?',
-    answer:
-      'Use the estimate as a planning baseline, shortlist your preferred package, and then move to a detailed consultation for soil, design, plinth, and execution scope.',
+    question: 'How are payments structured?',
+    answer: 'Payments are milestone-based - 10% advance, 10% on earthwork, 10% on footing, 20% on columns & slabs, and remaining on plaster, flooring, doors, plumbing, electrical, and finishing works as per the stage-wise breakdown.',
+  },
+  {
+    question: 'Do you provide drawings?',
+    answer: 'Architectural & structural drawings are available at ₹60 per sq ft. The contractor must execute work as per drawings without deviation unless advised in writing.',
+  },
+  {
+    question: 'What about water and electricity?',
+    answer: 'The client will arrange water and electricity free of cost at the workplace wherever required.',
   },
 ]
 
 export const estimatorStageBreakdown = [
-  { label: 'Mobilisation Design & Drawing', share: 0.08 },
-  { label: 'Foundation Works', share: 0.18 },
-  { label: 'GF Structural works', share: 0.1925 },
-  { label: 'First Floor Structural works', share: 0.1075 },
-  { label: 'External plastering, putty works, doors, electrical fixtures, plumbing fittings', share: 0.15 },
-  { label: 'GF internal plastering, waterproofing, wall cladding, flooring', share: 0.09 },
-  { label: 'FF internal plastering, waterproofing, wall cladding, flooring', share: 0.08 },
-  { label: 'Painting, fabrication, doors, electrical, plumbing, miscellaneous works', share: 0.12 },
+  { label: 'Advance on quotation submission', share: 0.10 },
+  { label: 'Completion of earth work excavation', share: 0.10 },
+  { label: 'Completion of footing work', share: 0.10 },
+  { label: 'Completion of column and slabs', share: 0.20 },
+  { label: 'Completion of bricks masonry', share: 0.05 },
+  { label: 'Completion of internal plaster', share: 0.05 },
+  { label: 'Completion of external plaster', share: 0.05 },
+  { label: 'Completion of flooring work', share: 0.10 },
+  { label: 'Railing, door, window fitting & brick coba', share: 0.05 },
+  { label: 'Completion of plumbing & sanitary', share: 0.05 },
+  { label: 'Completion of electrical work', share: 0.05 },
+  { label: 'Completion of finishing work (putty, primer, paint)', share: 0.05 },
+  { label: 'False ceiling & interior fit-out', share: 0.05 },
 ] as const
 
 export const estimatorFloorPresets = [
@@ -338,15 +399,15 @@ export const estimatorFloorPresets = [
   {
     label: 'G+1',
     rows: [
-      { name: 'Ground Floor', share: 0.61 },
-      { name: 'First Floor', share: 0.39 },
+      { name: 'Ground Floor', share: 0.55 },
+      { name: 'First Floor', share: 0.45 },
     ],
   },
   {
     label: 'G+2',
     rows: [
-      { name: 'Ground Floor', share: 0.43 },
-      { name: 'First Floor', share: 0.29 },
+      { name: 'Ground Floor', share: 0.40 },
+      { name: 'First Floor', share: 0.32 },
       { name: 'Second Floor', share: 0.28 },
     ],
   },
@@ -354,33 +415,12 @@ export const estimatorFloorPresets = [
     label: 'G+3',
     rows: [
       { name: 'Ground Floor', share: 0.33 },
-      { name: 'First Floor', share: 0.23 },
+      { name: 'First Floor', share: 0.25 },
       { name: 'Second Floor', share: 0.22 },
-      { name: 'Third Floor', share: 0.22 },
+      { name: 'Third Floor', share: 0.20 },
     ],
   },
-  {
-    label: 'G+4',
-    rows: [
-      { name: 'Ground Floor', share: 0.28 },
-      { name: 'First Floor', share: 0.19 },
-      { name: 'Second Floor', share: 0.18 },
-      { name: 'Third Floor', share: 0.18 },
-      { name: 'Fourth Floor', share: 0.17 },
-    ],
-  },
-  {
-    label: 'G+5',
-    rows: [
-      { name: 'Ground Floor', share: 0.24 },
-      { name: 'First Floor', share: 0.16 },
-      { name: 'Second Floor', share: 0.15 },
-      { name: 'Third Floor', share: 0.15 },
-      { name: 'Fourth Floor', share: 0.15 },
-      { name: 'Fifth Floor', share: 0.15 },
-    ],
-  },
-] as const
+]
 
 export type CostBreakdownInput = {
   builtUpArea: number
@@ -400,6 +440,7 @@ export type CostBreakdown = {
 
 export function calculatePackageCost(rate: number, input: CostBreakdownInput): CostBreakdown {
   const adjustedRate = Math.round(rate * input.cityFactor)
+  // Balcony and parking charged at 60% of package rate as per open area rate concept
   const chargeableBuiltUpArea = Math.max(input.builtUpArea - input.balconyUnits * 40 - input.carParking * 130, 0)
   const builtUpCost = chargeableBuiltUpArea * adjustedRate
   const parkingCost = input.carParking * 130 * adjustedRate * 0.6
@@ -418,4 +459,33 @@ export function calculatePackageCost(rate: number, input: CostBreakdownInput): C
 
 export function formatInr(value: number): string {
   return `₹${Math.round(value).toLocaleString('en-IN')}`
+}
+
+// Extra items rates from PDF
+export const extraItemRates = [
+  { item: 'DPC at plinth Level', rate: 'As per slab area', unit: 'sq. ft.' },
+  { item: 'Waterproofing', rate: 40, unit: 'per sq. ft.' },
+  { item: 'Architectural & Structural Drawing', rate: 60, unit: 'per sq. ft.' },
+  { item: 'Set Back Area Development', rate: 600, unit: 'per sq. ft.' },
+  { item: 'Underground water tank', rate: 35, unit: 'per Litre' },
+  { item: 'Overhead Tank', rate: 25, unit: 'per Litre' },
+  { item: 'Anti-termite treatment', rate: 10, unit: 'per sq. ft.' },
+  { item: 'Brick Coba & parapet wall with plaster', rate: 600, unit: 'per sq. ft.' },
+  { item: 'Steel binding', rate: 'Market rate', unit: 'per kg' },
+  { item: 'Excavation of basement work', rate: 'Market rate', unit: 'per cu. ft.' },
+]
+
+// Company details from PDF
+export const companyDetails = {
+  name: 'VASUNDHARA CONSTRUCTION & INTERIOR',
+  gst: '09ANWPK9076H1Z2',
+  phone: '+91 9818866849',
+  email: 'info@vasundharaconstruction.in',
+  address: 'G-9, Sector 63, Noida, Uttar Pradesh',
+  bank: {
+    name: 'State Bank of India',
+    accountName: 'VASUNDHARA CONSTRUCTION',
+    accountNumber: '44404823521',
+    ifsc: 'SBIN0005222',
+  },
 }

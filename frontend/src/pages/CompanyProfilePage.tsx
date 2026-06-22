@@ -1,48 +1,89 @@
 import { Link } from 'react-router-dom'
-import '../premium-pages.css'
+import { useEffect, useRef, useState } from 'react'
+import Testimonials from './Testimonials'
 
+// Company Statistics
 const leadershipStats = [
   {
-    value: '15+',
-    label: 'Years of experience',
-    detail: 'Deep execution knowledge across home construction, design, and handover planning.',
+    value: '12+',
+    label: 'Years of excellence',
+    detail: 'Trust built on consistent delivery across residential and commercial projects.',
+    icon: ''
   },
   {
-    value: '10,000+',
-    label: 'Homes delivered',
-    detail: 'A scaled operating model shaped around reliability, quality control, and customer trust.',
+    value: '70+',
+    label: 'Homes completed',
+    detail: 'Successfully delivered projects across Delhi NCR with 100% client satisfaction.',
+    icon: ''
   },
   {
     value: '500+',
-    label: 'Quality checks',
-    detail: 'Structured inspections built into the process instead of being treated as afterthoughts.',
+    label: 'Quality checkpoints',
+    detail: 'Rigorous inspections at every stage ensure superior construction quality.',
+    icon: '✓'
   },
   {
     value: '100%',
-    label: 'Escrow mindset',
-    detail: 'Clarity and payment confidence remain central to how projects are managed.',
+    label: 'Protection',
+    detail: 'Payments are safe and released progressively with milestone completion.',
+    icon: ''
   },
 ]
 
-const companyPillars = [
+// Company Values
+const companyValues = [
   {
-    title: 'Design-led decision making',
-    text: 'We aim for homes that feel intentional from facade to finish, not just technically complete.',
+    title: 'Quality First',
+    text: 'We never compromise on material quality or workmanship. Every project uses premium-grade materials from trusted brands.',
+    icon: ''
   },
   {
-    title: 'Clear costing and planning',
-    text: 'Budgeting, package alignment, and execution milestones are treated as part of the design conversation.',
+    title: 'Transparent Pricing',
+    text: 'No hidden costs. Every rupee is accounted for in a detailed quotation before work begins.',
+    icon: ''
   },
   {
-    title: 'Execution discipline',
-    text: 'Good projects come from consistent site systems, not random brilliance at the last minute.',
+    title: 'Timely Delivery',
+    text: 'We follow strict project schedules with regular updates, ensuring completion as promised.',
+    icon: ''
   },
   {
-    title: 'Client trust as a deliverable',
-    text: 'Communication, review points, and accountability are built to reduce uncertainty throughout the project.',
+    title: 'Client Partnership',
+    text: 'We treat every project as a partnership, keeping you informed and involved at every stage.',
+    icon: ''
   },
 ]
 
+
+// Company Journey
+const companyJourney = [
+  {
+    year: '2005',
+    title: 'Expansion Phase',
+    description: 'Expanded into commercial construction and established a reputation for timely delivery.',
+    icon: '🏗️' // Construction / Building
+  },
+  {
+    year: '2012',
+    title: 'Innovation Hub',
+    description: 'Introduced modern construction techniques and digital project tracking systems.',
+    icon: '💡' // Innovation / Light bulb
+  },
+  {
+    year: '2018',
+    title: 'Premium Services',
+    description: 'Launched luxury home division and interior design services for complete solutions.',
+    icon: '✨' // Premium / Sparkle
+  },
+  {
+    year: '2024',
+    title: 'Future Forward',
+    description: 'Embracing sustainable construction and smart home technologies for modern living.',
+    icon: '🌱' // Future / Sustainability
+  },
+];
+
+// Leadership Team
 const values = [
   {
     title: 'Transparency first',
@@ -58,210 +99,306 @@ const values = [
   },
 ]
 
-const journey = [
-  {
-    step: '01',
-    title: 'Understand the plot and the family',
-    description: 'Every project begins with context, goals, site realities, and the way the home will actually be lived in.',
-  },
-  {
-    step: '02',
-    title: 'Shape the design and budget together',
-    description: 'We refine layout, facade intent, package direction, and cost logic before execution starts.',
-  },
-  {
-    step: '03',
-    title: 'Deliver with structured controls',
-    description: 'Execution is guided by reviews, checkpoints, site coordination, and progress visibility.',
-  },
-  {
-    step: '04',
-    title: 'Finish with confidence',
-    description: 'The goal is not just completion, but a home that feels well considered and professionally handed over.',
-  },
-]
+
+
 
 function CompanyProfilePage() {
+  const [activeJourney, setActiveJourney] = useState(0);
+  const sectionsRef = useRef<(HTMLElement | null)[]>([]);
+  
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+    );
+    
+    sectionsRef.current.forEach((section) => {
+      if (section) observer.observe(section);
+    });
+    
+    return () => observer.disconnect();
+  }, []);
+  
   return (
-    <main className="premium-page premium-page--company">
-      <section className="premium-hero">
-        <div className="premium-shell premium-hero__grid">
-          <div>
-            <div className="premium-kicker">Company Profile</div>
-            <h1 className="premium-title">
-              A homebuilding company shaped around <em>trust, detail, and delivery discipline.</em>
-            </h1>
-            <p className="premium-subtitle">
-              WallBolt Atelier is built for clients who want premium outcomes without the usual confusion,
-              fragmented coordination, or unpredictable execution experience.
-            </p>
-            <div className="premium-actions">
-              <Link className="premium-button" to="/cost-estimator">
-                Start With Estimate
-              </Link>
-              <Link className="premium-button premium-button--ghost" to="/services">
-                Explore Services
-              </Link>
-            </div>
-            <div className="premium-stat-grid">
-              <div className="premium-stat-card">
-                <strong>Design + build</strong>
-                <span>We treat architecture, costing, and execution as one connected system.</span>
-              </div>
-              <div className="premium-stat-card">
-                <strong>Client confidence</strong>
-                <span>Communication quality matters as much as material quality during delivery.</span>
-              </div>
-              <div className="premium-stat-card">
-                <strong>Long-term value</strong>
-                <span>Homes are shaped to stay visually strong and practically reliable over time.</span>
-              </div>
-            </div>
-          </div>
-
-          <div
-            className="premium-panel"
-            style={{ backgroundImage: "linear-gradient(160deg, rgba(34, 27, 21, 0.1), rgba(34, 27, 21, 0.45)), url('/images/heroimg.jpeg')" }}
-          >
-            <div className="premium-panel__content">
-              <div className="premium-panel__chip">WallBolt Atelier</div>
-              <div className="premium-panel__card">
-                <strong>Built to make premium homebuilding feel more structured</strong>
-                <p>
-                  Our direction is simple: stronger design decisions, more reliable execution systems, and a
-                  calmer client experience from start to finish.
-                </p>
-              </div>
-            </div>
-          </div>
+    <main className="bg-white">
+      <style>{`
+        @keyframes fadeInUp {
+          from { opacity: 0; transform: translateY(40px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideInLeft {
+          from { opacity: 0; transform: translateX(-40px); }
+          to { opacity: 1; transform: translateX(0); }
+        }
+        
+        @keyframes slideInRight {
+          from { opacity: 0; transform: translateX(40px); }
+          to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .reveal-section {
+          opacity: 0;
+          transform: translateY(40px);
+          transition: opacity 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        
+        .reveal-section.revealed {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        
+        .hover-lift {
+          transition: all 0.3s ease;
+        }
+        
+        .hover-lift:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 20px 30px -15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .gradient-bg {
+          background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+        }
+        
+        .gradient-text {
+          background: linear-gradient(135deg, #2563eb, #1e40af);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        }
+      `}</style>
+      
+      {/* Hero Section */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900 text-white">
+        <div className="absolute inset-0 opacity-10">
+          <img 
+            src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=1800&q=80"
+            alt="Construction background"
+            className="w-full h-full object-cover"
+          />
         </div>
-      </section>
-
-      <section className="premium-section premium-section--contrast">
-        <div className="premium-shell premium-split">
-          <div
-            className="premium-image-card"
-            style={{ backgroundImage: "linear-gradient(180deg, rgba(31, 23, 17, 0.08), rgba(31, 23, 17, 0.42)), url('/images/ashushafi.png')" }}
-          >
-            <div className="premium-image-card__copy">
-              <strong>Ashu Saifi</strong>
-              <p>
-                CEO and Founder, focused on building a company where design quality and execution integrity
-                stay equally important.
+        
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="animate-fadeInUp" style={{ animation: 'fadeInUp 0.8s ease-out' }}>
+              <div className="inline-block bg-blue-500/20 backdrop-blur-sm px-4 py-2 rounded-full mb-6">
+                <span className="text-sm font-semibold">Building Trust Since 2005</span>
+              </div>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+                Vasundhara Constructions
+                <span className="block text-blue-300">Where Quality Meets Commitment</span>
+              </h1>
+              <p className="text-lg text-blue-100 mb-8 leading-relaxed">
+                With over 12 years of experience, we've transformed thousands of dreams into reality. 
+                Our commitment to quality, transparency, and timely delivery makes us one of Delhi NCR's 
+                most trusted construction partners.
               </p>
+              <div className="flex flex-wrap gap-4">
+                <Link 
+                  to="/cost-estimator" 
+                  className="bg-white text-blue-900 hover:bg-blue-50 px-8 py-3 rounded-full font-semibold transition inline-flex items-center gap-2"
+                >
+                  Get Free Estimate →
+                </Link>
+                <Link 
+                  to="/projects" 
+                  className="border-2 border-white text-white hover:bg-white hover:text-blue-900 px-8 py-3 rounded-full font-semibold transition"
+                >
+                  View Our Work
+                </Link>
+              </div>
             </div>
-          </div>
-
-          <div className="premium-stack">
-            <div className="premium-heading">
-              <div className="premium-kicker">Leadership</div>
-              <h2>The company vision starts with reducing friction for homeowners.</h2>
-              <p>
-                WallBolt was shaped around the idea that premium construction should feel more dependable,
-                better explained, and more intentional from the first meeting onward.
-              </p>
-            </div>
-
-            <div className="premium-checklist">
-              {values.map((item) => (
-                <div className="premium-checklist__item" key={item.title}>
-                  <span>+</span>
-                  <div>
-                    <strong>{item.title}</strong>
-                    <p>{item.text}</p>
-                  </div>
+            
+            <div className="grid grid-cols-2 gap-4 animate-fadeInUp" style={{ animation: 'fadeInUp 0.8s ease-out 0.2s forwards', opacity: 0 }}>
+              {leadershipStats.map((stat, idx) => (
+                <div key={idx} className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-center hover-lift">
+                  <div className="text-3xl mb-2">{stat.icon}</div>
+                  <div className="text-3xl font-bold text-blue-300">{stat.value}</div>
+                  <div className="text-sm font-semibold mt-1">{stat.label}</div>
+                  <div className="text-xs text-blue-200 mt-2">{stat.detail}</div>
                 </div>
               ))}
             </div>
           </div>
         </div>
       </section>
-
-      <section className="premium-section">
-        <div className="premium-shell">
-          <div className="premium-heading">
-            <div className="premium-kicker">At A Glance</div>
-            <h2>Numbers that reflect scale, consistency, and operating intent.</h2>
-            <p>
-              These metrics matter because they show how the company is designed to support design quality,
-              site rigor, and a higher-trust customer journey.
+      
+      {/* Our Values Section */}
+      <section 
+        ref={(el) => (sectionsRef.current[0] = el)}
+        className="reveal-section py-10 bg-white"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <span className="text-blue-600 text-sm font-semibold uppercase tracking-wider">Our Foundation</span>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mt-2 mb-4">
+              Built on <span className="gradient-text">Strong Values</span>
+            </h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              These principles guide everything we do, from first consultation to final handover
             </p>
           </div>
-
-          <div className="project-metrics">
-            {leadershipStats.map((item) => (
-              <article className="premium-card" key={item.label}>
-                <div className="premium-card__index">{item.value}</div>
-                <h3>{item.label}</h3>
-                <p>{item.detail}</p>
-              </article>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {companyValues.map((value, idx) => (
+              <div key={idx} className="bg-gray-50 rounded-2xl p-6 hover-lift border border-gray-100">
+                <div className="text-4xl mb-4">{value.icon}</div>
+                <h3 className="text-xl font-bold text-gray-900 mb-3">{value.title}</h3>
+                <p className="text-gray-600 text-sm leading-relaxed">{value.text}</p>
+              </div>
             ))}
           </div>
         </div>
       </section>
+      
+      {/* Leadership Section */}
+  
 
-      <section className="premium-section premium-section--contrast">
-        <div className="premium-shell">
-          <div className="premium-heading">
-            <div className="premium-kicker">Core Pillars</div>
-            <h2>What defines the WallBolt operating style.</h2>
-            <p>
-              The company is not trying to be everything. It is trying to be dependable in the areas that
-              matter most to premium home clients.
-            </p>
-          </div>
-
-          <div className="premium-grid premium-grid--services">
-            {companyPillars.map((item, index) => (
-              <article className="premium-card" key={item.title}>
-                <div className="premium-card__index">{index + 1}</div>
-                <h3>{item.title}</h3>
-                <p>{item.text}</p>
-              </article>
-            ))}
-          </div>
+    {/* ceo and founder */}
+<section className="bg-gray-50 py-16 md:py-20">
+  <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="grid md:grid-cols-2 gap-12 items-center">
+      {/* Left: Image Card */}
+      <div
+        className="relative  rounded-2xl overflow-hidden aspect-[5/5] bg-cover bg-center shadow-xl"
+        style={{
+          backgroundImage: "linear-gradient(180deg, rgba(31, 23, 17, 0.08), rgba(31, 23, 17, 0.42)), url('/images/Anoj.jpeg')",
+        }}
+      >
+        <div className="absolute bottom-6 left-6 right-6">
+          <strong className="text-white text-lg font-bold block">Anoj Gupta</strong>
+          <p className="text-white text-sm opacity-90 mt-1">
+            CEO and Founder, focused on building a company where design quality and execution integrity
+            stay equally important.
+          </p>
         </div>
-      </section>
+      </div>
 
-      <section className="premium-section">
-        <div className="premium-shell">
-          <div className="premium-heading">
-            <div className="premium-kicker">How We Work</div>
-            <h2>A company process designed for fewer surprises and stronger outcomes.</h2>
-            <p>
-              The goal is not just speed. It is the combination of clarity, control, and a finished home
-              that feels like it was handled by one thoughtful team.
-            </p>
-          </div>
-
-          <div className="premium-process">
-            {journey.map((item) => (
-              <article className="premium-process__item" key={item.step}>
-                <div className="premium-process__step">Step {item.step}</div>
-                <h3>{item.title}</h3>
-                <p>{item.description}</p>
-              </article>
-            ))}
-          </div>
+      {/* Right: Content */}
+      <div className="space-y-8">
+        <div>
+          <span className="inline-block bg-blue-100 text-blue-600 rounded-full px-4 py-1 text-xs font-bold uppercase tracking-wider mb-4">
+            Leadership
+          </span>
+          <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-4">
+            The company vision starts with reducing friction for homeowners.
+          </h2>
+          <p className="text-gray-600 text-lg">
+            Vasundhara was shaped around the idea that premium construction should feel more dependable,
+            better explained, and more intentional from the first meeting onward.
+          </p>
         </div>
-      </section>
 
-      <section className="premium-section">
-        <div className="premium-shell">
-          <div className="premium-cta-band">
-            <div>
-              <h3>Want to know if WallBolt is the right fit for your home?</h3>
-              <p>
-                Start with the estimate tool or explore our service stack. From there we can help shape the
-                most suitable design and execution direction for your project.
-              </p>
+        <div className="space-y-6">
+          {values.map((item) => (
+            <div key={item.title} className="flex gap-4">
+              <span className="text-2xl text-blue-600 font-bold leading-8">+</span>
+              <div>
+                <strong className="block text-gray-900 font-bold">{item.title}</strong>
+                <p className="text-gray-600 text-sm mt-1">{item.text}</p>
+              </div>
             </div>
-            <div className="premium-actions">
-              <Link className="premium-button" to="/cost-estimator">
-                Get Estimate
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+      {/* Company Journey Timeline */}
+      <section 
+        ref={(el) => (sectionsRef.current[3] = el)}
+        className="reveal-section py-20 bg-gradient-to-br from-blue-50 to-indigo-50"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <span className="text-blue-600 text-sm font-semibold uppercase tracking-wider">Our Journey</span>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mt-2 mb-4">
+              Excellence Through <span className="gradient-text">Experience</span>
+            </h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              From humble beginnings to industry leadership
+            </p>
+          </div>
+          
+          <div className="relative">
+            {/* Timeline Line */}
+            <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-blue-300 hidden md:block"></div>
+            
+            {companyJourney.map((item, idx) => (
+              <div key={idx} className={`relative mb-12 ${idx % 2 === 0 ? 'md:pr-1/2' : 'md:pl-1/2 md:ml-auto'} md:w-1/2`}>
+                <div className={`flex items-start gap-4 ${idx % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}`}>
+                  <div className="flex-shrink-0 w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center text-white text-2xl z-10 relative">
+                    {item.icon}
+                  </div>
+                  <div className="bg-white rounded-2xl p-6 shadow-lg flex-1 hover-lift">
+                    <div className="text-blue-600 font-bold text-lg mb-2">{item.year}</div>
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">{item.title}</h3>
+                    <p className="text-gray-600">{item.description}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    
+
+      <Testimonials />
+      {/* Numbers Section */}
+      <section 
+        ref={(el) => (sectionsRef.current[5] = el)}
+        className="reveal-section gradient-bg text-white py-20"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Vasundhara by the Numbers</h2>
+            <p className="text-blue-100 max-w-2xl mx-auto">
+              The metrics that reflect our commitment to excellence
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-4 gap-8">
+            {leadershipStats.map((stat, idx) => (
+              <div key={idx} className="text-center">
+                <div className="text-4xl mb-2">{stat.icon}</div>
+                <div className="text-4xl md:text-5xl font-bold text-blue-300 mb-2">{stat.value}</div>
+                <div className="text-lg font-semibold mb-1">{stat.label}</div>
+                <div className="text-sm text-blue-200">{stat.detail}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+      
+      {/* CTA Section */}
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-3xl p-10 md:p-16 text-center">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              Ready to Build Your Dream Home?
+            </h2>
+            <p className="text-blue-100 mb-8 max-w-2xl mx-auto">
+              Let's discuss your project and create a space that exceeds your expectations
+            </p>
+            <div className="flex flex-wrap gap-4 justify-center">
+              <Link 
+                to="/contact" 
+                className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-3 rounded-full font-semibold transition inline-flex items-center gap-2"
+              >
+                Schedule Consultation →
               </Link>
-              <Link className="premium-button premium-button--ghost" to="/projects">
-                View Projects
+              <Link 
+                to="/cost-estimator" 
+                className="border-2 border-white text-white hover:bg-white hover:text-blue-600 px-8 py-3 rounded-full font-semibold transition"
+              >
+                Get Free Estimate
               </Link>
             </div>
           </div>

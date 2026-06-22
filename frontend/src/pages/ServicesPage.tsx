@@ -1,29 +1,46 @@
 import { Link } from 'react-router-dom'
-import '../premium-pages.css'
+import Testimonials from './Testimonials';
 
 const services = [
   {
     name: 'Construction',
+    link: '/services/construction',
     description: 'Quality civil construction delivered on time and within budget.',
     points: ['Transparent planning', 'Dedicated execution teams', 'Milestone-based quality checks'],
   },
   {
     name: 'Interiors',
+    link: '/services/interiors',
     description: 'Stylish, functional, and personalized interior designing.',
     points: ['Space planning', 'Custom storage solutions', 'Material and lighting curation'],
   },
   {
     name: 'Elevations',
+    link: '/services/elevations',
     description: 'Transform the front facade to stand out with a premium look.',
     points: ['Facade concepts', 'Material combinations', 'Premium exterior detailing'],
   },
   {
     name: 'Terrace Garden',
+    link: '/services/terrace-garden',
     description: 'Refresh your rooftop with lush and serene outdoor spaces.',
     points: ['Rooftop landscape planning', 'Outdoor seating zones', 'Low-maintenance green styling'],
   },
-]
+  {
+    name: 'Home Renovation',
+    link: '/services/home-renovation',
+    description: 'Upgrade your home with modern renovation solutions that blend style, comfort, and smart design, including beautiful outdoor spaces.',
 
+    points: [
+      'Complete home renovation',
+      'Rooftop landscaping',
+      'Outdoor seating spaces',
+      'Low-maintenance greenery',
+      'Interior upgrades'
+    ]
+
+  },
+];
 const process = [
   {
     step: '01',
@@ -64,51 +81,68 @@ const qualityPoints = [
 
 function ServicesPage() {
   return (
-    <main className="premium-page premium-page--services">
-      <section className="premium-hero">
-        <div className="premium-shell premium-hero__grid">
-          <div>
-            <div className="premium-kicker">WallBolt Services</div>
-            <h1 className="premium-title">
-              The same core services you see on the home page, now in a more <em>premium detailed view.</em>
-            </h1>
-            <p className="premium-subtitle">
-              Construction, Interiors, Elevations, and Terrace Garden are the four signature offerings
-              that shape the WallBolt experience across design, build quality, and final lifestyle value.
-            </p>
-            <div className="premium-actions">
-              <Link className="premium-button" to="/cost-estimator">
-                Start Cost Estimate
-              </Link>
-              <Link className="premium-button premium-button--ghost" to="/projects">
-                View Recent Projects
-              </Link>
+    <main className="bg-white font-sans">
+      {/* Hero Section */}
+      <section className="bg-white border-b border-gray-100 py-2 md:py-6 lg:py-10">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Left content */}
+            <div>
+              <span className="inline-block bg-blue-100 text-blue-600 rounded-full px-4 py-1 text-xs font-bold uppercase tracking-wider mb-4">
+                Vasundhara Services
+              </span>
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-black text-gray-900 mb-4">
+                The same core services you see on the home page, now in a more <em className="text-blue-600 not-italic">premium detailed view.</em>
+              </h1>
+              <p className="text-lg text-gray-600 mb-8">
+                Construction, Interiors, Elevations, and Terrace Garden are the four signature offerings
+                that shape the Vasundhara experience across design, build quality, and final lifestyle value.
+              </p>
+              <div className="flex flex-wrap gap-4 mb-10">
+                <Link
+                  to="/cost-estimator"
+                  className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition"
+                >
+                  Start Cost Estimate
+                </Link>
+                <Link
+                  to="/projects"
+                  className="border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white font-bold py-3 px-6 rounded-lg transition"
+                >
+                  View Recent Projects
+                </Link>
+              </div>
+              <div className="grid sm:grid-cols-3 gap-6">
+                <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                  <strong className="block text-2xl font-black text-blue-600">4 services</strong>
+                  <span className="text-sm text-gray-500">Focused categories built to cover the biggest decisions in your home journey.</span>
+                </div>
+                <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                  <strong className="block text-2xl font-black text-blue-600">500+</strong>
+                  <span className="text-sm text-gray-500">Quality checkpoints across structure, finish, exterior detailing, and handover.</span>
+                </div>
+                <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                  <strong className="block text-2xl font-black text-blue-600">Single team</strong>
+                  <span className="text-sm text-gray-500">Planning, design, costing, and execution coordinated under one roof.</span>
+                </div>
+              </div>
             </div>
-            <div className="premium-stat-grid">
-              <div className="premium-stat-card">
-                <strong>4 services</strong>
-                <span>Focused categories built to cover the biggest decisions in your home journey.</span>
-              </div>
-              <div className="premium-stat-card">
-                <strong>500+</strong>
-                <span>Quality checkpoints across structure, finish, exterior detailing, and handover.</span>
-              </div>
-              <div className="premium-stat-card">
-                <strong>Single team</strong>
-                <span>Planning, design, costing, and execution coordinated under one roof.</span>
-              </div>
-            </div>
-          </div>
 
-          <div
-            className="premium-panel"
-            style={{ backgroundImage: "linear-gradient(160deg, rgba(34, 27, 21, 0.16), rgba(34, 27, 21, 0.58)), url('/images/luxury-villa.jpg')" }}
-          >
-            <div className="premium-panel__content">
-              <div className="premium-panel__chip">Construction + Lifestyle</div>
-              <div className="premium-panel__card">
-                <strong>Built around the same four services featured on the home page</strong>
-                <p>
+            {/* Right image panel */}
+            <div
+              className="relative rounded-2xl overflow-hidden h-96 bg-cover bg-center shadow-xl"
+              style={{
+                backgroundImage: "linear-gradient(160deg, rgba(34, 27, 21, 0.16), rgba(34, 27, 21, 0.58)), url('/images/luxury-villa.jpg')",
+              }}
+            >
+              <div className="absolute bottom-6 left-6 right-6 bg-white/90 backdrop-blur-sm rounded-xl p-5">
+                <div className="inline-block bg-blue-100 text-blue-600 text-xs font-bold uppercase px-3 py-1 rounded-full mb-3">
+                  Construction + Lifestyle
+                </div>
+                <strong className="block text-gray-900 text-lg font-bold mb-2">
+                  Built around the same four services featured on the home page
+                </strong>
+                <p className="text-gray-600 text-sm">
                   Each service is shaped to add practical value and visual impact, whether we are building
                   the full home, refining interiors, upgrading the facade, or activating the terrace.
                 </p>
@@ -118,113 +152,157 @@ function ServicesPage() {
         </div>
       </section>
 
-      <section className="premium-section premium-section--contrast">
-        <div className="premium-shell">
-          <div className="premium-heading">
-            <div className="premium-kicker">Service Stack</div>
-            <h2>The four WallBolt services that anchor the complete home experience.</h2>
-            <p>
+      {/* Service Stack */}
+      <section className="bg-gray-50 py-16 md:py-20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-12">
+            <span className="inline-block bg-blue-100 text-blue-600 rounded-full px-4 py-1 text-xs font-bold uppercase tracking-wider mb-4">
+              Service Stack
+            </span>
+            <h2 className="text-2xl md:text-3xl font-black text-gray-900 mb-4">
+              The four Vasundhara services that anchor the complete home experience.
+            </h2>
+            <p className="text-gray-600">
               Instead of spreading effort across too many categories, we keep the offer sharp around the
               same four services highlighted on the home page and deepen execution quality inside each one.
             </p>
           </div>
 
-          <div className="premium-grid premium-grid--services">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {services.map((service, index) => (
-              <article className="premium-card" key={service.name}>
-                <div className="premium-card__index">{index + 1}</div>
-                <h3>{service.name}</h3>
-                <p>{service.description}</p>
-                <ul>
+              <Link
+                key={service.name}
+                to={service.link}
+                className="group bg-white rounded-2xl p-6 border border-gray-100 hover:shadow-xl transition-all hover:-translate-y-1"
+              >
+                <div className="w-12 h-12 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-xl font-black mb-4">
+                  {index + 1}
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition">
+                  {service.name}
+                </h3>
+                <p className="text-gray-600 text-sm mb-4">{service.description}</p>
+                <ul className="space-y-2 text-sm text-gray-500">
                   {service.points.map((point) => (
-                    <li key={point}>{point}</li>
+                    <li key={point} className="flex items-start gap-2">
+                      <span className="text-blue-500 mt-0.5">✓</span>
+                      <span>{point}</span>
+                    </li>
                   ))}
                 </ul>
-              </article>
+                Learn More..
+              </Link>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="premium-section">
-        <div className="premium-shell">
-          <div className="premium-heading">
-            <div className="premium-kicker">Delivery Flow</div>
-            <h2>A process that keeps premium design practical to execute.</h2>
-            <p>
+      {/* Delivery Flow */}
+      <section className="bg-white py-16 md:py-20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-12">
+            <span className="inline-block bg-blue-100 text-blue-600 rounded-full px-4 py-1 text-xs font-bold uppercase tracking-wider mb-4">
+              Delivery Flow
+            </span>
+            <h2 className="text-2xl md:text-3xl font-black text-gray-900 mb-4">
+              A process that keeps premium design practical to execute.
+            </h2>
+            <p className="text-gray-600">
               We front-load decisions where they matter most, which is why site execution stays cleaner,
               changes stay controlled, and final finishes feel more intentional.
             </p>
           </div>
 
-          <div className="premium-process">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {process.map((item) => (
-              <article className="premium-process__item" key={item.step}>
-                <div className="premium-process__step">Step {item.step}</div>
-                <h3>{item.title}</h3>
-                <p>{item.description}</p>
-              </article>
+              <div key={item.step} className="text-center">
+                <div className="w-16 h-16 mx-auto bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-2xl font-black mb-4">
+                  {item.step}
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">{item.title}</h3>
+                <p className="text-gray-600 text-sm">{item.description}</p>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="premium-section premium-section--contrast">
-        <div className="premium-shell premium-split">
-          <div
-            className="premium-image-card"
-            style={{ backgroundImage: "linear-gradient(180deg, rgba(31, 23, 17, 0.08), rgba(31, 23, 17, 0.52)), url('/images/why-choose-us.jpeg')" }}
-          >
-            <div className="premium-image-card__copy">
-              <strong>Execution quality is designed, not hoped for.</strong>
-              <p>
-                Our systems are set up to protect design intent during procurement, sequencing, site
-                coordination, and finishing decisions.
-              </p>
-            </div>
-          </div>
-
-          <div className="premium-stack">
-            <div className="premium-heading">
-              <div className="premium-kicker">Why It Feels Better</div>
-              <h2>Less project noise. Better material choices. More confidence at every stage.</h2>
-              <p>
-                Premium delivery is not just about expensive finishes. It is about fewer surprises, a
-                cleaner process, and details that stay consistent from drawing to reality.
-              </p>
+      {/* Why It Feels Better */}
+      <section className="bg-gray-50 py-16 md:py-20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            {/* Left image card */}
+            <div
+              className="relative rounded-2xl overflow-hidden aspect-[4/5] bg-cover bg-center shadow-xl"
+              style={{
+                backgroundImage: "linear-gradient(180deg, rgba(31, 23, 17, 0.08), rgba(31, 23, 17, 0.52)), url('/images/why-choose-us.jpeg')",
+              }}
+            >
+              <div className="absolute bottom-6 left-6 right-6 bg-white/90 backdrop-blur-sm rounded-xl p-5">
+                <strong className="block text-gray-900 text-lg font-bold mb-2">
+                  Execution quality is designed, not hoped for.
+                </strong>
+                <p className="text-gray-600 text-sm">
+                  Our systems are set up to protect design intent during procurement, sequencing, site
+                  coordination, and finishing decisions.
+                </p>
+              </div>
             </div>
 
-            <div className="premium-checklist">
-              {qualityPoints.map((item) => (
-                <div className="premium-checklist__item" key={item.title}>
-                  <span>+</span>
-                  <div>
-                    <strong>{item.title}</strong>
-                    <p>{item.text}</p>
+            {/* Right content */}
+            <div className="space-y-8">
+              <div>
+                <span className="inline-block bg-blue-100 text-blue-600 rounded-full px-4 py-1 text-xs font-bold uppercase tracking-wider mb-4">
+                  Why It Feels Better
+                </span>
+                <h2 className="text-2xl md:text-3xl font-black text-gray-900 mb-4">
+                  Less project noise. Better material choices. More confidence at every stage.
+                </h2>
+                <p className="text-gray-600">
+                  Premium delivery is not just about expensive finishes. It is about fewer surprises, a
+                  cleaner process, and details that stay consistent from drawing to reality.
+                </p>
+              </div>
+
+              <div className="space-y-6">
+                {qualityPoints.map((item) => (
+                  <div key={item.title} className="flex gap-4">
+                    <span className="text-2xl text-blue-600 font-bold leading-8">+</span>
+                    <div>
+                      <strong className="block text-gray-900 font-bold">{item.title}</strong>
+                      <p className="text-gray-600 text-sm mt-1">{item.text}</p>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </section>
-
-      <section className="premium-section">
-        <div className="premium-shell">
-          <div className="premium-cta-band">
-            <div>
-              <h3>Planning a new home or a serious upgrade?</h3>
-              <p>
-                Start with the cost calculator, compare package levels, and then we can shape the right
-                service mix for your project.
-              </p>
-            </div>
-            <div className="premium-actions">
-              <Link className="premium-button" to="/cost-estimator">
+      <Testimonials/>
+      {/* CTA */}
+      <section className="bg-gradient-to-r from-blue-50 to-blue-100 py-16 md:py-20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-4xl mx-auto text-center">
+            <h3 className="text-2xl md:text-3xl font-black text-blue-900 mb-4">
+              Planning a new home or a serious upgrade?
+            </h3>
+            <p className="text-blue-800 mb-8 max-w-2xl mx-auto">
+              Start with the cost calculator, compare package levels, and then we can shape the right
+              service mix for your project.
+            </p>
+            <div className="flex flex-wrap justify-center gap-4">
+              <Link
+                to="/cost-estimator"
+                className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-xl transition"
+              >
                 Get Estimate
               </Link>
-              <Link className="premium-button premium-button--ghost" to="/packages/compare">
-                Compare Packages
+              <Link
+                to="/packages"
+                className="border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white font-bold py-3 px-8 rounded-xl transition"
+              >
+                Packages
               </Link>
             </div>
           </div>

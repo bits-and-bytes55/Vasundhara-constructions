@@ -6,7 +6,7 @@ export const defaultHomeContent: HomeContent = {
     titleLineOne: 'Not just contractors.',
     titleLineTwo: 'We build premium',
     typedWords: ['Construction', 'Interiors', 'Elevations', 'Terrace Gardens'],
-    subtitle: 'Turnkey Construction · Interiors · Luxury Elevations · Escrow Protected',
+    subtitle: 'Turnkey Construction · Interiors · Luxury Elevations · Protected',
     primaryCtaLabel: 'Get a Free Quote',
     secondaryCtaLabel: 'View Projects',
     pills: ['15+ Years', '500+ Quality Checks', 'Escrow Safe', 'On-Time Delivery'],
@@ -56,7 +56,7 @@ export const defaultHomeContent: HomeContent = {
     title: 'Ready to Build Your Dream Home?',
     subtitle: 'Join 2,500+ families who trusted WallBolt Atelier.',
     buttonLabel: 'Get a Free Consultation',
-    perks: ['15+ Years of Experience', '500+ Quality Checks', 'Escrow Protected Payments'],
+    perks: ['15+ Years of Experience', '500+ Quality Checks', 'Protected Payments'],
   },
   projects: {
     eyebrow: 'Portfolio',

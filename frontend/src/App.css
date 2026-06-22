@@ -105,7 +105,7 @@
 }
 
 .hero-copy h1 span {
-  color: #ffbf63;
+  color: #63d0ff;
   font-style: italic;
 }
 
@@ -243,7 +243,7 @@
   left: clamp(1.05rem, 1.8vw, 1.4rem);
   right: clamp(1.05rem, 1.8vw, 1.4rem);
   height: 2px;
-  background: linear-gradient(90deg, transparent 0%, #ff8450 28%, #ff8450 72%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, #1e83e8 28%, #1784f0 72%, transparent 100%);
   opacity: 0.9;
 }
 
@@ -329,7 +329,7 @@
 }
 
 .recognition-card h3 strong.is-highlight {
-  color: #f35a1f;
+  color: #1e83e8;
 }
 
 .recognition-card h3 span {
@@ -382,7 +382,7 @@
 }
 
 .recognition-badge:nth-child(2) .recognition-badge-icon {
-  color: #f35a1f;
+  color: #1e83e8;
 }
 
 .recognition-badge:nth-child(3) .recognition-badge-icon {
@@ -390,11 +390,11 @@
 }
 
 .recognition-badge.is-accent {
-  color: #f35a1f;
+  color: #1e83e8;
 }
 
 .recognition-badge.is-accent .recognition-badge-icon {
-  color: #f35a1f;
+  color: #1e83e8;
 }
 
 .section {
@@ -564,7 +564,7 @@
 
 .btn-estimate {
   margin-top: 1.4rem;
-  background: linear-gradient(135deg, #ff6b2b 0%, #f25a24 100%);
+  background: linear-gradient(135deg, #1e83e8 0%, #1182f3 100%);
   color: #fff8ef;
   border-color: rgba(255, 193, 160, 0.72);
   padding-inline: 1.05rem;
@@ -572,7 +572,7 @@
 }
 
 .btn-estimate:hover {
-  background: linear-gradient(135deg, #ff6321 0%, #ea531d 100%);
+  background: linear-gradient(135deg, #1e83e8 0%, #1e83e8 100%);
 }
 
 .estimate-visual {
@@ -690,7 +690,7 @@
   left: 1rem;
   right: 1rem;
   height: 2px;
-  background: linear-gradient(90deg, transparent 0%, #ff6227 17%, #ff6227 83%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, #1e83e8 17%, #1281f0 83%, transparent 100%);
 }
 
 .dream-home-layout {
@@ -712,7 +712,7 @@
 }
 
 .dream-home-copy h2 span {
-  color: #ec5b1e;
+  color: #1083f5;
 }
 
 .dream-home-with {
@@ -757,7 +757,7 @@
   top: 0.5em;
   width: 0.68rem;
   height: 0.68rem;
-  background: #ec5b1e;
+  background: #1e83e8;
   transform: translateY(-50%) rotate(45deg);
   border-radius: 2px;
 }
@@ -897,7 +897,7 @@
 }
 
 .dream-home-badge:nth-child(2) .dream-home-badge-icon {
-  color: #ec5b1e;
+  color: #1e83e8;
 }
 
 .dream-home-badge:nth-child(3) .dream-home-badge-icon {
@@ -905,11 +905,11 @@
 }
 
 .dream-home-badge.is-accent {
-  color: #ec5b1e;
+  color: #1e83e8;
 }
 
 .dream-home-badge.is-accent .dream-home-badge-icon {
-  color: #ec5b1e;
+  color: #1e83e8;
 }
 
 .process-grid {
@@ -990,7 +990,7 @@
 }
 
 .pricing-head h2 strong {
-  color: #f35a1f;
+  color: #1e83e8;
   font-weight: 800;
 }
 
@@ -1015,7 +1015,7 @@
 }
 
 .pricing-card-top {
-  background: linear-gradient(180deg, #ff6a2c 0%, #f0561f 100%);
+  background: linear-gradient(180deg, #1e83e8 0%, #1e83e8 100%);
   padding: 0.75rem 0.9rem;
 }
 
@@ -1072,14 +1072,14 @@
   width: 0.53rem;
   height: 0.53rem;
   border-radius: 999px;
-  border: 2px solid #f35a1f;
+  border: 2px solid #1e83e8;
   transform: translateY(-50%);
 }
 
 .pricing-card-link-text {
   margin: 0;
   padding: 0 0.95rem 0.95rem;
-  color: #f35a1f;
+  color: #1e83e8;
   font-size: 0.9rem;
   font-weight: 700;
 }
@@ -1091,20 +1091,18 @@
 }
 
 .btn-pricing-compare {
-  background: linear-gradient(180deg, #ff6a2c 0%, #ee561f 100%);
+  background: linear-gradient(180deg, #1e83e8 0%, #047bf2 100%);
   color: #fff7f0;
   border-color: rgba(255, 193, 162, 0.8);
   box-shadow: 0 12px 22px rgba(238, 86, 31, 0.24);
 }
 
 .btn-pricing-compare:hover {
-  background: linear-gradient(180deg, #fb6225 0%, #e44c18 100%);
+  background: linear-gradient(180deg, #1e83e8 0%, #077ef5 100%);
 }
 
 .ceo-spotlight {
-  margin-top: 1.45rem;
-}
-
+  margin-top: 1.45#1e83e8
 .ceo-spotlight-shell {
   position: relative;
   border-radius: 8px;
@@ -1124,7 +1122,7 @@
   left: 1rem;
   right: 1rem;
   height: 2px;
-  background: linear-gradient(90deg, transparent 0%, #ff6227 16%, #ff6227 84%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, #1e83e8 16%, #077cf1 84%, transparent 100%);
 }
 
 .ceo-spotlight-layout {
@@ -1156,7 +1154,7 @@
 }
 
 .ceo-spotlight-copy h2 span {
-  color: #eb5a1f;
+  color: #1e83e8;
 }
 
 .ceo-spotlight-name {
@@ -1193,7 +1191,7 @@
 .ceo-spotlight-btn {
   margin-top: 1.15rem;
   min-width: clamp(180px, 26vw, 300px);
-  background: linear-gradient(180deg, #ff6a2c 0%, #ef5820 100%);
+  background: linear-gradient(180deg, #1e83e8 0%, #0c80f4 100%);
   color: #fff8f1;
   border-color: rgba(255, 190, 153, 0.82);
   box-shadow: 0 12px 24px rgba(238, 87, 32, 0.22);
@@ -1202,7 +1200,7 @@
 }
 
 .ceo-spotlight-btn:hover {
-  background: linear-gradient(180deg, #fa6327 0%, #e84f1c 100%);
+  background: linear-gradient(180deg, #1e83e8 0%, #0b7ef1 100%);
 }
 
 .ceo-spotlight-media {
@@ -1242,7 +1240,7 @@
   left: 1rem;
   right: 1rem;
   height: 2px;
-  background: linear-gradient(90deg, transparent 0%, #ff6227 16%, #ff6227 84%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, #1e83e8 16%, #097ef3 84%, transparent 100%);
 }
 
 .featured-projects-head {
@@ -1269,7 +1267,7 @@
 }
 
 .featured-projects-head h2 strong {
-  color: #eb5a1f;
+  color: #0680f9;
   font-weight: 800;
 }
 
@@ -1314,7 +1312,7 @@
 }
 
 .featured-projects-badge:nth-child(2) .featured-projects-badge-icon {
-  color: #eb5a1f;
+  color: #1e83e8;
 }
 
 .featured-projects-badge:nth-child(3) .featured-projects-badge-icon {
@@ -1322,11 +1320,11 @@
 }
 
 .featured-projects-badge.is-accent {
-  color: #eb5a1f;
+  color: #1e83e8;
 }
 
 .featured-projects-badge.is-accent .featured-projects-badge-icon {
-  color: #eb5a1f;
+  color: #1e83e8;
 }
 
 .featured-projects-layout {
@@ -1480,7 +1478,7 @@
 }
 
 .featured-info-mini-badges p:last-child .featured-info-mini-icon {
-  color: #eb5a1f;
+  color: #1e83e8;
 }
 
 .featured-projects-info h3 {
@@ -1529,7 +1527,7 @@
   width: 0.5rem;
   height: 0.5rem;
   border-radius: 999px;
-  border: 2px solid #eb5a1f;
+  border: 2px solid #1e83e8;
   transform: translateY(-50%);
 }
 
@@ -1570,7 +1568,7 @@
   left: 1rem;
   right: 1rem;
   height: 2px;
-  background: linear-gradient(90deg, transparent 0%, #ff6227 16%, #ff6227 84%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, #1e83e8 16%, #067cf2 84%, transparent 100%);
 }
 
 .why-us-head {
@@ -1597,7 +1595,7 @@
 }
 
 .why-us-head h2 strong {
-  color: #eb5a1f;
+  color: #1e83e8;
   font-weight: 800;
 }
 
@@ -1647,7 +1645,7 @@
   border-radius: 999px;
   border: 1px solid #f1b184;
   background: radial-gradient(circle at 32% 25%, #fff4e9 0%, #ffe4ce 60%, #ffd3b0 100%);
-  color: #e56822;
+  color: #1e83e8;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
@@ -3313,3 +3311,4 @@
   }
 
 }
+

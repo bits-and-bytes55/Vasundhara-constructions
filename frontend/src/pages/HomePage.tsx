@@ -1,727 +1,768 @@
-import { useEffect, useRef, useState, type CSSProperties } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 import { Link } from 'react-router-dom'
-import { fetchHomeContent } from '../api/content'
-import { fetchHealth } from '../api/client'
-import { defaultHomeContent } from '../data/defaultHomeContent'
-import { packageDocs } from '../data/packageDocs'
-import { getPackagePreviewPoints } from '../data/packageUtils'
-import type { HomeContent } from '../types/homeContent'
+import Testimonials from './Testimonials';
 
-type ServiceIcon = 'construction' | 'interiors' | 'elevations' | 'terrace'
-type ProcessIcon = 'consultation' | 'design' | 'cost' | 'construction' | 'quality' | 'handover'
-type WhyChooseIcon = 'experience' | 'checks' | 'architects' | 'contractors' | 'escrow' | 'tracking' | 'delivery'
+// ----- Typewriter word list -----
+const typedWords = ['quality', 'trust', 'excellence', 'precision', 'care']
 
-const serviceCards = [
-  { title: 'Construction', description: 'Quality civil construction delivered on time and within budget.', icon: 'construction' as ServiceIcon },
-  { title: 'Interiors', description: 'Stylish, functional, and personalized interior designing.', icon: 'interiors' as ServiceIcon },
-  { title: 'Elevations', description: 'Transform the front facade to stand out with a premium look.', icon: 'elevations' as ServiceIcon },
-  { title: 'Terrace Garden', description: 'Refresh your rooftop with lush and serene outdoor spaces.', icon: 'terrace' as ServiceIcon },
-]
+// ----- Static content (replaces backend) -----
+const hero = {
+  eyebrow: 'Vasundhara Construction',
+  titleLineOne: 'Building your',
+  titleLineTwo: 'dream home with',
+  subtitle: 'Experience excellence in construction and interior design – delivered on time, with complete transparency.',
+  primaryCtaLabel: 'Get a Free Estimate',
+  secondaryCtaLabel: 'View Our Work',
+  pills: ['Delhi NCR Industry Homes', '100% Money Guaranteed & Commitment', 'On‑time Delivery'],
+  stats: [
+    { value: '12+', label: 'Years Experience' },
+    { value: '299+', label: 'Happy Clients' },
+    { value: '4.5/5', label: 'Client Rating' },
+  ],
+}
 
-const processSteps = [
-  { title: 'Consultation', description: 'Discuss your requirements', icon: 'consultation' as ProcessIcon },
-  { title: 'Design & Planning', description: 'Craft detailed designs & plans', icon: 'design' as ProcessIcon },
-  { title: 'Cost Finalization', description: 'Get a transparent quote', icon: 'cost' as ProcessIcon },
-  { title: 'Construction Phase', description: 'Begin construction of your home', icon: 'construction' as ProcessIcon },
-  { title: 'Quality Checks', description: 'Conduct rigorous inspections', icon: 'quality' as ProcessIcon },
-  { title: 'Final Handover', description: 'Deliver your dream home', icon: 'handover' as ProcessIcon },
-]
 
-const dreamSlides = [
-  { label: 'Modern Living Room', bg: '#fde8e0', image: '/images/dream-living-room.jpeg' },
-  { label: 'Master Bedroom', bg: '#fce4ec', image: '/images/dream-master-bed-room.jpeg' },
-  { label: 'Kitchen Design', bg: '#e8f5e9', image: '/images/dream-kitchen.jpeg' },
-  { label: 'Elevation View', bg: '#fff3e0', image: '/images/dream-elevation.jpeg' },
-]
 
-const testimonials = [
-  { quote: 'WallBolt delivered our home on time with exceptional quality. The entire process was smooth and completely hassle-free!', author: 'Priya Sharma', location: 'Bengaluru', initials: 'PS', rating: 5 },
-  { quote: 'Amazing experience! They turned our ideas into reality while staying transparent and professional throughout.', author: 'Rahul Verma', location: 'Hyderabad', initials: 'RV', rating: 5 },
-  { quote: 'The quality checks at every stage gave us confidence. Truly a world-class construction experience.', author: 'Anjali Mehta', location: 'Chennai', initials: 'AM', rating: 5 },
-  { quote: 'Escrow payment system is a game changer. We felt safe every step of the way. Highly recommend!', author: 'Suresh Iyer', location: 'Pune', initials: 'SI', rating: 5 },
-  { quote: 'From design to handover, every milestone was met perfectly. Our dream home is now a beautiful reality!', author: 'Deepa Nair', location: 'Mumbai', initials: 'DN', rating: 5 },
+const services = {
+  eyebrow: 'Our Expertise',
+  titleStart: 'What we',
+  titleHighlight: 'build',
+  cards: [
+    {
+      title: 'Construction',
+      description: 'Quality civil construction delivered on time and within budget.',
+      link: '/services/construction'
+    },
+    {
+      title: 'Interiors',
+      description: 'Stylish, functional, and personalized interior designing.',
+      link: '/services/interior-design'
+    },
+    {
+      title: 'Elevations',
+      description: 'Transform the front facade to stand out with a premium look.',
+      link: '/services/elevation-page'
+    },
+    {
+      title: 'Terrace Garden',
+      description: 'Refresh your rooftop with lush and serene outdoor spaces.',
+      link: '/services/terrace-garden-page'
+    },
+    {
+      name: 'Home Renovation',
+      description: 'Enhance your home’s comfort, design, and functionality with smart renovation solutions.',
+      link: '/services/home-renovation',
+    },
+  ],
+
+};
+const process = {
+  eyebrow: 'How we work',
+  titleStart: 'Our simple',
+  titleHighlight: 'process',
+  subtitle: 'From consultation to handover – we keep you informed at every step.',
+  steps: [
+    { title: 'Consultation', description: 'Discuss your requirements' },
+    { title: 'Design & Planning', description: 'Craft detailed designs & plans' },
+    { title: 'Cost Finalization', description: 'Get a transparent quote' },
+    { title: 'Construction Phase', description: 'Begin construction of your home' },
+    { title: 'Quality Checks', description: 'Conduct rigorous inspections' },
+    { title: 'Final Handover', description: 'Deliver your dream home' },
+  ],
+}
+
+const cta = {
+  title: 'Ready to build your dream home?',
+  subtitle: 'Start your journey with a free consultation – no obligations.',
+  buttonLabel: 'Get Consultation',
+  perks: ['Free Site Visit', 'Transparent Quote', 'No Hidden Costs'],
+}
+
+const projects = {
+  eyebrow: 'Featured Work',
+  titleStart: 'Projects We are ',
+  titleHighlight: 'Working On',
+  subtitle: 'Quality, precision, and aesthetics.',
+  items: [
+    {
+      title: 'Luxury Villa',
+      location: '',
+      area: '',
+      tag: 'Luxury Villa',
+      description: 'Modern architecture with premium finishes and spacious layouts.',
+      images: ['/images/VasundharaP3.png', 'https://images.unsplash.com/photo-1764566917581-2cfd7ba4edd8?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW5kaWFuJTIwc2ltcGxlTHV4dXJ5JTIwVmlsbGFzfGVufDB8fDB8fHww'],
+    },
+    {
+      title: 'Institutional',
+      location: '',
+      area: '2200 sq.ft.',
+      tag: 'Family Home',
+      description: 'Functional design for educational or civic spaces with durability.',
+      images: ['https://images.unsplash.com/photo-1681171575028-16aa7a6f063e?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTY2fHxpbmRpYW4lMjBpbnN0aXR1dGlvbiUyMHNtYWxsJTIwYnVpbGRpbmd8ZW58MHx8MHx8fDA%3D', "https://plus.unsplash.com/premium_photo-1733288413391-a88bbe8be696?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OTd8fGluZGlhbiUyMGluc3RpdHV0aW9uJTIwc21hbGwlMjBidWlsZGluZ3xlbnwwfHwwfHx8MA%3D%3D"],
+    },
+    {
+      title: 'Residential',
+      location: '',
+      area: '2200 sq.ft.',
+      tag: 'residential ',
+      description: 'Comfortable and efficient living spaces for everyday life.',
+      images: ['/images/residential.jpg',],
+    },
+    {
+      title: 'Interiors',
+      location: '',
+      area: '2200 sq.ft.',
+      tag: 'Family Home',
+      description: 'Thoughtful interior layouts and finishes for practical aesthetics.',
+      images: ['/images/interiors.jpg'],
+    },
+    {
+      title: 'Home Renovation',
+      location: '',
+      area: '2200 sq.ft.',
+      tag: 'Family Home',
+      description: 'Upgrading existing structures for modern needs and safety.',
+      images: ['https://images.unsplash.com/flagged/photo-1573168710465-7f7da9a23a15?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8aG9tZSUyMHJlbm92YXRpb258ZW58MHx8MHx8fDA%3D'],
+    },
+    {
+      title: 'Construction',
+      location: '',
+      area: '2200 sq.ft.',
+      tag: 'Family Home',
+      description: 'Reliable construction management and execution from ground up.',
+      images: ['/images/vasundharaP.jpeg'],
+    },
+
+  ],
+}
+
+const ceo = {
+  eyebrow: 'Leadership',
+  titleStart: 'Meet the',
+  titleHighlight: 'founder',
+  name: 'Anoj Gupta ',
+  role: 'CEO & Founder',
+  intro: 'With over 12+ years of experience in construction and interior design, I ensure every project is delivered with precision and trust.',
+  message: 'At Vasundhara, we don’t just build structures — we craft lifestyles.',
+  buttonLabel: 'Contact Us',
+}
+
+const trustStats = [
+  { icon: '', value: '12+', label: 'Years of Experience', sub: 'Proven excellence in construction' },
+  { icon: '', value: '500+', label: 'Quality Checks', sub: 'Per project, every milestone' },
+  { icon: '', value: '100%', label: 'Protected', sub: 'Secure payment system' },
+  { icon: '', value: '299+', label: 'Happy clients', sub: 'Across 10+ cities in India' },
+  { icon: '', value: '4.5/5', label: 'Customer Rating', sub: 'Rated by homeowners' },
+  { icon: '', value: '10+', label: 'Cities Served', sub: 'And expanding across India' },
 ]
 
 const whyPoints = [
-  { icon: 'experience' as WhyChooseIcon, title: '15+ Years Experience', desc: 'Proven track record of excellence in construction.' },
-  { icon: 'checks' as WhyChooseIcon, title: '500+ Quality Checks', desc: 'Rigorous inspections at every stage of construction.' },
-  { icon: 'architects' as WhyChooseIcon, title: 'In-House Architects', desc: 'Dedicated in-house experts for superior designs.' },
-  { icon: 'contractors' as WhyChooseIcon, title: 'No Third-Party Contractors', desc: 'We handle everything directly for quality control.' },
-  { icon: 'escrow' as WhyChooseIcon, title: 'Escrow Protected Payments', desc: 'Payments held securely until milestones are met.' },
-  { icon: 'tracking' as WhyChooseIcon, title: 'Live Project Tracking', desc: 'Monitor progress in real-time through our app.' },
-  { icon: 'delivery' as WhyChooseIcon, title: 'On-Time Delivery', desc: 'Clear schedules and disciplined execution always.' },
+  { title: '12+ Years Experience', desc: 'Proven track record of excellence in construction.' },
+  { title: '500+ Quality Checks', desc: 'Rigorous inspections at every stage of construction.' },
+  { title: 'In-House Architects', desc: 'Dedicated in-house experts for superior designs.' },
+  { title: 'No Third-Party Contractors', desc: 'We handle everything directly for quality control.' },
+  { title: 'Protected Payments', desc: 'Payments held securely until milestones are met.' },
+  { title: 'Live Project Tracking', desc: 'Monitor progress in real-time through our app.' },
+  { title: 'On-Time Delivery', desc: 'Clear schedules and disciplined execution always.' },
 ]
 
 const whySlides = [
-  { image: '/images/why-choose-us.jpeg', label: '500+ quality checks on every build' },
-  { image: '/images/heroimg.jpeg', label: 'Modern facades with premium detailing' },
-  { image: '/images/luxury-villa.jpg', label: 'Luxury residences delivered with discipline' },
-  { image: '/images/dream-elevation.jpeg', label: 'Elevation planning that boosts curb appeal' },
+  { image: 'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=800', label: '500+ quality checks on every build' },
+  { image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800', label: 'Modern facades with premium detailing' },
+  { image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800', label: 'Luxury residences delivered with discipline' },
+  { image: 'https://images.unsplash.com/photo-1600210492493-0946911123ea?w=800', label: 'Elevation planning that boosts curb appeal' },
 ]
 
-const ceoData = {
-  name: 'Ashu Saifi',
-  role: 'CEO & Founder',
-  intro: 'With over 15 years of experience, I ensure every project is delivered with precision and trust.',
-  message: "At WallBolt Atelier, we don't just build structures — we craft lifestyles.",
-}
-
-const footerServices = ['Construction', 'Interiors', 'Elevations', 'Terrace Garden', 'Luxury Bathrooms', 'Custom Furniture']
-const footerSocials = [
-  { label: 'Facebook', href: 'https://facebook.com', icon: 'fb' },
-  { label: 'Twitter', href: 'https://twitter.com', icon: 'tw' },
-  { label: 'LinkedIn', href: 'https://linkedin.com', icon: 'li' },
-  { label: 'Instagram', href: 'https://instagram.com', icon: 'ig' },
+const dreamSlides = [
+  { label: 'Modern Living Room', image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800' },
+  { label: 'Master Bedroom', image: 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=800' },
+  { label: 'Kitchen Design', image: 'https://plus.unsplash.com/premium_photo-1661963667668-f53a412a5922?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fGtpdGNoZW4lMjBkZXNpZ258ZW58MHx8MHx8fDA%3D' },
+  { label: 'Elevation View', image: 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=800' },
 ]
 
-const heroImageSrc = '/images/heroimg.jpeg'
-
-const trustStats = [
-  { icon: '🏆', value: '15+', label: 'Years of Experience', sub: 'Proven excellence in construction' },
-  { icon: '✅', value: '500+', label: 'Quality Checks', sub: 'Per project, every milestone' },
-  { icon: '🔒', value: '100%', label: 'Escrow Protected', sub: 'Secure payment system' },
-  { icon: '🏡', value: '10,000+', label: 'Homes Delivered', sub: 'Across 10+ cities in India' },
-  { icon: '⭐', value: '4.9/5', label: 'Customer Rating', sub: 'Rated by 2,500+ homeowners' },
-  { icon: '🏙️', value: '10+', label: 'Cities Served', sub: 'And expanding across India' },
+const testimonials = [
+  { quote: 'Vasundhara delivered our home on time with exceptional quality. The entire process was smooth and completely hassle-free!', author: 'Mr. Rajesh Sharma', location: '', initials: 'PS', rating: 5 },
+  { quote: 'Amazing experience! They turned our ideas into reality while staying transparent and professional throughout.', author: 'Ms. Nisha Patel', location: '', initials: 'RV', rating: 5 },
+  { quote: 'The quality checks at every stage gave us confidence. Truly a world-class construction experience.', author: 'Dr. Arjun Singh', location: '', initials: 'AM', rating: 5 },
+  { quote: 'Escrow payment system is a game changer. We felt safe every step of the way. Highly recommend!', author: 'Suresh Iyer', location: '', initials: 'SI', rating: 5 },
+  { quote: 'From design to handover, every milestone was met perfectly. Our dream home is now a beautiful reality!', author: 'Deepa Nair', location: '', initials: 'DN', rating: 5 },
 ]
 
-const wd = (d: number): CSSProperties => ({ '--delay': `${d}ms` } as CSSProperties)
+// FAQ data
+const faqs = [
+  {
+    q: "What is the average cost of construction per square foot?",
+    a: "Our construction costs typically range between ₹1,500 to ₹2,800 per square foot, depending on the quality of materials, finishes, and project complexity. We provide a detailed, transparent quotation before starting any work."
+  },
+  {
+    q: "How long does it take to build a home?",
+    a: "A standard 2,000 sq.ft. home takes about 10-14 months from design to handover. We follow a strict schedule and keep you updated at every milestone."
+  },
+  {
+    q: "Do you offer interior design services?",
+    a: "Yes, we have an in-house interior design team that works alongside our construction team to create cohesive, functional, and beautiful spaces."
+  },
+  {
+    q: "Is my payment safe?",
+    a: "Absolutely. We use a secure escrow system where payments are released step-by-step with ongoing milestones, only after your approval"
+  },
+  {
+    q: "Can I visit ongoing projects?",
+    a: "Yes, we encourage clients to visit our ongoing projects to see our quality and workmanship firsthand. Contact us to schedule a site visit."
+  }
+]
 
-/* ─── SVG icons ──────────────────────────────────────── */
-const ServiceSvg = ({ k }: { k: ServiceIcon }) => (
-  <svg viewBox="0 0 48 48" fill="none" width="100%" height="100%">
-    {k === 'construction' && <><rect x="8" y="14" width="32" height="26" rx="3" stroke="#e8501e" strokeWidth="2.5" /><path d="M18 14v-4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v4" stroke="#e8501e" strokeWidth="2.5" /><path d="M15 23h18M15 30h18M15 37h10" stroke="#e8501e" strokeWidth="2.5" strokeLinecap="round" /></>}
-    {k === 'interiors' && <><rect x="8" y="22" width="22" height="10" rx="3" stroke="#e8501e" strokeWidth="2.5" /><path d="M11 32v4M26 32v4M14 22v-4a5 5 0 0 1 10 0v4M36 10v28M33 10h6" stroke="#e8501e" strokeWidth="2.5" strokeLinecap="round" /></>}
-    {k === 'elevations' && <><path d="M6 24 24 10l18 14v18H6z" stroke="#e8501e" strokeWidth="2.5" /><path d="M19 42v-11a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v11" stroke="#e8501e" strokeWidth="2.5" /></>}
-    {k === 'terrace' && <><circle cx="24" cy="16" r="6" stroke="#e8501e" strokeWidth="2.5" /><path d="M12 40s2-8 12-8 12 8 12 8M24 22v10" stroke="#e8501e" strokeWidth="2.5" strokeLinecap="round" /></>}
-  </svg>
-)
+// ----- NEW: Packages data -----
+const packagesData = {
+  eyebrow: 'Pricing Plans',
+  titleStart: 'Choose Your',
+  titleHighlight: 'Package',
+  subtitle: 'Transparent, fixed-price packages for your dream home – no hidden costs.',
+  cards: [
+    {
+      name: 'Basic',
+      price: '₹1,950/sq.ft.',
+      rate: '₹1,950 – ₹2,150/sq.ft.',
+      color: '#3b82f6',
+      gradient: 'linear-gradient(135deg, #3b82f6, #1e3a8a)',
+      img: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&auto=format',
+      eyebrow: 'Value Plus',
+      popular: false,
+      breakdown: [
+        ['Cement', 'Shree'],
+        ['TMT Bars', 'Rathi'],
+        ['Plumbing', 'Prince'],
+        ['Sanitary', 'Hind ware'],
+        ['Flooring', 'Vitrified tiles'],
+        ['Paint', 'Premium Emulsion'],
+      ],
+      cta: 'Get Quote →',
+    },
+    {
+      name: 'Standard',
+      price: '₹2,300/sq.ft.',
+      rate: '₹2,300 – ₹2,500/sq.ft.',
+      color: '#0ea5e9',
+      gradient: 'linear-gradient(135deg, #0ea5e9, #0284c7)',
+      img: 'https://images.unsplash.com/photo-1600210492493-0946911123ea?w=600&auto=format',
+      eyebrow: 'Most Popular',
+      popular: true,
+      breakdown: [
+        ['Cement', 'Shree / JK Super'],
+        ['TMT Bars', 'Kamdhenu / Rathi'],
+        ['Plumbing', 'Supreme'],
+        ['Sanitary', 'Parryware'],
+        ['Flooring', 'Wooden flooring in MBR'],
+        ['Paint', 'Premium Emulsion'],
+      ],
+      cta: 'Get Quote →',
+    },
+    {
+      name: 'Premium',
+      price: '₹2,750/sq.ft.',
+      rate: '₹2,750 – ₹3,000/sq.ft.',
+      color: '#f59e0b',
+      gradient: 'linear-gradient(135deg, #f59e0b, #d97706)',
+      img: 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&auto=format',
+      eyebrow: 'Luxury Choice',
+      popular: false,
+      breakdown: [
+        ['Cement', 'Ultratech / JK Super'],
+        ['TMT Bars', 'SAIL'],
+        ['Plumbing', 'Ashirwad'],
+        ['Sanitary', 'Jaquar / Roca'],
+        ['Flooring', 'Italian marble'],
+        ['Paint', 'Royal Shine'],
+      ],
+      cta: 'Get Quote →',
+    },
+    {
+      name: 'Luxury',
+      price: '₹3,000/sq.ft.',
+      rate: '₹3,000 – ₹3,300/sq.ft.',
+      color: '#4f46e5',
+      gradient: 'linear-gradient(135deg, #4f46e5, #3730a3)',
+      img: 'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=600&auto=format',
+      eyebrow: 'Ultimate',
+      popular: false,
+      breakdown: [
+        ['Cement', 'Ultratech'],
+        ['TMT Bars', 'Tata'],
+        ['Plumbing', 'Ashirwad'],
+        ['Sanitary', 'Jaguar / Kohler'],
+        ['Flooring', 'Italian marble + designer'],
+        ['Paint', 'Royal Shine + texture'],
+      ],
+      cta: 'Get Quote →',
+    },
+  ],
+};
+// Helper for dynamic delays (kept for reveal animations)
+const wd = (d: number) => ({ '--delay': `${d}ms` } as React.CSSProperties)
 
-const WhySvg = ({ k }: { k: WhyChooseIcon }) => (
-  <svg viewBox="0 0 28 28" fill="none" width="100%" height="100%">
-    {k === 'experience' && <><circle cx="14" cy="14" r="11" stroke="#e8501e" strokeWidth="1.8" /><path d="M14 8v6.5l3.5 2" stroke="#e8501e" strokeWidth="1.8" strokeLinecap="round" /></>}
-    {k === 'checks' && <><circle cx="12" cy="12" r="7" stroke="#e8501e" strokeWidth="1.8" /><path d="m17.5 17.5 4 4" stroke="#e8501e" strokeWidth="1.8" strokeLinecap="round" /></>}
-    {k === 'architects' && <><path d="M4 13 14 5l10 8" stroke="#e8501e" strokeWidth="1.8" strokeLinecap="round" /><path d="M7 12v11h14V12" stroke="#e8501e" strokeWidth="1.8" /></>}
-    {k === 'contractors' && <><circle cx="14" cy="14" r="10" stroke="#e8501e" strokeWidth="1.8" /><path d="m9 9 10 10M19 9 9 19" stroke="#e8501e" strokeWidth="1.8" strokeLinecap="round" /></>}
-    {k === 'escrow' && <><path d="M14 3 24 7v7c0 6-3.5 10.5-10 12.5C7.5 24.5 4 20 4 14V7z" stroke="#e8501e" strokeWidth="1.8" /><path d="m10 14 3 3 5-5" stroke="#e8501e" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></>}
-    {k === 'tracking' && <><rect x="7" y="3" width="14" height="22" rx="3" stroke="#e8501e" strokeWidth="1.8" /><path d="M11 9h6M11 14h6M11 19h4" stroke="#e8501e" strokeWidth="1.8" strokeLinecap="round" /></>}
-    {k === 'delivery' && <><circle cx="14" cy="14" r="10" stroke="#e8501e" strokeWidth="1.8" /><path d="M14 7v7.5l4 2" stroke="#e8501e" strokeWidth="1.8" strokeLinecap="round" /></>}
-  </svg>
-)
-
-const ProcSvg = ({ k }: { k: ProcessIcon }) => (
-  <svg viewBox="0 0 36 36" fill="none" width="100%" height="100%">
-    {k === 'consultation' && <><rect x="5" y="4" width="20" height="26" rx="3" stroke="#e8501e" strokeWidth="2" /><path d="M9 11h12M9 17h12M9 23h7" stroke="#e8501e" strokeWidth="2" strokeLinecap="round" /><path d="M23 24l6 6-2 2-6-6-.5-2z" fill="#e8501e" /></>}
-    {k === 'design' && <><rect x="5" y="7" width="26" height="22" rx="3" stroke="#e8501e" strokeWidth="2" /><path d="m14 20 7-7 3 3-7 7-3.5.5z" stroke="#e8501e" strokeWidth="1.8" strokeLinejoin="round" /></>}
-    {k === 'cost' && <><rect x="4" y="4" width="16" height="24" rx="2" stroke="#e8501e" strokeWidth="2" /><circle cx="27" cy="25" r="6" stroke="#e8501e" strokeWidth="2" /><path d="M27 21v8M24 25h6" stroke="#e8501e" strokeWidth="2" strokeLinecap="round" /></>}
-    {k === 'construction' && <><path d="M4 31h28M9 31V20M18 31V12M27 31V20" stroke="#e8501e" strokeWidth="2" strokeLinecap="round" /></>}
-    {k === 'quality' && <><circle cx="15" cy="15" r="9" stroke="#e8501e" strokeWidth="2" /><path d="m22 22 7 7" stroke="#e8501e" strokeWidth="2" strokeLinecap="round" /><path d="m11 15 3 3 5-5" stroke="#e8501e" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></>}
-    {k === 'handover' && <><path d="M4 18 18 7l14 11" stroke="#e8501e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /><path d="M9 17v14h18V17" stroke="#e8501e" strokeWidth="2" /><path d="M14 26h8M18 22v8" stroke="#e8501e" strokeWidth="2" strokeLinecap="round" /></>}
-  </svg>
-)
-
-/* ═══════════════════════════════════════════════════════════ */
 function HomePage() {
-  const [backendStatus, setBackendStatus] = useState<'checking' | 'online' | 'offline'>('checking')
-  const [homeContent, setHomeContent] = useState<HomeContent>(defaultHomeContent)
+  // Typewriter state
+  const [typedWord, setTypedWord] = useState('')
+  const [wordIndex, setWordIndex] = useState(0)
+  const [isDeleting, setIsDeleting] = useState(false)
+
+  // Slider states
   const [dreamSlide, setDreamSlide] = useState(0)
   const [whySlide, setWhySlide] = useState(0)
   const [projectSlide, setProjectSlide] = useState(0)
   const [testiPage, setTestiPage] = useState(0)
-  const [typedHeroWord, setTypedHeroWord] = useState('')
-  const [heroWordIndex, setHeroWordIndex] = useState(0)
-  const [isDeletingHeroWord, setIsDeletingHeroWord] = useState(false)
-  const [ceoImg, setCeoImg] = useState('/images/ashushafi.png')
-  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const testiPerPage = 3
   const testiPages = Math.ceil(testimonials.length / testiPerPage)
-  const projectItems = homeContent.projects.items.length > 0 ? homeContent.projects.items : defaultHomeContent.projects.items
-  const projectSlideCount = Math.max(1, ...projectItems.map((project) => project.images.length || 1))
+  const projectSlideCount = projects.items.length
 
-  useEffect(() => {
-    let alive = true
-    fetchHealth()
-      .then(() => { if (alive) setBackendStatus('online') })
-      .catch(() => { if (alive) setBackendStatus('offline') })
-    return () => { alive = false }
-  }, [])
-
-  useEffect(() => {
-    let alive = true
-
-    fetchHomeContent()
-      .then((content) => {
-        if (alive) {
-          setHomeContent(content)
-        }
-      })
-      .catch(() => {
-        if (alive) {
-          setHomeContent(defaultHomeContent)
-        }
-      })
-
-    return () => { alive = false }
-  }, [])
-
-  useEffect(() => {
-    const slider = setInterval(() => setDreamSlide(p => (p + 1) % dreamSlides.length), 3400)
-    return () => clearInterval(slider)
-  }, [])
-
-  useEffect(() => {
-    const slider = setInterval(() => setWhySlide(p => (p + 1) % whySlides.length), 3600)
-    return () => clearInterval(slider)
-  }, [])
-
-  useEffect(() => {
-    const slider = setInterval(() => setProjectSlide(p => (p + 1) % projectSlideCount), 3800)
-    return () => clearInterval(slider)
-  }, [projectSlideCount])
-
-  useEffect(() => {
-    timerRef.current = setInterval(() => setTestiPage(p => (p + 1) % testiPages), 4500)
-    return () => { if (timerRef.current) clearInterval(timerRef.current) }
-  }, [testiPages])
-
-  useEffect(() => {
-    const heroTypedWordsList = homeContent.hero.typedWords.length > 0 ? homeContent.hero.typedWords : defaultHomeContent.hero.typedWords
-    const currentWord = heroTypedWordsList[heroWordIndex]
-
-    if (!currentWord) {
-      return
+  // ----- Hero Slider using services.cards -----
+  const heroSlides = services.cards.map((card) => {
+    const title = card.title || (card as any).name; // handle 'name' for Home Renovation
+    let imageUrl = '';
+    switch (title) {
+      case 'Construction':
+        imageUrl = '/images/vasundharaP.jpeg';
+        break;
+      case 'Interiors':
+        imageUrl = '/images/interiors.jpg';
+        break;
+      case 'Elevations':
+        imageUrl = '/images/VasundharaP3.png';
+        break;
+      case 'Terrace Garden':
+        imageUrl = '/images/terraceGarden.jpeg';
+        break;
+      case 'Home Renovation':
+        imageUrl = '/images/home-renovation.jpg';
+        break;
+      default:
+        imageUrl = 'https://images.unsplash.com/photo-1774685110718-c5b4fe026144?w=800&auto=format';
     }
+    return {
+      ...card,
+      title: title,
+      imageUrl,
+      buttonText: `Explore ${title}`,
+      link: card.link,
+      description: card.description,
+    };
+  });
 
-    const atWordEnd = typedHeroWord === currentWord
-    const atWordStart = typedHeroWord === ''
-    const delay = !isDeletingHeroWord && atWordEnd ? 1350 : isDeletingHeroWord ? 55 : 95
+  const [heroSlideIndex, setHeroSlideIndex] = useState(0);
+  const currentHeroSlide = heroSlides[heroSlideIndex];
+
+  const handleHeroPrev = () => {
+    setHeroSlideIndex((prev) => (prev === 0 ? heroSlides.length - 1 : prev - 1));
+  };
+
+  const handleHeroNext = () => {
+    setHeroSlideIndex((prev) => (prev === heroSlides.length - 1 ? 0 : prev + 1));
+  };
+
+  const goToHeroSlide = (index: number) => setHeroSlideIndex(index);
+
+  // Auto-slide for hero slider
+  const [autoSlidePaused, setAutoSlidePaused] = useState(false);
+  const autoSlideIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const resetAutoSlideTimer = useCallback(() => {
+    if (autoSlideIntervalRef.current) {
+      clearInterval(autoSlideIntervalRef.current);
+      autoSlideIntervalRef.current = null;
+    }
+    if (!autoSlidePaused) {
+      autoSlideIntervalRef.current = setInterval(() => {
+        setHeroSlideIndex((prev) => (prev + 1) % heroSlides.length);
+      }, 4000);
+    }
+  }, [autoSlidePaused, heroSlides.length]);
+
+  useEffect(() => {
+    resetAutoSlideTimer();
+    return () => {
+      if (autoSlideIntervalRef.current) clearInterval(autoSlideIntervalRef.current);
+    };
+  }, [resetAutoSlideTimer]);
+
+  // When user interacts, reset timer
+  const handleManualPrev = () => {
+    handleHeroPrev();
+    resetAutoSlideTimer();
+  };
+  const handleManualNext = () => {
+    handleHeroNext();
+    resetAutoSlideTimer();
+  };
+  const handleManualDot = (idx: number) => {
+    goToHeroSlide(idx);
+    resetAutoSlideTimer();
+  };
+  // New state for packages slider
+  const [packageIndex, setPackageIndex] = useState(0)
+  const packageCount = packagesData.cards.length
+
+
+
+  // Typewriter effect
+  useEffect(() => {
+    const current = typedWords[wordIndex]
+    if (!current) return
+
+    const atWordEnd = typedWord === current
+    const atWordStart = typedWord === ''
+
+    const delay = !isDeleting && atWordEnd ? 2000 : isDeleting ? 55 : 90
 
     const timeout = window.setTimeout(() => {
-      if (!isDeletingHeroWord) {
+      if (!isDeleting) {
         if (atWordEnd) {
-          setIsDeletingHeroWord(true)
+          setIsDeleting(true)
           return
         }
-
-        setTypedHeroWord(currentWord.slice(0, typedHeroWord.length + 1))
+        setTypedWord(current.slice(0, typedWord.length + 1))
         return
       }
 
       if (!atWordStart) {
-        setTypedHeroWord(currentWord.slice(0, typedHeroWord.length - 1))
+        setTypedWord(current.slice(0, typedWord.length - 1))
         return
       }
 
-      setIsDeletingHeroWord(false)
-      setHeroWordIndex(prev => (prev + 1) % heroTypedWordsList.length)
+      setIsDeleting(false)
+      setWordIndex((prev) => (prev + 1) % typedWords.length)
     }, delay)
 
     return () => clearTimeout(timeout)
-  }, [heroWordIndex, homeContent.hero.typedWords, isDeletingHeroWord, typedHeroWord])
+  }, [typedWord, isDeleting, wordIndex])
+
+
+
+  // Auto-sliders
+  useEffect(() => {
+    const slider = setInterval(() => setDreamSlide((p) => (p + 1) % dreamSlides.length), 5000)
+    return () => clearInterval(slider)
+  }, [])
 
   useEffect(() => {
-    setTypedHeroWord('')
-    setHeroWordIndex(0)
-    setIsDeletingHeroWord(false)
-  }, [homeContent.hero.typedWords])
+    const slider = setInterval(() => setWhySlide((p) => (p + 1) % whySlides.length), 3600)
+    return () => clearInterval(slider)
+  }, [])
 
   useEffect(() => {
-    const obs = new IntersectionObserver(
-      es => es.forEach(e => { if (e.isIntersecting) e.target.classList.add('v') }),
-      { threshold: 0.07 }
+    const slider = setInterval(() => setProjectSlide((p) => (p + 1) % projectSlideCount), 3800)
+    return () => clearInterval(slider)
+  }, [projectSlideCount])
+
+  useEffect(() => {
+    const timer = setInterval(() => setTestiPage((p) => (p + 1) % testiPages), 4500)
+    return () => clearInterval(timer)
+  }, [testiPages])
+
+  const cards = packagesData.cards
+  const CARD_COUNT = cards.length
+
+  // We triple the cards for seamless infinite loop: [...cards, ...cards, ...cards]
+  // Start at index = CARD_COUNT (the middle copy)
+  const tripled = [...cards, ...cards, ...cards]
+  const [current, setCurrent] = useState(CARD_COUNT) // start at middle copy
+  const [transitioning, setTransitioning] = useState(true)
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const trackRef = useRef<HTMLDivElement>(null)
+  const sliderContainerRef = useRef<HTMLDivElement>(null) // for hover/touch pause
+
+  // How many cards visible per viewport
+  const getVisible = () => {
+    if (typeof window === 'undefined') return 1
+    if (window.innerWidth >= 1024) return 3
+    if (window.innerWidth >= 640) return 2
+    return 1
+  }
+  const [visible, setVisible] = useState(1)
+
+  // Pause state for auto-slide
+  const [isPaused, setIsPaused] = useState(false)
+
+  useEffect(() => {
+    const upd = () => setVisible(getVisible())
+    upd()
+    window.addEventListener('resize', upd)
+    return () => window.removeEventListener('resize', upd)
+  }, [])
+
+  // Auto-advance (respects pause)
+  const advance = useCallback(() => {
+    if (!isPaused) {
+      setTransitioning(true)
+      setCurrent(p => p + 1)
+    }
+  }, [isPaused])
+
+  useEffect(() => {
+    timerRef.current = setInterval(advance, 3200)
+    return () => clearInterval(timerRef.current)
+  }, [advance])
+
+  // When we reach the end of the 3rd copy → silently jump to 1st copy equivalent
+
+  const handleTransitionEnd = () => {
+    if (current >= CARD_COUNT * 2) {
+      setTransitioning(false)
+      setCurrent(CARD_COUNT)
+    } else if (current < CARD_COUNT) {
+      setTransitioning(false)
+      setCurrent(CARD_COUNT * 2 - 1)
+    }
+  }
+
+  // Re-enable transition after silent jump
+  useEffect(() => {
+    if (!transitioning) {
+      const t = setTimeout(() => setTransitioning(true), 30)
+      return () => clearTimeout(t)
+    }
+  }, [transitioning])
+
+  const goTo = (idx: number) => {
+    if (timerRef.current) clearInterval(timerRef.current)
+    setTransitioning(true)
+    setCurrent(CARD_COUNT + idx)
+    timerRef.current = setInterval(advance, 3200)
+  }
+
+  const prev = () => {
+    if (timerRef.current) clearInterval(timerRef.current)
+    setTransitioning(true)
+    setCurrent(p => p - 1)
+    timerRef.current = setInterval(advance, 3200)
+  }
+
+  const next = () => {
+    if (timerRef.current) clearInterval(timerRef.current)
+    advance()
+    timerRef.current = setInterval(advance, 3200)
+  }
+
+  // Active dot: which card in original array is at front
+  const activeDot = ((current - CARD_COUNT) % CARD_COUNT + CARD_COUNT) % CARD_COUNT
+
+  // Card width % based on visible count
+  const cardW = 100 / visible
+
+  // Pause on hover / touch
+  useEffect(() => {
+    const container = sliderContainerRef.current
+    if (!container) return
+
+    const handleMouseEnter = () => setIsPaused(true)
+    const handleMouseLeave = () => setIsPaused(false)
+    const handleTouchStart = () => setIsPaused(true)
+    const handleTouchEnd = () => setIsPaused(false)
+
+    container.addEventListener('mouseenter', handleMouseEnter)
+    container.addEventListener('mouseleave', handleMouseLeave)
+    container.addEventListener('touchstart', handleTouchStart)
+    container.addEventListener('touchend', handleTouchEnd)
+
+    return () => {
+      container.removeEventListener('mouseenter', handleMouseEnter)
+      container.removeEventListener('mouseleave', handleMouseLeave)
+      container.removeEventListener('touchstart', handleTouchStart)
+      container.removeEventListener('touchend', handleTouchEnd)
+    }
+  }, [])
+
+  // Scroll reveal
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) entry.target.classList.add('revealed')
+        })
+      },
+      { threshold: 0.2, rootMargin: '0px 0px -50px 0px' }
     )
-    document.querySelectorAll('.r').forEach(el => obs.observe(el))
-    return () => obs.disconnect()
+
+    document.querySelectorAll('.reveal-on-scroll').forEach((el) => observer.observe(el))
+    return () => observer.disconnect()
   }, [])
 
   const visibleTestis = testimonials.slice(testiPage * testiPerPage, testiPage * testiPerPage + testiPerPage)
-  const heroContent = homeContent.hero
-  const servicesContent = homeContent.services
-  const processContent = homeContent.process
-  const ceoContent = homeContent.ceo
-  const ctaContent = homeContent.cta
-  const projectContent = homeContent.projects
-  const heroPills = heroContent.pills.length > 0 ? heroContent.pills : defaultHomeContent.hero.pills
-  const heroStats = heroContent.stats.length > 0 ? heroContent.stats : defaultHomeContent.hero.stats
-  const serviceCardsData = (servicesContent.cards.length > 0 ? servicesContent.cards : defaultHomeContent.services.cards).map((card, index) => ({
-    ...card,
-    icon: serviceCards[index]?.icon ?? ('construction' as ServiceIcon),
-  }))
-  const processStepsData = (processContent.steps.length > 0 ? processContent.steps : defaultHomeContent.process.steps).map((step, index) => ({
-    ...step,
-    icon: processSteps[index]?.icon ?? ('consultation' as ProcessIcon),
-  }))
-  const ctaPerks = ctaContent.perks.length > 0 ? ctaContent.perks : defaultHomeContent.cta.perks
-  const featuredProjects = projectContent.items.length > 0 ? projectContent.items : defaultHomeContent.projects.items
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null)
 
   return (
     <>
+      {/* Global styles for reveal and typewriter caret (minimal) */}
       <style>{`
-        /* ── tokens ── */
-        :root {
-          --or: #e8501e;
-          --or2: #c93e0d;
-          --orL: #fff5f2;
-          --orM: #fde8e0;
-          --dk: #1c1c1e;
-          --tx: #2d2d2d;
-          --mt: #5a5a5a;
-          --mt2: #888;
-          --bd: #e5e5e5;
-          --bg: #ffffff;
-          --bg2: #f7f7f7;
-          --bg3: #efefef;
-          --r: 10px;
-          --rl: 18px;
-          --sh: 0 2px 18px rgba(0,0,0,.07);
-          --shm: 0 6px 32px rgba(0,0,0,.11);
-          --ease: cubic-bezier(.16,1,.3,1);
+        .reveal-on-scroll {
+          opacity: 0;
+          transform: translateY(30px);
+          transition: opacity 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1);
         }
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; font-size: 16px; }
-        body { background: var(--bg); color: var(--tx); font-family: 'Nunito Sans', 'Segoe UI', 'Helvetica Neue', sans-serif; overflow-x: hidden; line-height: 1.6; }
-        a { color: inherit; text-decoration: none; }
-        button { cursor: pointer; border: none; background: none; font-family: inherit; }
-        img { display: block; max-width: 100%; }
-        ul { list-style: none; }
-
-        /* ── reveal ── */
-        .r { opacity: 0; transform: translateY(24px); transition: opacity .55s var(--ease), transform .55s var(--ease); transition-delay: var(--delay, 0ms); }
-        .r.v { opacity: 1; transform: none; }
-
-        /* ── layout ── */
-        .w { max-width: 1260px; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2.5rem); }
-        .sec { padding: clamp(4rem, 8vw, 7rem) 0; }
-
-        /* ── section heading ── */
-        .sh { margin-bottom: clamp(2.5rem, 4vw, 3.5rem); }
-        .sh.c { text-align: center; }
-        .ey { font-size: .85rem; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; color: var(--or); display: inline-block; margin-bottom: .65rem; }
-        .sh h2 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 900; color: var(--dk); line-height: 1.15; letter-spacing: -.025em; }
-        .sh h2 em { color: var(--or); font-style: normal; }
-        .sh p { font-size: 1.05rem; color: var(--mt); line-height: 1.7; margin-top: .75rem; max-width: 560px; }
-        .sh.c p { margin-inline: auto; }
-
-        /* ── buttons ── */
-        .btn { display: inline-flex; align-items: center; gap: .5rem; padding: .95rem 2.2rem; font-size: 1rem; font-weight: 800; border-radius: var(--r); transition: all .22s ease; letter-spacing: .01em; }
-        .btn-p { background: var(--or); color: #fff; box-shadow: 0 4px 16px rgba(232,80,30,.28); }
-        .btn-p:hover { background: var(--or2); box-shadow: 0 6px 24px rgba(232,80,30,.42); transform: translateY(-1px); }
-        .btn-o { border: 2px solid var(--or); color: var(--or); background: transparent; }
-        .btn-o:hover { background: var(--or); color: #fff; }
-        .btn-w { background: #fff; color: var(--or); font-weight: 800; box-shadow: var(--sh); }
-        .btn-w:hover { background: var(--orL); }
-
-        /* ══ NAVBAR ══ */
-        .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 900; background: #fff; border-bottom: 1px solid var(--bd); box-shadow: 0 1px 10px rgba(0,0,0,.05); }
-        .nav-in { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 1.5rem; }
-        .logo { font-size: 1.45rem; font-weight: 900; color: var(--dk); letter-spacing: -.025em; flex-shrink: 0; }
-        .logo em { color: var(--or); font-style: normal; }
-        .nav-links { display: flex; align-items: center; gap: .2rem; }
-        .nav-links a { font-size: .95rem; font-weight: 700; color: var(--mt); padding: .45rem .85rem; border-radius: 8px; transition: color .2s, background .2s; position: relative; }
-        .nav-links a:hover { color: var(--or); background: var(--orL); }
-        .nav-links a.more { display: flex; align-items: center; gap: .25rem; }
-        .nav-links a.more::after { content: '▾'; font-size: .7rem; }
-        @media (max-width: 1024px) { .nav-links { display: none; } }
-
-        /* ══ HERO ══ */
-        .hero { min-height: calc(100svh - var(--site-header-height)); display: flex; }
-        .hero-grid { display: grid; grid-template-columns: 1fr 1fr; width: 100%; min-height: calc(100svh - 72px); }
-        @media (max-width: 860px) { .hero-grid { grid-template-columns: 1fr; } }
-        .hero-left { display: flex; flex-direction: column; justify-content: center; padding: clamp(2.5rem,5vw,5rem) clamp(1.5rem,4vw,3rem) clamp(2.5rem,5vw,5rem) clamp(1.5rem,5vw,3.5rem); }
-        .hero-eyebrow { display: inline-flex; align-items: center; gap: .5rem; font-size: .85rem; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; color: var(--or); margin-bottom: 1.25rem; }
-        .hero-eyebrow::before { content: ''; width: 1.2rem; height: 2px; background: var(--or); }
-        .hero h1 { font-size: clamp(2.4rem, 5.5vw, 4rem); font-weight: 900; line-height: 1.1; color: var(--dk); margin-bottom: 1.25rem; letter-spacing: -.03em; }
-        .hero h1 em { color: var(--or); font-style: normal; }
-        .hero-type-lock { display: inline-flex; align-items: center; gap: .12em; min-height: 1.2em; }
-        .hero-typed-word { color: var(--or); font-style: normal; }
-        .hero-type-caret { width: .09em; height: .9em; border-radius: 999px; background: currentColor; animation: hero-caret 1s step-end infinite; }
-        .hero-sub { font-size: 1.1rem; color: var(--mt); line-height: 1.7; margin-bottom: 2rem; max-width: 480px; }
-        .hero-pills { display: flex; flex-wrap: wrap; gap: .6rem; margin-bottom: 2rem; }
-        .hero-pill { display: flex; align-items: center; gap: .4rem; font-size: .9rem; font-weight: 700; color: var(--dk); background: var(--bg2); border: 1.5px solid var(--bd); padding: .42rem 1rem; border-radius: 30px; }
-        .hero-pill svg { width: 17px; height: 17px; }
-        .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
-        .hero-stats { display: flex; gap: 2rem; flex-wrap: wrap; padding-top: 2rem; border-top: 1px solid var(--bd); }
-        .hero-stat strong { display: block; font-size: 2rem; font-weight: 900; color: var(--or); line-height: 1; }
-        .hero-stat span { font-size: .85rem; color: var(--mt); margin-top: .2rem; display: block; font-weight: 600; }
-        .api-pill { font-size: .72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: .35rem .85rem; border-radius: 20px; display: inline-block; margin-top: 1rem; border: 1.5px solid var(--bd); color: var(--mt2); background: var(--bg2); }
-        .api-pill.on { color: #2e7d32; border-color: #a5d6a7; background: #f1f8f1; }
-        .api-pill.off { color: #c62828; border-color: #ef9a9a; background: #fef2f2; }
-        .hero-right { position: relative; overflow: hidden; display: flex; align-items: flex-end; justify-content: flex-start; min-height: 100%; isolation: isolate; background: #e8ddd5; }
-        .hero-right::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.06) 0%, rgba(0,0,0,.28) 100%); z-index: 0; }
-        .hero-media { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; }
-        .hero-badge { position: absolute; bottom: 2rem; left: 2rem; z-index: 1; background: rgba(255,255,255,.94); border-radius: var(--rl); padding: 1.1rem 1.5rem; box-shadow: var(--shm); display: flex; align-items: center; gap: .8rem; backdrop-filter: blur(8px); }
-        .hero-badge-icon { width: 2.6rem; height: 2.6rem; background: var(--orL); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
-        .hero-badge strong { display: block; font-size: 1rem; font-weight: 800; color: var(--dk); }
-        .hero-badge span { font-size: .8rem; color: var(--mt); }
-        @media (max-width: 860px) {
-          .hero-right { min-height: 420px; }
-          .hero-badge { bottom: 1.25rem; left: 1.25rem; right: 1.25rem; }
+        .reveal-on-scroll.revealed {
+          opacity: 1;
+          transform: translateY(0);
         }
-
-        /* ══ STRIP ══ */
-        .strip { background: var(--or); padding: 1.2rem 0; }
-        .strip-in { display: flex; align-items: center; justify-content: space-around; gap: 1rem; flex-wrap: wrap; }
-        .strip-item { display: flex; align-items: center; gap: .55rem; color: #fff; font-size: .92rem; font-weight: 700; }
-
-        /* ══ TRUST & RECOGNITION ══ */
-        .trust-sec { background: var(--bg2); }
-        .trust-grid {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 1.75rem;
+        @keyframes blink {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0; }
         }
-        @media (max-width: 900px) { .trust-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 500px) { .trust-grid { grid-template-columns: 1fr; } }
-        .trust-card {
-          background: #fff;
-          border: 1.5px solid var(--bd);
-          border-radius: var(--rl);
-          padding: 2.25rem 2rem;
-          display: flex;
-          align-items: flex-start;
-          gap: 1.4rem;
-          box-shadow: var(--sh);
-          transition: all .3s ease;
+        .typewriter-caret {
+          animation: blink 1s step-end infinite;
         }
-        .trust-card:hover { border-color: var(--or); box-shadow: 0 8px 32px rgba(232,80,30,.1); transform: translateY(-3px); }
-        .trust-icon { font-size: 2.4rem; flex-shrink: 0; width: 3.5rem; text-align: center; }
-        .trust-text {}
-        .trust-value { font-size: 2.2rem; font-weight: 900; color: var(--or); line-height: 1; letter-spacing: -.02em; }
-        .trust-label { font-size: 1.05rem; font-weight: 800; color: var(--dk); margin-top: .3rem; }
-        .trust-sub { font-size: .88rem; color: var(--mt); margin-top: .25rem; line-height: 1.5; }
-
-        /* ══ WHY FEATURE CARDS ══ */
-        .why-cards-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
-        @media (max-width: 900px) { .why-cards-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 500px) { .why-cards-grid { grid-template-columns: 1fr; } }
-        .why-feat-card { background: #fff; border: 1.5px solid var(--bd); border-radius: var(--rl); padding: 2rem 1.75rem; transition: all .3s; }
-        .why-feat-card:hover { border-color: var(--or); box-shadow: 0 8px 28px rgba(232,80,30,.1); transform: translateY(-4px); }
-        .why-feat-icon { width: 3.2rem; height: 3.2rem; background: var(--orL); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 1.1rem; }
-        .why-feat-icon svg { width: 1.5rem; height: 1.5rem; }
-        .why-feat-card h3 { font-size: 1.05rem; font-weight: 800; color: var(--dk); margin-bottom: .45rem; }
-        .why-feat-card p { font-size: .92rem; color: var(--mt); line-height: 1.6; }
-
-        /* ══ DREAM ══ */
-        .dream { background: #fff; }
-        .dream-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4.5rem; align-items: center; }
-        @media (max-width: 860px) { .dream-grid { grid-template-columns: 1fr; gap: 3rem; } }
-        .dream-copy h2 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 900; color: var(--dk); line-height: 1.15; margin-bottom: .5rem; letter-spacing: -.025em; }
-        .dream-copy h2 em { color: var(--or); font-style: normal; }
-        .dream-with { font-size: 1rem; font-weight: 600; color: var(--mt); margin-bottom: 2rem; }
-        .dream-with strong { color: var(--or); }
-        .dream-pills { display: flex; flex-direction: column; gap: .85rem; margin-bottom: 2rem; }
-        .dream-pill { display: flex; align-items: center; gap: .8rem; font-size: 1rem; font-weight: 700; color: var(--dk); }
-        .dream-pill::before { content: ''; width: .55rem; height: .55rem; border-radius: 50%; background: var(--or); flex-shrink: 0; }
-        .dream-badges { display: flex; flex-wrap: wrap; gap: .55rem; margin-bottom: 2rem; }
-        .dream-badge { font-size: .82rem; font-weight: 700; color: var(--mt); padding: .42rem 1rem; border: 1.5px solid var(--bd); border-radius: 30px; background: #fff; }
-        .dream-badge.a { color: var(--or); border-color: rgba(232,80,30,.3); background: var(--orL); }
-        /* dream slider */
-        .d-slider { position: relative; border-radius: var(--rl); overflow: hidden; box-shadow: var(--shm); }
-        .d-track { display: flex; transition: transform .45s var(--ease); }
-        .d-slide { min-width: 100%; aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center; position: relative; }
-        .d-slide-label { position: absolute; bottom: 1rem; left: 1rem; background: rgba(0,0,0,.55); color: #fff; font-size: .82rem; font-weight: 700; padding: .38rem .9rem; border-radius: 30px; }
-        .sl-btn { position: absolute; top: 50%; transform: translateY(-50%); width: 2.5rem; height: 2.5rem; border-radius: 50%; background: #fff; box-shadow: var(--sh); display: flex; align-items: center; justify-content: center; color: var(--or); font-size: 1.2rem; font-weight: 900; z-index: 4; cursor: pointer; transition: all .2s; }
-        .sl-btn:hover { background: var(--or); color: #fff; }
-        .sl-l { left: .75rem; }
-        .sl-r { right: .75rem; }
-        .sl-dots { position: absolute; bottom: .75rem; left: 50%; transform: translateX(-50%); display: flex; gap: .45rem; }
-        .sl-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,.5); border: none; cursor: pointer; transition: all .2s; }
-        .sl-dot.a { background: #fff; transform: scale(1.3); }
-
-        /* ══ SERVICES ══ */
-        .svc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
-        @media (max-width: 900px) { .svc-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 500px) { .svc-grid { grid-template-columns: 1fr; } }
-        .svc-card { background: #fff; border: 1.5px solid var(--bd); border-radius: var(--rl); padding: 2.25rem 2rem; display: flex; flex-direction: column; gap: 1rem; transition: all .3s; position: relative; overflow: hidden; }
-        .svc-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: var(--or); transform: scaleX(0); transition: transform .35s ease; transform-origin: left; }
-        .svc-card:hover { box-shadow: var(--shm); transform: translateY(-4px); }
-        .svc-card:hover::after { transform: scaleX(1); }
-        .svc-icon { width: 3.5rem; height: 3.5rem; }
-        .svc-icon svg { width: 100%; height: 100%; }
-        .svc-card h3 { font-size: 1.15rem; font-weight: 800; color: var(--dk); }
-        .svc-card p { font-size: .92rem; color: var(--mt); line-height: 1.65; }
-        .svc-link { font-size: .88rem; font-weight: 800; color: var(--or); margin-top: auto; opacity: 0; transition: opacity .25s; }
-        .svc-card:hover .svc-link { opacity: 1; }
-
-        /* ══ ESTIMATE ══ */
-        .est { background: linear-gradient(135deg, var(--dk) 0%, #2c2c2e 100%); }
-        .est-grid { display: grid; grid-template-columns: 1fr 420px; gap: 4.5rem; align-items: center; }
-        @media (max-width: 860px) { .est-grid { grid-template-columns: 1fr; gap: 2.5rem; } }
-        .est h2 { font-size: clamp(1.9rem, 3.5vw, 2.6rem); font-weight: 900; color: #fff; line-height: 1.2; margin-bottom: 1.1rem; letter-spacing: -.025em; }
-        .est h2 em { color: var(--or); font-style: normal; }
-        .est-desc { color: rgba(255,255,255,.6); font-size: 1rem; line-height: 1.75; margin-bottom: 2rem; }
-        .calc { background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1); border-radius: var(--rl); padding: 1.5rem; position: relative; }
-        .calc-scr { background: rgba(255,255,255,.08); border: 1px solid rgba(232,80,30,.3); border-radius: var(--r); padding: 1rem 1.5rem; text-align: right; font-size: 2rem; font-weight: 900; color: var(--or); margin-bottom: 1rem; font-family: monospace; }
-        .calc-keys { display: grid; grid-template-columns: repeat(4, 1fr); gap: .5rem; }
-        .calc-key { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.1); border-radius: 8px; padding: .75rem; text-align: center; font-size: .9rem; color: rgba(255,255,255,.65); font-weight: 700; cursor: pointer; transition: all .2s; }
-        .calc-key:hover { background: rgba(232,80,30,.2); border-color: var(--or); color: #fff; }
-        .calc-key.op { color: var(--or); font-weight: 900; }
-        .rupee { position: absolute; right: 1.5rem; top: 1rem; font-size: 3.5rem; color: rgba(232,80,30,.08); pointer-events: none; font-weight: 900; animation: flt 5s ease-in-out infinite; }
-        @keyframes flt { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
-
-        /* ══ PROCESS ══ */
-        .proc-track { display: flex; align-items: flex-start; overflow-x: auto; padding-bottom: .5rem; margin-bottom: 3rem; }
-        .proc-track::-webkit-scrollbar { height: 3px; }
-        .proc-track::-webkit-scrollbar-thumb { background: var(--or); }
-        .proc-step { display: flex; flex-direction: column; align-items: center; flex: 1; min-width: 90px; }
-        .proc-row { display: flex; align-items: center; width: 100%; }
-        .proc-bub { width: 2.8rem; height: 2.8rem; border-radius: 50%; background: var(--orL); border: 2px solid var(--or); display: flex; align-items: center; justify-content: center; color: var(--or); font-size: .9rem; font-weight: 900; flex-shrink: 0; transition: all .3s; }
-        .proc-step:hover .proc-bub { background: var(--or); color: #fff; }
-        .proc-line { flex: 1; height: 2px; background: linear-gradient(90deg, var(--or), rgba(232,80,30,.15)); margin-top: 1.35rem; min-width: 1.5rem; }
-        .proc-title { font-size: .78rem; font-weight: 700; color: var(--mt); margin-top: .5rem; text-align: center; padding: 0 .2rem; }
-        .proc-cards { display: grid; grid-template-columns: repeat(6, 1fr); gap: 1.4rem; }
-        @media (max-width: 1080px) { .proc-cards { grid-template-columns: repeat(3, 1fr); } }
-        @media (max-width: 600px) { .proc-cards { grid-template-columns: repeat(2, 1fr); } }
-        .proc-card { background: #fff; border: 1.5px solid var(--bd); border-radius: var(--rl); padding: 1.6rem 1.4rem; transition: all .3s; }
-        .proc-card:hover { border-color: var(--or); box-shadow: 0 6px 20px rgba(232,80,30,.1); }
-        .proc-card-icon { width: 2.6rem; height: 2.6rem; margin-bottom: .9rem; }
-        .proc-card-icon svg { width: 100%; height: 100%; }
-        .proc-card h3 { font-size: .95rem; font-weight: 800; color: var(--dk); margin-bottom: .35rem; }
-        .proc-card p { font-size: .85rem; color: var(--mt); line-height: 1.55; }
-
-        /* ══ PRICING ══ */
-        .pkg-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 1.5rem; margin-bottom: 2.5rem; }
-        .pkg-card { background: #fff; border: 2px solid var(--bd); border-radius: var(--rl); padding: 1.9rem 1.6rem; height: 100%; display: flex; flex-direction: column; gap: .8rem; transition: all .3s; position: relative; }
-        .pkg-card:hover { border-color: var(--or); box-shadow: 0 8px 32px rgba(232,80,30,.12); transform: translateY(-3px); }
-        .pkg-card.pop { border-color: var(--or); }
-        .pop-badge { position: absolute; top: -1px; right: 1.2rem; background: var(--or); color: #fff; font-size: .7rem; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; padding: .3rem .75rem; border-radius: 0 0 8px 8px; }
-        .pkg-card h3 { font-size: 1.1rem; font-weight: 900; color: var(--dk); }
-        .pkg-price { font-size: 1.35rem; font-weight: 900; color: var(--or); }
-        .pkg-lbl { font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--mt2); }
-        .pkg-card ul { display: flex; flex-direction: column; gap: .5rem; flex: 1; margin-top: .3rem; }
-        .pkg-card li { font-size: .88rem; color: var(--mt); display: flex; align-items: flex-start; gap: .5rem; line-height: 1.5; }
-        .pkg-card li::before { content: '✓'; color: var(--or); font-weight: 900; font-size: .85rem; flex-shrink: 0; }
-        .pkg-cta { font-size: .8rem; font-weight: 800; color: var(--or); margin-top: auto; }
-        .pkg-act { text-align: center; }
-
-        /* ══ CEO ══ */
-        .ceo-grid { display: grid; grid-template-columns: 1fr 400px; gap: 5rem; align-items: center; }
-        @media (max-width: 860px) { .ceo-grid { grid-template-columns: 1fr; gap: 2.5rem; } }
-        .ceo-name { font-size: 1.15rem; font-weight: 900; color: var(--dk); }
-        .ceo-role { font-size: .82rem; font-weight: 800; color: var(--or); text-transform: uppercase; letter-spacing: .12em; margin-bottom: 1.25rem; }
-        .ceo-intro { font-size: 1rem; color: var(--mt); line-height: 1.75; margin-bottom: 1rem; }
-        .ceo-quote { border-left: 3px solid var(--or); padding-left: 1.1rem; font-size: 1.05rem; font-style: italic; color: var(--dk); line-height: 1.65; margin-bottom: 2rem; }
-        .ceo-img { width: 100%; aspect-ratio: 3/4; object-fit: cover; border-radius: var(--rl); box-shadow: var(--shm); }
-        .ceo-ph { width: 100%; aspect-ratio: 3/4; background: var(--bg3); border-radius: var(--rl); border: 1px solid var(--bd); display: flex; align-items: center; justify-content: center; font-size: 4.5rem; color: rgba(232,80,30,.15); }
-
-        /* ══ PROJECTS ══ */
-        #projects .sh p { display: none; }
-        #projects .sh .proj-subtitle-live { display: block; }
-        .proj-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(275px, 1fr)); gap: 1.75rem; }
-        .proj-card { background: #fff; border-radius: var(--rl); overflow: hidden; border: 1.5px solid var(--bd); box-shadow: var(--sh); transition: all .35s; }
-        .proj-card:hover { transform: translateY(-5px); box-shadow: var(--shm); border-color: rgba(232,80,30,.25); }
-        .proj-media { position: relative; aspect-ratio: 16/10; overflow: hidden; background: var(--bg3); }
-        .proj-frame { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: scale(1.03); transition: opacity .7s ease, transform .9s ease; }
-        .proj-frame.a { opacity: 1; transform: scale(1); }
-        .proj-card:hover .proj-frame.a { transform: scale(1.07); }
-        .proj-ph { position: absolute; inset: 0; background: linear-gradient(135deg, #f5e8e0, #fdeee8); display: flex; align-items: center; justify-content: center; font-size: 3rem; color: rgba(232,80,30,.2); }
-        .proj-tag { position: absolute; top: .9rem; left: .9rem; background: var(--or); color: #fff; font-size: .72rem; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; padding: .3rem .8rem; border-radius: 30px; }
-        .proj-dots { position: absolute; left: .9rem; bottom: .9rem; z-index: 2; display: inline-flex; gap: .38rem; padding: .38rem .45rem; border-radius: 999px; background: rgba(15,15,19,.26); backdrop-filter: blur(8px); }
-        .proj-dot { width: .42rem; height: .42rem; border-radius: 999px; background: rgba(255,255,255,.4); transition: all .28s ease; }
-        .proj-dot.a { width: 1.05rem; background: #fff; }
-        .proj-body { padding: 1.35rem 1.5rem 1.6rem; }
-        .proj-body h3 { font-size: 1.05rem; font-weight: 800; color: var(--dk); margin-bottom: .35rem; }
-        .proj-meta { font-size: .85rem; color: var(--mt); }
-
-        /* ══ WHY CHOOSE LIST ══ */
-        .why-layout { display: grid; grid-template-columns: 380px 1fr; gap: 4.5rem; align-items: start; }
-        @media (max-width: 860px) { .why-layout { grid-template-columns: 1fr; gap: 2.5rem; } }
-        .why-sticky { position: sticky; top: 5rem; }
-        .why-media { position: relative; width: 100%; aspect-ratio: 4/5; overflow: hidden; border-radius: var(--rl); box-shadow: var(--shm); background: var(--bg3); }
-        .why-media::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.04) 0%, rgba(0,0,0,.28) 100%); z-index: 1; pointer-events: none; }
-        .why-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: scale(1.03); transition: opacity .7s ease, transform .95s ease; }
-        .why-img.a { opacity: 1; transform: scale(1); }
-        .why-slide-meta { position: absolute; left: 1rem; right: 1rem; bottom: 1rem; z-index: 2; display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; padding: .95rem 1rem; border-radius: 16px; background: rgba(255,255,255,.92); box-shadow: 0 12px 24px rgba(0,0,0,.12); backdrop-filter: blur(10px); }
-        .why-slide-copy strong { display: block; font-size: .98rem; font-weight: 900; color: var(--dk); }
-        .why-slide-copy span { display: block; font-size: .76rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--or); margin-bottom: .25rem; }
-        .why-slide-dots { display: inline-flex; gap: .35rem; flex-shrink: 0; }
-        .why-slide-dot { width: .45rem; height: .45rem; border-radius: 999px; background: rgba(232,80,30,.25); transition: all .28s ease; }
-        .why-slide-dot.a { width: 1.15rem; background: var(--or); }
-        .why-ph { width: 100%; aspect-ratio: 4/5; background: var(--bg3); border-radius: var(--rl); border: 1px solid var(--bd); display: flex; align-items: center; justify-content: center; font-size: 4.5rem; color: rgba(232,80,30,.15); }
-        .why-list { display: flex; flex-direction: column; gap: .8rem; }
-        .why-item { display: flex; gap: 1.1rem; align-items: flex-start; padding: 1.2rem 1.4rem; border: 1.5px solid var(--bd); border-radius: var(--rl); background: #fff; transition: all .3s; }
-        .why-item:hover { border-color: var(--or); box-shadow: 0 4px 16px rgba(232,80,30,.08); transform: translateX(4px); }
-        .why-icon { width: 2.8rem; height: 2.8rem; background: var(--orL); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-        .why-icon svg { width: 1.3rem; height: 1.3rem; }
-        .why-item h3 { font-size: .98rem; font-weight: 800; color: var(--dk); margin-bottom: .25rem; }
-        .why-item p { font-size: .88rem; color: var(--mt); line-height: 1.55; }
-        @media (max-width: 640px) { .why-slide-meta { flex-direction: column; align-items: flex-start; } }
-
-        /* ══ CTA ══ */
-        .cta { background: linear-gradient(135deg, var(--or) 0%, var(--or2) 100%); position: relative; overflow: hidden; }
-        .cta::before { content: ''; position: absolute; right: -4rem; top: -4rem; width: 24rem; height: 24rem; border-radius: 50%; background: rgba(255,255,255,.06); pointer-events: none; }
-        .cta-in { text-align: center; position: relative; }
-        .cta-in h2 { font-size: clamp(2rem, 4.5vw, 3rem); font-weight: 900; color: #fff; margin-bottom: .75rem; letter-spacing: -.025em; }
-        .cta-sub { color: rgba(255,255,255,.8); font-size: 1rem; margin-bottom: 2.5rem; }
-        .cta-perks { display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem; margin-top: 2rem; }
-        .cta-perk { display: flex; align-items: center; gap: .5rem; font-size: .9rem; font-weight: 700; color: rgba(255,255,255,.9); }
-        .cta-perk svg { width: 18px; height: 18px; }
-
-        /* ══ TESTIMONIALS ══ */
-        .testi-trust { text-align: center; font-size: .92rem; color: var(--mt); margin-bottom: 2.5rem; }
-        .testi-trust .stars { color: var(--or); }
-        .testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.75rem; min-height: 260px; }
-        @media (max-width: 860px) { .testi-grid { grid-template-columns: 1fr; } }
-        .testi-card { background: #fff; border: 1.5px solid var(--bd); border-radius: var(--rl); padding: 2.1rem 1.9rem; display: flex; flex-direction: column; gap: 1rem; box-shadow: var(--sh); animation: fin .4s ease; }
-        @keyframes fin { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
-        @keyframes hero-caret { 50% { opacity: 0; } }
-        .testi-head { display: flex; align-items: center; gap: .9rem; }
-        .testi-av { width: 3rem; height: 3rem; border-radius: 50%; background: linear-gradient(135deg, var(--or), var(--or2)); display: flex; align-items: center; justify-content: center; font-size: .95rem; font-weight: 800; color: #fff; flex-shrink: 0; }
-        .testi-name { font-size: .98rem; font-weight: 800; color: var(--dk); }
-        .testi-loc { font-size: .78rem; color: var(--mt); }
-        .testi-stars { color: var(--or); font-size: .92rem; letter-spacing: .05em; }
-        .testi-q { font-size: .92rem; color: var(--mt); line-height: 1.72; font-style: italic; flex: 1; }
-        .testi-q::before { content: '"'; font-size: 1.8rem; color: rgba(232,80,30,.22); line-height: 1; display: block; margin-bottom: -.35rem; font-style: normal; }
-        .testi-ctrl { display: flex; align-items: center; justify-content: center; gap: 1rem; margin-top: 2.5rem; }
-        .testi-btn { width: 2.6rem; height: 2.6rem; border-radius: 50%; border: 2px solid var(--bd); background: #fff; display: flex; align-items: center; justify-content: center; color: var(--or); font-size: 1.1rem; font-weight: 900; cursor: pointer; transition: all .2s; }
-        .testi-btn:hover { background: var(--or); color: #fff; border-color: var(--or); }
-        .testi-dots { display: flex; gap: .5rem; }
-        .testi-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--bd); cursor: pointer; border: none; transition: all .2s; }
-        .testi-dot.a { background: var(--or); transform: scale(1.3); }
-
-        /* ══ FOOTER ══ */
-        .ftr { background: #1c1c1e; color: rgba(255,255,255,.55); }
-        .ftr-top { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3rem; padding: clamp(3rem, 6vw, 5rem) 0; border-bottom: 1px solid rgba(255,255,255,.08); }
-        @media (max-width: 768px) { .ftr-top { grid-template-columns: 1fr; gap: 2rem; } }
-        .ftr-col h3 { font-size: .78rem; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; color: var(--or); margin-bottom: 1.4rem; }
-        .ftr-col ul { display: flex; flex-direction: column; gap: .6rem; }
-        .ftr-col li, .ftr-col a { font-size: .9rem; color: rgba(255,255,255,.4); transition: color .2s; }
-        .ftr-col a:hover { color: var(--or); }
-        .ftr-contact { display: flex; align-items: flex-start; gap: .65rem; font-size: .9rem; color: rgba(255,255,255,.4); margin-bottom: .7rem; }
-        .ftr-wa { display: inline-flex; align-items: center; gap: .5rem; font-size: .82rem; font-weight: 700; color: #5cb85c; border: 1.5px solid rgba(92,184,92,.3); padding: .48rem 1rem; border-radius: 20px; margin-top: .6rem; transition: all .2s; }
-        .ftr-wa:hover { background: rgba(92,184,92,.1); }
-        .ftr-bot { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 1.6rem 0; flex-wrap: wrap; }
-        .ftr-soc { display: flex; gap: .6rem; margin-bottom: .5rem; }
-        .ftr-soc a { width: 2.3rem; height: 2.3rem; border-radius: 50%; border: 1px solid rgba(255,255,255,.12); display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,.35); transition: all .2s; }
-        .ftr-soc a svg { width: .95rem; height: .95rem; }
-        .ftr-soc a:hover { border-color: var(--or); color: var(--or); }
-        .ftr-copy { font-size: .75rem; color: rgba(255,255,255,.22); letter-spacing: .05em; }
-        .ftr-trust { display: flex; gap: 1.2rem; flex-wrap: wrap; }
-        .ftr-trust span { font-size: .72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.28); }
+          @keyframes fadeIn {
+  from { opacity: 0; transform: scale(1.02); }
+  to { opacity: 1; transform: scale(1); }
+}
+.animate-fadeIn {
+  animation: fadeIn 0.6s ease-out;
+}
       `}</style>
 
-      {/* ══ NAVBAR ══ */}
-      <nav className="nav">
-        <div className="w nav-in">
-          <a className="logo" href="#home">Wall<em>Bolt</em> Atelier</a>
-          <div className="nav-links">
-            <a href="#home">Home</a>
-            <a href="#services">Services</a>
-            <a href="#projects">Projects</a>
-            <a href="#company">Company Profile</a>
-            <a href="#blogs">Blogs</a>
-            <a href="#contact" className="more">More</a>
-          </div>
-          <button className="btn btn-p" style={{ padding: '.65rem 1.5rem', fontSize: '.9rem' }} type="button">
-            Book Consultation
-          </button>
-        </div>
+      {/* Navbar */}
+      <nav className="bg-white shadow-sm sticky top-0 z-50">
+        {/* Navbar content would go here */}
       </nav>
 
-      {/* ══ HERO ══ */}
-      <section className="hero" id="home">
-        <div className="hero-grid">
-          <div className="hero-left r" style={wd(100)}>
-            <p className="hero-eyebrow">{heroContent.eyebrow}</p>
-            <h1>
-              {heroContent.titleLineOne}<br />
-              {heroContent.titleLineTwo}<br />
-              <span className="hero-type-lock">
-                <em className="hero-typed-word">{typedHeroWord || '\u00A0'}</em>
-                <span className="hero-type-caret" aria-hidden="true" />
-              </span>
-            </h1>
-            <p className="hero-sub">{heroContent.subtitle}</p>
-            <div className="hero-pills">
-              {heroPills.map(p => (
-                <span key={p} className="hero-pill">
-                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
-                    <circle cx="12" cy="12" r="10" fill="#e8501e" />
-                    <path d="m7.5 12.5 3 3 6-6" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                  {p}
+      {/* Hero Section */}
+      <section className="bg-gradient-to-br from-blue-50 to-cyan-50 overflow-hidden" id="home">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-12 py-8 md:py-12">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div className="space-y-6 reveal-on-scroll">
+              <p className="text-sm font-semibold uppercase tracking-wider text-blue-500">{hero.eyebrow}</p>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black leading-tight text-gray-900">
+                {hero.titleLineOne}<br />
+                {hero.titleLineTwo}<br />
+                <span className="inline-flex items-center gap-1">
+                  <em className="text-blue-500 not-italic">{typedWord || '\u00A0'}</em>
+                  <span className="w-0.5 h-8 bg-blue-500 typewriter-caret" />
                 </span>
-              ))}
+              </h1>
+              <p className="text-lg text-gray-600 max-w-xl">{hero.subtitle}</p>
+              <div className="flex flex-wrap gap-2">
+                {hero.pills.map((p) => (
+                  <span key={p} className="inline-flex items-center gap-1.5 bg-white/80 backdrop-blur-sm border border-blue-200 rounded-full px-4 py-1.5 text-sm font-semibold text-blue-700 shadow-sm">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
+                      <circle cx="12" cy="12" r="10" fill="#3b82f6" />
+                      <path d="m7.5 12.5 3 3 6-6" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                    {p}
+                  </span>
+                ))}
+              </div>
+              <div className="flex flex-wrap gap-4 pt-2">
+                <Link to="/cost-estimator" className="bg-blue-400 hover:bg-blue-500 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition">
+                  {hero.primaryCtaLabel}
+                </Link>
+                <Link to="/projects" className="border-2 border-blue-400 text-blue-500 hover:bg-blue-50 font-bold py-3 px-6 rounded-lg transition">
+                  {hero.secondaryCtaLabel}
+                </Link>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-4">
+                {hero.stats.map((stat) => (
+                  <div key={stat.label} className="text-center">
+                    <strong className="text-3xl font-black text-blue-500 block">{stat.value}</strong>
+                    <span className="text-sm text-gray-600">{stat.label}</span>
+                  </div>
+                ))}
+              </div>
             </div>
-            <div className="hero-actions">
-              <Link className="btn btn-p" to="/cost-estimator">{heroContent.primaryCtaLabel}</Link>
-              <Link className="btn btn-o" to="/projects">{heroContent.secondaryCtaLabel}</Link>
-            </div>
-            <div className="hero-stats">
-              {heroStats.map((stat) => (
-                <div key={stat.label} className="hero-stat">
-                  <strong>{stat.value}</strong>
-                  <span>{stat.label}</span>
-                </div>
-              ))}
-            </div>
-            <span className={`api-pill${backendStatus === 'online' ? ' on' : backendStatus === 'offline' ? ' off' : ''}`}>
-              {backendStatus === 'checking' ? '● Checking…' : backendStatus === 'online' ? '● System Online' : '● Unavailable'}
-            </span>
-          </div>
+            <div
+              className="relative reveal-on-scroll"
+              style={{ transitionDelay: '0.2s' }}
+              onMouseEnter={() => setAutoSlidePaused(true)}
+              onMouseLeave={() => setAutoSlidePaused(false)}
+            >
+              <div className="rounded-2xl overflow-hidden shadow-2xl relative">
+                <img
+                  key={heroSlideIndex}
+                  src={currentHeroSlide.imageUrl}
+                  alt={currentHeroSlide.title}
+                  className="w-full sm:h-[500px] h-[450px] object-cover animate-fadeIn"
+                />
 
-          <div className="hero-right r" style={wd(280)}>
-            <img className="hero-media" src={heroImageSrc} alt="Modern luxury home exterior" />
-            <div className="hero-badge">
-              <div className="hero-badge-icon">🏠</div>
-              <div>
-                <strong>Dream Home Ready</strong>
-                <span>Delivered on time, every time</span>
+
+
+                {/* Dot Indicators */}
+                <div className="absolute bottom-1 left-0 right-0 flex justify-center gap-2 z-100">
+                  {heroSlides.map((_, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => handleManualDot(idx)}
+                      className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${idx === heroSlideIndex ? 'bg-blue-600 w-6' : 'bg-gray-400 hover:bg-gray-500'
+                        }`}
+                    />
+                  ))}
+                </div>
+
+                {/* Bottom Overlay */}
+                <div className="absolute bottom-5 left-6 right-6  rounded-xl p-2 shadow-lg  z-20">
+                  <div className="flex flex-col items-center w-auto justify-center gap-2">
+                    <Link to={currentHeroSlide.link} className="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-5 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg">
+                      {currentHeroSlide.buttonText}
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                      </svg>
+                    </Link>
+                    <p className="text-black bg-white p-2 rounded-xl text-sm md:text-base inline w-auto font-medium">{currentHeroSlide.description}</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ══ ORANGE STRIP ══ */}
-      <div className="strip">
-        <div className="w strip-in">
-          {[['🏆', '15+ Years Experience'], ['✅', '500+ Quality Checks'], ['🔒', 'Escrow Protected'], ['⚡', 'On-Time Delivery'], ['🏗️', '10,000+ Homes']].map(([ic, lb]) => (
-            <div key={lb} className="strip-item"><span>{ic}</span>{lb}</div>
-          ))}
+      {/* Stats Strip */}
+      <div className="bg-blue-500 py-4">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap justify-between items-center  gap-4 text-white text-sm font-bold">
+          <div className="flex items-center gap-2"><span></span> 12+ Years Experience</div>
+          <div className="flex items-center gap-2"><span></span> 500+ Quality Checks</div>
+          <div className="flex items-center gap-2"><span></span> Protected</div>
+          <div className="flex items-center gap-2"><span></span> On-Time Delivery</div>
+          <div className="flex items-center gap-2"><span></span> 299+ Happy clients</div>
         </div>
       </div>
 
-      {/* ══ WHY FEATURE CARDS ══ */}
-      <section className="sec" style={{ background: '#fff' }}>
-        <div className="w">
-          <div className="sh c r" style={wd(80)}>
-            <span className="ey">Why WallBolt</span>
-            <h2>Peace of mind, trust &amp; <em>transparent construction</em></h2>
+      {/* Why Feature Cards */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12 reveal-on-scroll">
+            <span className="text-sm font-bold uppercase tracking-wider text-blue-500">Why Vasundhara</span>
+            <h2 className="text-3xl md:text-4xl font-black text-gray-900 mt-2">Peace of mind, trust &amp; <span className="text-blue-500">transparent construction</span></h2>
           </div>
-          <div className="why-cards-grid r" style={wd(160)}>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 reveal-on-scroll" style={{ transitionDelay: '0.1s' }}>
             {[
-              { icon: 'escrow' as WhyChooseIcon, title: 'Safe Money Transaction', desc: 'No advance. Contractor paid only once work is complete.' },
-              { icon: 'checks' as WhyChooseIcon, title: 'Absolute Transparency', desc: 'Clear detailed quotation and online project tracking.' },
-              { icon: 'experience' as WhyChooseIcon, title: 'Assured Quality Control', desc: '500+ quality checks performed by our expert team.' },
-              { icon: 'delivery' as WhyChooseIcon, title: 'Zero Delays', desc: 'Zero tolerance for delays. On-time delivery guaranteed.' },
-            ].map(it => (
-              <div key={it.title} className="why-feat-card">
-                <div className="why-feat-icon"><WhySvg k={it.icon} /></div>
-                <h3>{it.title}</h3>
-                <p>{it.desc}</p>
+              { title: 'Safe Money Transaction', desc: 'No advance. Contractor paid only once work is complete.' },
+              { title: 'Absolute Transparency', desc: 'Clear detailed quotation and online project tracking.' },
+              { title: 'Assured Quality Control', desc: '500+ quality checks performed by our expert team.' },
+              { title: 'Zero Delays', desc: 'Zero tolerance for delays. On-time delivery guaranteed.' },
+            ].map((it) => (
+              <div key={it.title} className="border border-gray-200 rounded-2xl p-6 hover:border-blue-600 hover:shadow-lg transition">
+                <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">✓</div>
+                <h3 className="font-bold text-gray-900 mb-2">{it.title}</h3>
+                <p className="text-gray-600 text-sm">{it.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ══ TRUST & RECOGNITION — horizontal card layout ══ */}
-      <section className="trust-sec sec" id="trust">
-        <div className="w">
-          <div className="sh c r" style={wd(80)}>
-            <span className="ey">Trust &amp; Recognition</span>
-            <h2>Why Thousands Choose <em>WallBolt</em></h2>
-            <p>Our track record speaks for itself — quality, transparency, and trust at every step.</p>
+      {/* Trust & Recognition */}
+      <section className="py-20 bg-gray-50" id="trust">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12 reveal-on-scroll">
+            <span className="text-sm font-bold uppercase tracking-wider text-blue-500">Trust & Recognition</span>
+            <h2 className="text-3xl md:text-4xl font-black text-gray-900 mt-2">Why Thousands Choose <span className="text-blue-500">Vasundhara</span></h2>
+            <p className="text-gray-600 max-w-2xl mx-auto mt-4">Our track record speaks for itself — quality, transparency, and trust at every step.</p>
           </div>
-          <div className="trust-grid r" style={wd(160)}>
-            {trustStats.map(ts => (
-              <div key={ts.label} className="trust-card">
-                <div className="trust-icon">{ts.icon}</div>
-                <div className="trust-text">
-                  <div className="trust-value">{ts.value}</div>
-                  <div className="trust-label">{ts.label}</div>
-                  <div className="trust-sub">{ts.sub}</div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 reveal-on-scroll" style={{ transitionDelay: '0.1s' }}>
+            {trustStats.map((ts) => (
+              <div key={ts.label} className="bg-white border border-gray-200 rounded-2xl p-6 flex gap-4 hover:border-blue-600 hover:shadow-md transition">
+                <div className="text-4xl">{ts.icon}</div>
+                <div>
+                  <div className="text-3xl font-black text-blue-500">{ts.value}</div>
+                  <div className="font-bold text-gray-900 mt-1">{ts.label}</div>
+                  <div className="text-sm text-gray-500">{ts.sub}</div>
                 </div>
               </div>
             ))}
@@ -729,45 +770,49 @@ function HomePage() {
         </div>
       </section>
 
-      {/* ══ DREAM HOME ══ */}
-      <section className="dream sec" id="dream">
-        <div className="w">
-          <div className="dream-grid">
-            <div className="r" style={wd(100)}>
-              <h2 className="dream-copy">
-                Construct Your <em>Dream Home</em>
-              </h2>
-              <p className="dream-with" style={{ marginTop: '.5rem' }}>with <strong>WallBolt Atelier</strong></p>
-              <div className="dream-pills">
-                {['10,142+ Homes Built', '10+ Cities Served', 'On-Time Delivery'].map(d => (
-                  <div key={d} className="dream-pill">{d}</div>
+      {/* Dream Home */}
+      <section className="py-20 bg-white" id="dream">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="reveal-on-scroll">
+              <h2 className="text-3xl md:text-4xl font-black text-gray-900">Construct Your <span className="text-blue-500">Dream Home</span></h2>
+              <p className="text-gray-600 mt-2 mb-4">with <strong className="text-blue-500">Vasundhara Construction</strong></p>
+              <div className="space-y-2 mb-6">
+                {['299+ Happy clients', '10+ Cities Served', 'On-Time Delivery'].map(d => (
+                  <div key={d} className="flex items-center gap-2 text-gray-800 font-semibold">
+                    <span className="w-2 h-2 bg-blue-600 rounded-full" />
+                    {d}
+                  </div>
                 ))}
               </div>
-              <div className="dream-badges">
-                {['Meta Verified', 'Award Winning', 'Trademark Registered'].map(b => (
-                  <span key={b} className="dream-badge">{b}</span>
+              <div className="flex flex-wrap gap-2 mb-6">
+                {['Meta Verified', 'Award Winning', 'Trademark Registered', 'Trusted Builder'].map(b => (
+                  <span key={b} className="bg-gray-100 text-gray-700 px-4 py-1.5 rounded-full text-sm font-semibold border border-gray-200">{b}</span>
                 ))}
-                <span className="dream-badge a">🔒 Trusted Builder</span>
               </div>
-              <button className="btn btn-p" type="button">Book Free Consultation</button>
+              <a
+                href="tel:+919818866849"
+                className="bg-blue-600 text-white font-bold py-3 px-8 rounded-xl shadow-md hover:bg-blue-700 transition inline-block"
+              >
+                Book Free Consultation
+              </a>
             </div>
 
-            <div className="r" style={wd(240)}>
-              <div className="d-slider">
-                <div className="d-track" style={{ transform: `translateX(-${dreamSlide * 100}%)` }}>
+            <div className="relative reveal-on-scroll" style={{ transitionDelay: '0.2s' }}>
+              <div className="relative overflow-hidden rounded-2xl shadow-xl aspect-[4/3]">
+                <div className="flex transition-transform duration-500 ease-out h-full" style={{ transform: `translateX(-${dreamSlide * 100}%)` }}>
                   {dreamSlides.map((sl, i) => (
-                    <div key={i} className="d-slide" style={{ background: sl.bg }}>
-                  <img src={sl.image} alt={sl.label} onError={e => { e.currentTarget.style.display = 'none' }} />
-                
-                      <div className="d-slide-label">{sl.label}</div>
+                    <div key={i} className="min-w-full h-full relative">
+                      <img src={sl.image} alt={sl.label} className="w-full h-full object-cover" />
+                      <div className="absolute bottom-4 left-4 bg-black/50 text-white text-xs font-bold px-3 py-1 rounded-full">{sl.label}</div>
                     </div>
                   ))}
                 </div>
-                <button className="sl-btn sl-l" type="button" onClick={() => setDreamSlide(p => (p - 1 + dreamSlides.length) % dreamSlides.length)} aria-label="Prev">‹</button>
-                <button className="sl-btn sl-r" type="button" onClick={() => setDreamSlide(p => (p + 1) % dreamSlides.length)} aria-label="Next">›</button>
-                <div className="sl-dots">
+                <button className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center text-blue-500 hover:bg-blue-600 hover:text-white transition" onClick={() => setDreamSlide(p => (p - 1 + dreamSlides.length) % dreamSlides.length)}>‹</button>
+                <button className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center text-blue-500 hover:bg-blue-600 hover:text-white transition" onClick={() => setDreamSlide(p => (p + 1) % dreamSlides.length)}>›</button>
+                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
                   {dreamSlides.map((_, i) => (
-                    <button key={i} className={`sl-dot${i === dreamSlide ? ' a' : ''}`} type="button" onClick={() => setDreamSlide(i)} aria-label={`Slide ${i + 1}`} />
+                    <button key={i} className={`w-2 h-2 rounded-full transition ${i === dreamSlide ? 'bg-white w-4' : 'bg-white/50'}`} onClick={() => setDreamSlide(i)} />
                   ))}
                 </div>
               </div>
@@ -776,216 +821,205 @@ function HomePage() {
         </div>
       </section>
 
-      {/* ══ SERVICES ══ */}
-      <section className="sec" style={{ background: 'var(--bg2)' }} id="services">
-        <div className="w">
-          <div className="sh c r" style={wd(80)}>
-            <span className="ey">{servicesContent.eyebrow}</span>
-            <h2>{servicesContent.titleStart} <em>{servicesContent.titleHighlight}</em></h2>
+      {/* Services */}
+      <section className="py-20 bg-gray-50" id="services">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12 reveal-on-scroll">
+            <span className="text-sm font-bold uppercase tracking-wider text-blue-500">{services.eyebrow}</span>
+            <h2 className="text-3xl md:text-4xl font-black text-gray-900 mt-2">
+              {services.titleStart} <span className="text-blue-500">{services.titleHighlight}</span>
+            </h2>
           </div>
-          <div className="svc-grid r" style={wd(160)}>
-            {serviceCardsData.map(s => (
-              <div key={s.title} className="svc-card">
-                <div className="svc-icon"><ServiceSvg k={s.icon} /></div>
-                <h3>{s.title}</h3>
-                <p>{s.description}</p>
-                <span className="svc-link">Learn More →</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* ══ ESTIMATE ══ */}
-      <section className="est sec" id="estimate">
-        <div className="w">
-          <div className="est-grid r" style={wd(100)}>
-            <div>
-              <span className="ey" style={{ color: 'rgba(255,255,255,.45)' }}>Cost Calculator</span>
-              <h2>Estimate Your <em>Construction Cost</em> Instantly</h2>
-              <p className="est-desc">Quickly calculate how much it will cost to build your home with WallBolt's detailed, reliable estimation tool.</p>
-              <Link className="btn btn-w" to="/cost-estimator">Calculate Cost Instantly</Link>
-            </div>
-            <div className="calc">
-              <div className="rupee">₹</div>
-              <div className="calc-scr">0</div>
-              <div className="calc-keys">
-                {['M+', 'M-', '%', 'AC', '7', '8', '9', '+', '4', '5', '6', '−', '1', '2', '3', '='].map((k, i) => (
-                  <div key={k + i} className={`calc-key${['%', '+', '−', '=', 'AC'].includes(k) ? ' op' : ''}`}>{k}</div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ══ PROCESS ══ */}
-      <section className="sec" style={{ background: '#fff' }} id="process">
-        <div className="w">
-          <div className="sh c r" style={wd(80)}>
-            <span className="ey">{processContent.eyebrow}</span>
-            <h2>{processContent.titleStart} <em>{processContent.titleHighlight}</em></h2>
-            <p>{processContent.subtitle}</p>
-          </div>
-          <div className="proc-track r" style={wd(140)}>
-            {processStepsData.map((step, i) => (
-              <div key={step.title} className="proc-step">
-                <div className="proc-row">
-                  <div className="proc-bub">{i + 1}</div>
-                  {i < processStepsData.length - 1 && <div className="proc-line" />}
-                </div>
-                <span className="proc-title">{step.title}</span>
-              </div>
-            ))}
-          </div>
-          <div className="proc-cards r" style={wd(220)}>
-            {processStepsData.map(step => (
-              <div key={step.title} className="proc-card">
-                <div className="proc-card-icon"><ProcSvg k={step.icon} /></div>
-                <h3>{step.title}</h3>
-                <p>{step.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ══ PRICING ══ */}
-      <section className="sec" style={{ background: 'var(--bg2)' }} id="pricing">
-        <div className="w">
-          <div className="sh c r" style={wd(80)}>
-            <span className="ey">Investment</span>
-            <h2>Premium <em>Packages</em></h2>
-          </div>
-          <div className="pkg-cards r" style={wd(160)}>
-            {packageDocs.map((pkg, i) => (
-              <Link key={pkg.slug} to={`/packages/${pkg.slug}`} style={{ display: 'block' }}>
-                <div className={`pkg-card${i === 1 ? ' pop' : ''}`}>
-                  {i === 1 && <div className="pop-badge">Popular</div>}
-                  <h3>{pkg.name}</h3>
-                  <p className="pkg-lbl">Starting Price</p>
-                  <p className="pkg-price">{pkg.startingPrice || 'As per estimate'}</p>
-                  <ul>{getPackagePreviewPoints(pkg).map(pt => <li key={pt}>{pt}</li>)}</ul>
-                  <p className="pkg-cta">View full details →</p>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 reveal-on-scroll" style={{ transitionDelay: '0.1s' }}>
+            {[
+              { title: 'Construction', desc: 'Quality civil construction delivered on time and within budget.', tag: 'Civil', img: 'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=600&auto=format&fit=crop&q=80', link: '/services/construction' },
+              { title: 'Interiors', desc: 'Stylish, functional, and personalized interior designing.', tag: 'Design', img: 'https://images.unsplash.com/photo-1600210492493-0946911123ea?w=600&auto=format&fit=crop&q=80', link: '/services/interior-design' },
+              { title: 'Elevations', desc: 'Transform the front facade to stand out with a premium look.', tag: 'Exterior', img: 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&auto=format&fit=crop&q=80', link: '/services/elevation-page' },
+              { title: 'Terrace Garden', desc: 'Refresh your rooftop with lush and serene outdoor spaces.', tag: 'Outdoor', img: 'https://plus.unsplash.com/premium_photo-1714078254516-f7ff6ea91499?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8ODR8fHRlcnJhY2UlMjBnYXJkZW4lMjBpbWFnZXxlbnwwfHwwfHx8MA%3D%3D', link: '/services/terrace-garden-page' },
+              { title: 'Home Renovation', desc: 'Enhance your home’s comfort, design, and functionality with smart renovation solutions.', tag: 'Outdoor', img: '/images/home-renovation.jpg', link: '/services/home-renovation' },
+            ].map((s) => (
+              <Link to={s.link} key={s.title} className="group relative rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 block" style={{ aspectRatio: '3/4' }}>
+                <img src={s.img} alt={s.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                <div className="absolute inset-0 flex flex-col justify-end p-5" style={{ background: 'linear-gradient(0deg, rgba(10,20,60,0.85) 0%, rgba(10,20,60,0.2) 60%, transparent 100%)' }}>
+                  <span className="inline-block bg-blue-500/80 text-white text-[10px] font-black tracking-widest uppercase rounded-full px-3 py-1 mb-3 w-fit">{s.tag}</span>
+                  <h3 className="text-xl font-black text-white mb-1 leading-tight">{s.title}</h3>
+                  <p className="text-white/75 text-xs leading-relaxed mb-4">{s.desc}</p>
+                  <div className="w-9 h-9 rounded-full bg-blue-500 flex items-center justify-center text-white text-lg transition-all duration-200 group-hover:bg-white group-hover:text-blue-500">→</div>
                 </div>
               </Link>
             ))}
           </div>
-          <div className="pkg-act r" style={wd(280)}>
-            <Link to="/packages/compare" className="btn btn-o">Compare All 5 Packages</Link>
-          </div>
         </div>
       </section>
 
-      {/* ══ CEO ══ */}
-      <section className="sec" style={{ background: '#fff' }} id="company">
-        <div className="w">
-          <div className="ceo-grid">
-            <div className="r" style={wd(100)}>
-              <span className="ey">{ceoContent.eyebrow}</span>
-              <h2 style={{ fontSize: 'clamp(2rem,4vw,3rem)', fontWeight: 900, color: 'var(--dk)', marginBottom: '1.25rem', letterSpacing: '-.025em', lineHeight: 1.15 }}>
-                {ceoContent.titleStart} <em style={{ color: 'var(--or)', fontStyle: 'normal' }}>{ceoContent.titleHighlight}</em>
-              </h2>
-              <p className="ceo-name">{ceoContent.name || ceoData.name}</p>
-              <p className="ceo-role">{ceoContent.role || ceoData.role}</p>
-              <p className="ceo-intro">{ceoContent.intro || ceoData.intro}</p>
-              <p className="ceo-quote">{ceoContent.message || ceoData.message}</p>
-              <button className="btn btn-p" type="button">{ceoContent.buttonLabel}</button>
+      {/* Estimate Section */}
+      <section className="py-20 bg-gradient-to-br from-gray-900 to-gray-800 text-white" id="estimate">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-12 items-center reveal-on-scroll">
+            <div>
+              <span className="text-sm font-bold uppercase tracking-wider text-blue-400">Cost Calculator</span>
+              <h2 className="text-3xl md:text-4xl font-black mt-2">Estimate Your <span className="text-blue-500">Construction Cost</span> Instantly</h2>
+              <p className="text-gray-300 mt-4 mb-6">Quickly calculate how much it will cost to build your home with Vasundhara's detailed, reliable estimation tool.</p>
+              <Link to="/cost-estimator" className="inline-block bg-white text-gray-900 font-bold py-3 px-8 rounded-xl shadow-md hover:bg-gray-100 transition">Calculate Cost Instantly</Link>
             </div>
-            <div className="r" style={wd(280)}>
-              {ceoImg
-                ? <img src={ceoImg} alt={ceoContent.name || ceoData.name} className="ceo-img" onError={() => setCeoImg('')} />
-                : <div className="ceo-ph">◈</div>
-              }
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-6 relative">
+              <div className="absolute right-6 top-6 text-5xl text-blue-500/10 font-black animate-pulse">₹</div>
+              <div className="bg-white/10 rounded-xl p-4 text-right text-3xl font-mono text-blue-500 mb-4">0</div>
+              <div className="grid grid-cols-4 gap-2">
+                {['M+', 'M-', '%', 'AC', '7', '8', '9', '+', '4', '5', '6', '−', '1', '2', '3', '='].map((k, i) => (
+                  <div key={k + i} className={`bg-white/5 border border-white/10 rounded-lg py-2 text-center text-sm font-bold text-gray-300 hover:bg-blue-600/20 hover:border-blue-600 hover:text-white transition cursor-pointer ${['%', '+', '−', '=', 'AC'].includes(k) ? 'text-blue-500' : ''}`}>{k}</div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ══ FEATURED PROJECTS ══ */}
-      <section className="sec" style={{ background: 'var(--bg2)' }} id="projects">
-        <div className="w">
-          <div className="sh c r" style={wd(80)}>
-            <span className="ey">{projectContent.eyebrow}</span>
-            <h2>{projectContent.titleStart} <em>{projectContent.titleHighlight}</em></h2>
-            <p className="proj-subtitle-live">{projectContent.subtitle}</p>
-            <p>Built with precision, quality, and trust — your dream home crafted to perfection.</p>
+      {/* Process */}
+      <section className="py-20 bg-white" id="process">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12 reveal-on-scroll">
+            <span className="text-sm font-bold uppercase tracking-wider text-blue-500">{process.eyebrow}</span>
+            <h2 className="text-3xl md:text-4xl font-black text-gray-900 mt-2">{process.titleStart} <span className="text-blue-500">{process.titleHighlight}</span></h2>
+            <p className="text-gray-600 max-w-2xl mx-auto mt-4">{process.subtitle}</p>
           </div>
-          <div className="proj-grid r" style={wd(160)}>
-            {featuredProjects.map((p, projectIndex) => {
-              const activeImageIndex = (projectSlide + projectIndex) % p.images.length
+          <div className="flex justify-between items-start overflow-x-auto pb-4 mb-8 reveal-on-scroll" style={{ transitionDelay: '0.1s' }}>
+            {process.steps.map((step, i) => (
+              <div key={step.title} className="flex flex-col items-center min-w-[80px]">
+                <div className="flex items-center w-full">
+                  <div className="w-10 h-10 rounded-full bg-blue-100 border-2 border-blue-600 flex items-center justify-center text-blue-500 font-bold text-sm">{i + 1}</div>
+                  {i < process.steps.length - 1 && <div className="flex-1 h-px bg-gradient-to-r from-blue-600 to-blue-200 ml-2" />}
+                </div>
+                <span className="text-xs font-semibold text-gray-500 mt-2 text-center">{step.title}</span>
+              </div>
+            ))}
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 reveal-on-scroll" style={{ transitionDelay: '0.2s' }}>
+            {process.steps.map(step => (
+              <div key={step.title} className="border border-gray-200 rounded-2xl p-5 hover:border-blue-600 hover:shadow-md transition">
+                <div className="w-10 h-10 mb-3 text-blue-500">⚙️</div>
+                <h3 className="font-bold text-gray-900">{step.title}</h3>
+                <p className="text-gray-600 text-sm mt-1">{step.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
+      {/* CEO Section */}
+      <section className="py-10 bg-gray-50" id="company">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="reveal-on-scroll">
+              <span className="text-sm font-bold uppercase tracking-wider text-blue-500">{ceo.eyebrow}</span>
+              <h2 className="text-3xl md:text-4xl font-black text-gray-900 mt-2">{ceo.titleStart} <span className="text-blue-500">{ceo.titleHighlight}</span></h2>
+              <p className="text-gray-900 font-bold mt-4">{ceo.name}</p>
+              <p className="text-blue-500 text-sm font-semibold uppercase tracking-wide">{ceo.role}</p>
+              <p className="text-gray-600 mt-2">{ceo.intro}</p>
+              <blockquote className="border-l-4 border-blue-600 pl-4 italic text-gray-700 mt-4">{ceo.message}</blockquote>
+              <button className="mt-6 bg-blue-600 text-white font-bold py-2 px-6 rounded-xl hover:bg-blue-700 transition">{ceo.buttonLabel}</button>
+            </div>
+            <div className="reveal-on-scroll" style={{ transitionDelay: '0.2s' }}>
+              <img src="/images/Anoj.jpeg" alt={ceo.name} className="w-100 h-100 sm:w-150 sm:h-200 object-cover rounded-2xl shadow-xl" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Projects */}
+      <section className="py-20 bg-white" id="projects">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12 reveal-on-scroll">
+            <span className="text-sm font-bold uppercase tracking-wider text-blue-500">{projects.eyebrow}</span>
+            <h2 className="text-3xl md:text-4xl font-black text-gray-900 mt-2">{projects.titleStart} <span className="text-blue-500">{projects.titleHighlight}</span></h2>
+            <p className="text-gray-600 max-w-2xl mx-auto mt-4">{projects.subtitle}</p>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 reveal-on-scroll" style={{ transitionDelay: '0.1s' }}>
+            {projects.items.map((project, idx) => {
+              const activeImageIndex = (projectSlide + idx) % project.images.length
               return (
-                <div key={p.title} className="proj-card">
-                  <div className="proj-media">
-                    <div className="proj-ph">🏠</div>
-                    {p.images.map((image, imageIndex) => (
-                      <img
-                        key={`${p.title}-${image}`}
-                        src={image}
-                        alt={`${p.title} showcase ${imageIndex + 1}`}
-                        className={`proj-frame${imageIndex === activeImageIndex ? ' a' : ''}`}
-                      />
+                <div key={project.title} className="group bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300">
+                  <div className="relative h-64 overflow-hidden">
+                    {project.images.map((img, imgIdx) => (
+                      <img key={imgIdx} src={img} alt={`${project.title} ${imgIdx + 1}`} className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${imgIdx === activeImageIndex ? 'opacity-100' : 'opacity-0'}`} />
                     ))}
-                    <div className="proj-tag">{p.tag}</div>
-                    <div className="proj-dots" aria-hidden="true">
-                      {p.images.map((_, imageIndex) => (
-                        <span key={`${p.title}-dot-${imageIndex}`} className={`proj-dot${imageIndex === activeImageIndex ? ' a' : ''}`} />
+                    {/* <div className="absolute top-4 left-4 bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full">{project.tag}</div> */}
+                    <div className="absolute bottom-3 left-3 flex gap-1.5 bg-black/20 backdrop-blur-sm rounded-full px-2 py-1">
+                      {project.images.map((_, dotIdx) => (
+                        <span key={dotIdx} className={`w-1.5 h-1.5 rounded-full ${dotIdx === activeImageIndex ? 'bg-white w-3' : 'bg-white/50'}`} />
                       ))}
                     </div>
                   </div>
-                  <div className="proj-body">
-                    <h3>{p.title}</h3>
-                    <p className="proj-meta">📍 {p.location} · {p.area}</p>
+                  <div className="p-6">
+                    <h3 className="text-xl font-bold text-gray-900">{project.title}</h3>
+                    {/* <p className="text-gray-600 text-sm">{project.area} | {project.location}</p> */}
+                    <p className="text-gray-500 text-sm mt-2">{project.description}</p>
                   </div>
                 </div>
               )
             })}
           </div>
-          <div className="r" style={{ ...wd(260), textAlign: 'center', marginTop: '2.5rem' }}>
-            <Link className="btn btn-o" to="/projects">View All Projects</Link>
+          <div className="text-center mt-10 reveal-on-scroll">
+            <Link to="/projects" className="inline-block border-2 border-blue-600 text-blue-500 font-bold py-2 px-6 rounded-full hover:bg-blue-600 hover:text-white transition">View Projects Section</Link>
           </div>
         </div>
       </section>
 
-      {/* ══ WHY CHOOSE US ══ */}
-      <section className="sec" style={{ background: '#fff' }} id="why-us">
-        <div className="w">
-          <div className="sh c r" style={wd(80)}>
-            <span className="ey">Our Advantage</span>
-            <h2>Why <em>Choose WallBolt</em></h2>
+      {/* Why Choose Us (with slider) */}
+      <section className="py-20 bg-gray-50" id="why-us">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12 reveal-on-scroll">
+            <span className="text-sm font-bold uppercase tracking-wider text-blue-500">Our Advantage</span>
+            <h2 className="text-3xl md:text-4xl font-black text-gray-900 mt-2">
+              Why <span className="text-blue-500">Choose Vasundhara</span>
+            </h2>
           </div>
-          <div className="why-layout">
-            <div className="why-sticky r" style={wd(120)}>
-              <div className="why-media">
+
+          <div className="grid lg:grid-cols-2 gap-12">
+            {/* Left Column - Image */}
+            <div className="relative lg:sticky lg:top-24 lg:self-start reveal-on-scroll">
+              <div className="relative aspect-[5/5] rounded-2xl overflow-hidden shadow-xl">
                 {whySlides.map((slide, index) => (
                   <img
                     key={slide.image}
                     src={slide.image}
                     alt={slide.label}
-                    className={`why-img${index === whySlide ? ' a' : ''}`}
+                    className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${index === whySlide ? 'opacity-100' : 'opacity-0'
+                      }`}
                   />
                 ))}
-                <div className="why-slide-meta">
-                  <div className="why-slide-copy">
-                    <span>Auto Showcase</span>
-                    <strong>{whySlides[whySlide].label}</strong>
+                <div className="absolute bottom-4 left-4 right-4 bg-white/90 backdrop-blur-sm rounded-xl p-3 flex justify-between items-center">
+                  <div>
+                    <span className="text-xs font-bold uppercase text-blue-500">Auto Showcase</span>
+                    <strong className="block text-gray-900 text-sm">{whySlides[whySlide].label}</strong>
                   </div>
-                  <div className="why-slide-dots" aria-hidden="true">
-                    {whySlides.map((_, index) => (
-                      <span key={`why-dot-${index}`} className={`why-slide-dot${index === whySlide ? ' a' : ''}`} />
+                  <div className="flex gap-1.5">
+                    {whySlides.map((_, idx) => (
+                      <span
+                        key={idx}
+                        className={`w-2 h-2 rounded-full transition-all ${idx === whySlide ? 'bg-blue-600 w-4' : 'bg-gray-400'
+                          }`}
+                      />
                     ))}
                   </div>
                 </div>
               </div>
             </div>
-            <div className="why-list r" style={wd(200)}>
+
+            {/* Right Column - Content */}
+            <div className="space-y-4 reveal-on-scroll" style={{ transitionDelay: '0.2s' }}>
               {whyPoints.map(pt => (
-                <div key={pt.title} className="why-item">
-                  <div className="why-icon"><WhySvg k={pt.icon} /></div>
+                <div
+                  key={pt.title}
+                  className="flex gap-4 p-4 border border-gray-200 rounded-2xl hover:border-blue-600 hover:shadow-md transition"
+                >
+                  <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0 text-blue-500 text-xl">
+                    ✓
+                  </div>
                   <div>
-                    <h3>{pt.title}</h3>
-                    <p>{pt.desc}</p>
+                    <h3 className="font-bold text-gray-900">{pt.title}</h3>
+                    <p className="text-gray-600 text-sm">{pt.desc}</p>
                   </div>
                 </div>
               ))}
@@ -994,114 +1028,117 @@ function HomePage() {
         </div>
       </section>
 
-      {/* ══ CTA ══ */}
-      <section className="cta sec" id="contact">
-        <div className="w">
-          <div className="cta-in r" style={wd(100)}>
-            <h2>{ctaContent.title}</h2>
-            <p className="cta-sub">{ctaContent.subtitle}</p>
-            <button className="btn btn-w" type="button" style={{ padding: '1rem 3rem', fontSize: '1rem' }}>
-              {ctaContent.buttonLabel}
-            </button>
-            <div className="cta-perks">
-              {ctaPerks.map(h => (
-                <div key={h} className="cta-perk">
-                  <svg viewBox="0 0 24 24" fill="none">
-                    <circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,.5)" strokeWidth="1.5" />
-                    <path d="m8 12 3 3 5-5" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                  {h}
-                </div>
-              ))}
-            </div>
+      {/* Packages */}
+      <section className="py-10 bg-blue-50" id="packages">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12 reveal-on-scroll">
+            <span className="text-sm font-bold uppercase tracking-wider text-blue-500">{packagesData.eyebrow}</span>
+            <h2 className="text-3xl md:text-4xl font-black text-gray-900 mt-2">{packagesData.titleStart} <span className="text-blue-500">{packagesData.titleHighlight}</span></h2>
+            <p className="text-gray-600 max-w-2xl mx-auto mt-4">{packagesData.subtitle}</p>
           </div>
-        </div>
-      </section>
 
-      {/* ══ TESTIMONIALS ══ */}
-      <section className="sec" style={{ background: 'var(--bg2)' }} id="testimonials">
-        <div className="w">
-          <div className="sh c r" style={wd(80)}>
-            <span className="ey">Social Proof</span>
-            <h2>Client <em>Testimonials</em></h2>
-          </div>
-          <p className="testi-trust r" style={wd(130)}>
-            <span className="stars">★★★★★</span> &nbsp; Trusted by <strong>2,500+ Homeowners</strong>
-          </p>
-          <div className="r" style={wd(180)}>
-            <div className="testi-grid">
-              {visibleTestis.map(t => (
-                <div key={t.author} className="testi-card">
-                  <div className="testi-head">
-                    <div className="testi-av">{t.initials}</div>
-                    <div>
-                      <p className="testi-name">{t.author}</p>
-                      <p className="testi-loc">{t.location}</p>
+          {/* Scrollable Cards */}
+          <div className="relative">
+            <div className="overflow-x-auto pb-4 scrollbar-hide" id="pkgScrollTrack" style={{ scrollBehavior: 'smooth', msOverflowStyle: 'none', scrollbarWidth: 'none' }}>
+              <div className="flex gap-5 min-w-max px-2">
+                {packagesData.cards.map((pkg) => (
+                  <div key={pkg.name} className={`w-72 rounded-2xl overflow-hidden shadow-lg flex-shrink-0 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl ${pkg.popular ? 'ring-2 ring-blue-500' : ''}`}>
+                    {/* Image top */}
+                    <div className="relative h-44 overflow-hidden">
+                      <img src={pkg.img} alt={pkg.name} className="w-full h-full object-cover" />
+                      <div className="absolute inset-0 flex flex-col justify-between p-4" style={{ background: `linear-gradient(0deg, ${pkg.color}cc 0%, transparent 55%)` }}>
+                        {pkg.popular && <span className="bg-white text-blue-600 text-[10px] font-black uppercase tracking-widest rounded-full px-3 py-1 w-fit shadow">⭐ Popular</span>}
+                        {!pkg.popular && <span />}
+                        <div>
+                          <p className="text-white/75 text-[10px] font-bold uppercase tracking-widest mb-1">{pkg.eyebrow}</p>
+                          <h3 className="text-xl font-black text-white drop-shadow">{pkg.name}</h3>
+                        </div>
+                      </div>
+                    </div>
+                    {/* Body */}
+                    <div className="bg-white p-5">
+                      <div className="text-2xl font-black mb-1" style={{ color: pkg.color }}>{pkg.price}</div>
+                      <div className="text-xs text-gray-500 mb-4">Effective rate: {pkg.rate}</div>
+                      <div className="border-t border-gray-100 pt-3 space-y-2 mb-5">
+                        {pkg.breakdown.map(([label, val]) => (
+                          <div key={label} className="flex justify-between text-xs text-gray-500">
+                            <span>{label}</span><span className="font-bold text-gray-800">{val}</span>
+                          </div>
+                        ))}
+                      </div>
+                      
                     </div>
                   </div>
-                  <div className="testi-stars">{'★'.repeat(t.rating)}</div>
-                  <p className="testi-q">{t.quote}</p>
-                </div>
-              ))}
-            </div>
-            <div className="testi-ctrl">
-              <button className="testi-btn" type="button" onClick={() => setTestiPage(p => (p - 1 + testiPages) % testiPages)}>‹</button>
-              <div className="testi-dots">
-                {Array.from({ length: testiPages }).map((_, i) => (
-                  <button key={i} className={`testi-dot${i === testiPage ? ' a' : ''}`} type="button" onClick={() => setTestiPage(i)} aria-label={`Page ${i + 1}`} />
                 ))}
               </div>
-              <button className="testi-btn" type="button" onClick={() => setTestiPage(p => (p + 1) % testiPages)}>›</button>
             </div>
+
+            {/* Nav Buttons */}
+            <button className="absolute left-0 top-[45%] -translate-y-1/2 w-10 h-10 bg-white rounded-full shadow-lg border border-gray-200 text-blue-500 hover:bg-blue-500 hover:text-white transition text-xl font-bold flex items-center justify-center" onClick={() => { const el = document.getElementById('pkgScrollTrack'); if (el) el.scrollBy({ left: -300, behavior: 'smooth' }); }}>‹</button>
+            <button className="absolute right-0 top-[45%] -translate-y-1/2 w-10 h-10 bg-white rounded-full shadow-lg border border-gray-200 text-blue-500 hover:bg-blue-500 hover:text-white transition text-xl font-bold flex items-center justify-center" onClick={() => { const el = document.getElementById('pkgScrollTrack'); if (el) el.scrollBy({ left: 300, behavior: 'smooth' }); }}>›</button>
+          </div>
+
+          <div className="text-center mt-8">
+            <a href="/packages" className="inline-flex items-center gap-2 text-blue-500 font-bold border-2 border-blue-200 px-6 py-2.5 rounded-full hover:bg-blue-500 hover:text-white hover:border-blue-500 transition text-sm">View Full Package Details →</a>
           </div>
         </div>
       </section>
 
-      {/* ══ FOOTER ══ */}
-      <footer className="ftr" id="blogs">
-        <div className="w">
-          <div className="ftr-top">
-            <div className="ftr-col">
-              <h3>Quick Links</h3>
-              <ul>
-                {[{ label: 'Home', href: '#home' }, { label: 'Services', href: '#services' }, { label: 'Projects', href: '#projects' }, { label: 'Company Profile', href: '#company' }, { label: 'Blogs', href: '#blogs' }, { label: 'Contact Us', href: '#contact' }].map(l => (
-                  <li key={l.label}><a href={l.href}>{l.label}</a></li>
-                ))}
-              </ul>
-            </div>
-            <div className="ftr-col">
-              <h3>Our Services</h3>
-              <ul>{footerServices.map(s => <li key={s}>{s}</li>)}</ul>
-            </div>
-            <div className="ftr-col">
-              <h3>Contact Us</h3>
-              {[{ ic: '📞', tx: '+91 98765 43210' }, { ic: '✉️', tx: 'info@testemail.com' }, { ic: '📍', tx: '123 Dream Avenue, Noida, India' }].map(c => (
-                <div key={c.tx} className="ftr-contact"><span>{c.ic}</span>{c.tx}</div>
-              ))}
-              <a className="ftr-wa" href="https://wa.me/919876543210" target="_blank" rel="noreferrer">💬 Chat on WhatsApp</a>
-            </div>
+      {/* Testimonials */}
+      <Testimonials/>
+
+      {/* FAQ Section */}
+      <section className="py-20 bg-white" id="faq">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12 reveal-on-scroll">
+            <span className="text-sm font-bold uppercase tracking-wider text-blue-500">Have Questions?</span>
+            <h2 className="text-3xl md:text-4xl font-black text-gray-900 mt-2">Frequently Asked <span className="text-blue-500">Questions</span></h2>
+            <p className="text-gray-600 max-w-2xl mx-auto mt-4">
+              Everything you need to know about building your dream home with Vasundhara.
+            </p>
           </div>
-          <div className="ftr-bot">
-            <div>
-              <div className="ftr-soc">
-                {footerSocials.map(s => (
-                  <a key={s.label} href={s.href} target="_blank" rel="noreferrer" aria-label={s.label}>
-                    {s.icon === 'fb' && <svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 8.4h2.4V5.3h-2.3c-2.8 0-4 1.3-4 3.8v2H8v3h2v4.6h3.1v-4.6h2.5l.5-3h-3V9.3c0-.7.3-.9.9-.9z" /></svg>}
-                    {s.icon === 'tw' && <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.7 7.4c.1.3.1.7.1 1a9.1 9.1 0 0 1-14 7.7h.7a6.4 6.4 0 0 0 4-1.4 3.2 3.2 0 0 1-3-2.2h1.5a3.2 3.2 0 0 1-2.5-3.2c.4.2.8.3 1.2.3a3.2 3.2 0 0 1-1.4-2.7c0-.6.2-1.2.5-1.7A9.1 9.1 0 0 0 12.5 9a3.2 3.2 0 0 1 5.4-2.9 6.3 6.3 0 0 0 2-.8 3.2 3.2 0 0 1-1.4 1.8c.6-.1 1.2-.2 1.8-.5a6.8 6.8 0 0 1-1.6 1.6z" /></svg>}
-                    {s.icon === 'li' && <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="6" cy="7" r="1.6" /><path d="M4.5 9.3h3V18h-3zM10 9.3h2.9v1.2c.4-.8 1.4-1.5 2.9-1.5 3 0 3.6 2 3.6 4.5V18h-3v-4c0-1 0-2.2-1.4-2.2s-1.6 1-1.6 2.2v4h-3z" /></svg>}
-                    {s.icon === 'ig' && <svg viewBox="0 0 24 24" fill="none"><rect x="4.3" y="4.3" width="15.4" height="15.4" rx="4.2" stroke="currentColor" strokeWidth="1.9" /><circle cx="12" cy="12" r="3.6" stroke="currentColor" strokeWidth="1.9" /><circle cx="17.4" cy="6.8" r="1" fill="currentColor" /></svg>}
-                  </a>
-                ))}
-              </div>
-              <p className="ftr-copy">© {new Date().getFullYear()} WallBolt Atelier. All Rights Reserved.</p>
+
+          <div className="grid lg:grid-cols-2 gap-12 items-start reveal-on-scroll" style={{ transitionDelay: '0.1s' }}>
+            {/* Left side – image */}
+            <div className="rounded-2xl overflow-hidden shadow-xl">
+              <img
+                src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                alt="Construction blueprint and tools"
+                className="w-full h-auto object-cover"
+              />
             </div>
-            <div className="ftr-trust">
-              <span>🔒 Escrow Protected</span>
-              <span>✅ Quality Assured</span>
+
+            {/* Right side – FAQ accordion */}
+            <div className="divide-y divide-gray-200">
+              {faqs.map((faq, idx) => (
+                <div key={idx} className="py-5">
+                  <button
+                    onClick={() => setOpenFaqIndex(openFaqIndex === idx ? null : idx)}
+                    className="flex justify-between items-center w-full text-left focus:outline-none"
+                  >
+                    <span className="text-lg font-semibold text-gray-900">{faq.q}</span>
+                    <svg
+                      className={`w-5 h-5 text-blue-500 transform transition-transform duration-300 ${openFaqIndex === idx ? 'rotate-180' : ''
+                        }`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                  <div
+                    className={`mt-3 text-gray-600 overflow-hidden transition-all duration-300 ${openFaqIndex === idx ? 'max-h-96' : 'max-h-0'
+                      }`}
+                  >
+                    <p>{faq.a}</p>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
-      </footer>
+      </section>
     </>
   )
 }

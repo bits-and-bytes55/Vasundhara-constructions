@@ -1,190 +1,530 @@
-import { Link } from 'react-router-dom'
-import '../premium-pages.css'
+import React, { useEffect, useState, useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { motion, useInView, AnimatePresence } from "framer-motion";
+import {
+  ArrowRight,
+  Calendar,
+  Clock,
+  Search,
+  Grid3X3,
+  List,
+  ChevronLeft,
+  ChevronRight,
+  Sparkles,
+  Filter,
+  X,
+} from "lucide-react";
+import Testimonials from "./Testimonials";
 
-const featuredPost = {
-  category: 'Construction Planning',
-  title: 'How to plan your home budget before design decisions start costing you later',
-  excerpt:
-    'A better home project begins when design, package selection, and execution reality are aligned early instead of after the drawings look expensive.',
-  readTime: '6 min read',
-  image: '/images/heroimg.jpeg',
-}
+const API_URL = import.meta.env.VITE_API_URL;
 
-const posts = [
-  {
-    category: 'Interiors',
-    title: 'Interior upgrades that actually improve daily living instead of just looking premium',
-    excerpt: 'Where to spend, where to stay restrained, and how to keep the home feeling elevated without visual clutter.',
-    readTime: '5 min read',
-    image: '/images/dream-living-room.jpeg',
-  },
-  {
-    category: 'Bedrooms',
-    title: 'Master bedroom ideas that feel hotel-inspired but still practical for real homes',
-    excerpt: 'Layout, lighting, and material choices that create comfort without turning the room into a showroom.',
-    readTime: '4 min read',
-    image: '/images/dream-master-bed-room.jpeg',
-  },
-  {
-    category: 'Kitchen',
-    title: 'Kitchen planning mistakes homeowners usually discover too late',
-    excerpt: 'Clearances, workflow, storage depth, and finish decisions that affect everyday ease more than expected.',
-    readTime: '7 min read',
-    image: '/images/dream-kitchen.jpeg',
-  },
-  {
-    category: 'Elevation',
-    title: 'What makes a modern home elevation look expensive without becoming noisy',
-    excerpt: 'A guide to proportion, material combinations, and facade detailing that stays sharp over time.',
-    readTime: '5 min read',
-    image: '/images/dream-elevation.jpeg',
-  },
-  {
-    category: 'Projects',
-    title: 'Why premium projects need stronger execution systems, not just stronger concepts',
-    excerpt: 'Good renders are easy to love. Good site management is what protects that vision when construction begins.',
-    readTime: '6 min read',
-    image: '/images/luxury-villa.jpg',
-  },
-  {
-    category: 'Terrace Garden',
-    title: 'How to turn an empty terrace into a space you actually use every week',
-    excerpt: 'Simple zoning, planting, seating, and shade strategies that make a rooftop feel like part of the home.',
-    readTime: '4 min read',
-    image: '/images/why-choose-us.jpeg',
-  },
-]
+// Animation variants
+const fadeUp = {
+  hidden: { opacity: 0, y: 32 },
+  show: (i = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: i * 0.08 },
+  }),
+};
 
-const blogTopics = [
-  {
-    title: 'Cost and package clarity',
-    text: 'Articles that help homeowners understand budget structure before they commit to the wrong design or finish path.',
-  },
-  {
-    title: 'Premium design decisions',
-    text: 'Practical insights on facades, interiors, lighting, and material editing for homes that feel more resolved.',
-  },
-  {
-    title: 'Execution intelligence',
-    text: 'Site, quality, scheduling, and handover lessons that help clients see what strong delivery really looks like.',
-  },
-]
+const Reveal = ({ children, className = "", delay = 0 }) => {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
 
-function BlogsPage() {
   return (
-    <main className="premium-page premium-page--blogs">
-      <section className="premium-hero">
-        <div className="premium-shell">
-          <div className="premium-heading">
-            <div className="premium-kicker">Blogs</div>
-            <h1 className="premium-title">
-              Ideas, planning notes, and practical guidance for building <em>better homes.</em>
-            </h1>
-            <p className="premium-subtitle">
-              These articles are meant to reduce confusion around design, construction, interiors, and
-              project decision-making before your site work begins.
-            </p>
-          </div>
+    <motion.div
+      ref={ref}
+      className={className}
+      initial="hidden"
+      animate={inView ? "show" : "hidden"}
+      custom={delay}
+      variants={fadeUp}
+    >
+      {children}
+    </motion.div>
+  );
+};
 
-          <article className="blog-feature">
-            <div
-              className="blog-feature__media"
-              style={{ backgroundImage: `linear-gradient(180deg, rgba(23, 18, 14, 0.06), rgba(23, 18, 14, 0.68)), url('${featuredPost.image}')` }}
+const stripHtml = (html = "") =>
+  html
+    .replace(/<[^>]*>/g, " ")
+    .replace(/&nbsp;/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
+const truncateText = (text = "", maxLength = 120) => {
+  if (!text || text.length <= maxLength) return text;
+  return `${text.slice(0, maxLength - 3).trim()}...`;
+};
+
+// Blog Card Component
+const BlogCard = ({ post, index, viewMode }) => {
+  const plainContent = stripHtml(post.content || "");
+  const excerpt = truncateText(plainContent, viewMode === "grid" ? 100 : 140);
+  const readTime = Math.max(1, Math.ceil(plainContent.split(/\s+/).filter(Boolean).length / 200));
+
+  if (viewMode === "list") {
+    return (
+      <motion.article
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: index * 0.05 }}
+        className="group bg-white rounded-2xl border border-[#dbeafe] hover:border-[#bfdbfe] hover:shadow-lg transition-all duration-300 overflow-hidden"
+      >
+        <Link to={`/blogs/${post.slug}`} className="flex flex-col md:flex-row">
+          <div className="md:w-72 h-52 md:h-auto overflow-hidden bg-[#dbeafe]">
+            <img
+              src={post.image || "/img/report.jpg"}
+              alt={post.title}
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             />
-            <div className="blog-feature__content">
-              <span className="blog-card__tag">{featuredPost.category}</span>
-              <h2>{featuredPost.title}</h2>
-              <p>{featuredPost.excerpt}</p>
-              <div className="blog-card__meta">{featuredPost.readTime}</div>
-              <div className="premium-actions">
-                <Link className="premium-button" to="/cost-estimator">
-                  Use Cost Calculator
-                </Link>
-                <Link className="premium-button premium-button--ghost" to="/services">
-                  Explore Services
-                </Link>
-              </div>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <section className="premium-section premium-section--contrast">
-        <div className="premium-shell">
-          <div className="premium-heading">
-            <div className="premium-kicker">Latest Reads</div>
-            <h2>Short reads for homeowners who want sharper decisions, not generic inspiration.</h2>
-            <p>
-              We focus on the topics that actually influence project quality: planning, package fit,
-              material restraint, execution clarity, and day-to-day usability.
-            </p>
           </div>
+          <div className="flex-1 p-6">
+            <div className="flex flex-wrap items-center gap-3 text-xs text-slate-400 mb-3">
+              <span className="flex items-center gap-1">
+                <Calendar size={12} />
+                {new Date(post.createdAt).toLocaleDateString("en-IN", {
+                  day: "numeric",
+                  month: "short",
+                  year: "numeric",
+                })}
+              </span>
+              <span className="flex items-center gap-1">
+                <Clock size={12} />
+                {readTime} min read
+              </span>
+              {post.category && (
+                <span className="px-2 py-0.5 rounded-full bg-[#dbeafe] text-[#1d4ed8] text-xs font-medium">
+                  {post.category}
+                </span>
+              )}
+            </div>
+            <h3 className="text-xl font-bold text-[#0f2d6b] group-hover:text-[#1e40af] transition-colors mb-2 line-clamp-2">
+              {post.title}
+            </h3>
+            <p className="text-slate-500 text-sm leading-relaxed mb-4 line-clamp-2">
+              {excerpt}
+            </p>
+            <div className="flex items-center justify-between">
+              <span className="text-xs text-slate-400">
+                By <span className="font-medium text-slate-500">{post.author || "Admin"}</span>
+              </span>
+              <span className="inline-flex items-center gap-1 text-[#1d4ed8] text-sm font-medium group-hover:gap-2 transition-all">
+                Read more <ArrowRight size={14} />
+              </span>
+            </div>
+          </div>
+        </Link>
+      </motion.article>
+    );
+  }
 
-          <div className="blog-grid">
-            {posts.map((post) => (
-              <article className="blog-card" key={post.title}>
-                <div
-                  className="blog-card__media"
-                  style={{ backgroundImage: `linear-gradient(180deg, rgba(23, 18, 14, 0.04), rgba(23, 18, 14, 0.56)), url('${post.image}')` }}
+  return (
+    <motion.article
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: index * 0.05 }}
+      className="group bg-white rounded-2xl border border-[#dbeafe] hover:border-[#bfdbfe] hover:shadow-lg transition-all duration-300 overflow-hidden flex flex-col"
+    >
+      <Link to={`/blogs/${post.slug}`} className="block overflow-hidden h-52 bg-[#dbeafe]">
+        <img
+          src={post.image || "/img/report.jpg"}
+          alt={post.title}
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+        />
+      </Link>
+      <div className="p-5 flex-1 flex flex-col">
+        <div className="flex flex-wrap items-center gap-2 text-xs text-slate-400 mb-3">
+          <span className="flex items-center gap-1">
+            <Calendar size={11} />
+            {new Date(post.createdAt).toLocaleDateString("en-IN", {
+              day: "numeric",
+              month: "short",
+              year: "numeric",
+            })}
+          </span>
+          <span className="flex items-center gap-1">
+            <Clock size={11} />
+            {readTime} min
+          </span>
+        </div>
+        <Link to={`/blogs/${post.slug}`}>
+          <h3 className="text-lg font-bold text-[#0f2d6b] group-hover:text-[#1e40af] transition-colors mb-2 line-clamp-2">
+            {post.title}
+          </h3>
+        </Link>
+        <p className="text-slate-500 text-sm leading-relaxed mb-4 line-clamp-3 flex-1">
+          {excerpt}
+        </p>
+        <div className="flex items-center justify-between pt-2 border-t border-[#eaf1fb]">
+          <span className="text-xs text-slate-400">
+            {post.author || "Bits and Bytes"}
+          </span>
+          <Link
+            to={`/blogs/${post.slug}`}
+            className="inline-flex items-center gap-1 text-[#1d4ed8] text-sm font-medium group-hover:gap-2 transition-all"
+          >
+            Read <ArrowRight size={13} />
+          </Link>
+        </div>
+      </div>
+    </motion.article>
+  );
+};
+
+// Skeleton Loader
+const SkeletonCard = ({ viewMode }) => {
+  if (viewMode === "list") {
+    return (
+      <div className="bg-white rounded-2xl border border-[#dbeafe] overflow-hidden animate-pulse">
+        <div className="flex flex-col md:flex-row">
+          <div className="md:w-72 h-52 bg-slate-200" />
+          <div className="flex-1 p-6 space-y-3">
+            <div className="flex gap-3">
+              <div className="h-3 w-20 bg-slate-200 rounded" />
+              <div className="h-3 w-16 bg-slate-200 rounded" />
+            </div>
+            <div className="h-6 w-3/4 bg-slate-200 rounded" />
+            <div className="space-y-2">
+              <div className="h-4 w-full bg-slate-200 rounded" />
+              <div className="h-4 w-5/6 bg-slate-200 rounded" />
+            </div>
+            <div className="flex justify-between pt-2">
+              <div className="h-3 w-24 bg-slate-200 rounded" />
+              <div className="h-4 w-20 bg-slate-200 rounded" />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="bg-white rounded-2xl border border-[#dbeafe] overflow-hidden animate-pulse">
+      <div className="h-52 bg-slate-200" />
+      <div className="p-5 space-y-3">
+        <div className="flex gap-2">
+          <div className="h-3 w-16 bg-slate-200 rounded" />
+          <div className="h-3 w-12 bg-slate-200 rounded" />
+        </div>
+        <div className="h-5 w-3/4 bg-slate-200 rounded" />
+        <div className="space-y-2">
+          <div className="h-4 w-full bg-slate-200 rounded" />
+          <div className="h-4 w-5/6 bg-slate-200 rounded" />
+        </div>
+        <div className="flex justify-between pt-2">
+          <div className="h-3 w-20 bg-slate-200 rounded" />
+          <div className="h-4 w-16 bg-slate-200 rounded" />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const BlogsPage = () => {
+  const navigate = useNavigate();
+  const [blogs, setBlogs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [categories, setCategories] = useState([]);
+  const [viewMode, setViewMode] = useState("grid"); // 'grid' or 'list'
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [showFilters, setShowFilters] = useState(false);
+  const postsPerPage = 9;
+
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      setLoading(true);
+      try {
+        const response = await axios.get(`${API_URL}/api/blogs`, {
+          params: {
+            page: currentPage,
+            limit: postsPerPage,
+            search: searchTerm || undefined,
+            category: selectedCategory || undefined,
+          },
+        });
+        
+        const blogsData = response.data.blogs || response.data || [];
+        setBlogs(Array.isArray(blogsData) ? blogsData : []);
+        
+        // Extract unique categories from all blogs (if we have all blogs, otherwise from response)
+        let allBlogs = blogsData;
+        if (!Array.isArray(blogsData) || blogsData.length === 0) {
+          // Fallback: fetch all blogs for categories
+          const allResponse = await axios.get(`${API_URL}/api/blogs?limit=100`);
+          allBlogs = allResponse.data.blogs || allResponse.data || [];
+        }
+        
+        const uniqueCategories = [...new Set(allBlogs.map(blog => blog.category).filter(Boolean))];
+        setCategories(uniqueCategories);
+        
+        // Pagination info
+        const total = response.data.total || blogsData.length;
+        setTotalPages(Math.ceil(total / postsPerPage));
+        setError(null);
+      } catch (err) {
+        console.error("Error fetching blogs:", err);
+        setError("Failed to load blogs. Please try again later.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBlogs();
+  }, [currentPage, searchTerm, selectedCategory]);
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    setCurrentPage(1);
+  };
+
+  const clearFilters = () => {
+    setSearchTerm("");
+    setSelectedCategory("");
+    setCurrentPage(1);
+  };
+
+  const totalResults = blogs.length;
+
+  return (
+    <div className="min-h-screen bg-[#eaf1fb]" style={{ fontFamily: "'DM Sans', system-ui, sans-serif" }}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap');
+        .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .line-clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+      `}</style>
+
+      {/* Hero Section */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-[#0f2d6b] via-[#1e40af] to-[#1d4ed8] pt-20 pb-16">
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute top-20 left-10 w-72 h-72 bg-white rounded-full blur-3xl" />
+          <div className="absolute bottom-10 right-10 w-96 h-96 bg-[#60a5fa] rounded-full blur-3xl" />
+        </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 relative z-10">
+          <Reveal>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-4">
+              Insights & Stories
+            </h1>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <p className="text-white/80 text-lg md:text-xl max-w-2xl mb-8">
+              Explore expert perspectives on digital marketing, web development, SEO, and growth strategies.
+            </p>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <form onSubmit={handleSearch} className="max-w-md">
+              <div className="relative">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+                <input
+                  type="text"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  placeholder="Search articles..."
+                  className="w-full pl-11 pr-4 py-3 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 text-white placeholder-white/50 focus:outline-none focus:bg-white/20 transition-all"
                 />
-                <div className="blog-card__content">
-                  <span className="blog-card__tag">{post.category}</span>
-                  <h3>{post.title}</h3>
-                  <p>{post.excerpt}</p>
-                  <div className="blog-card__meta">{post.readTime}</div>
+              </div>
+            </form>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-12">
+        {/* Filter Bar */}
+        <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setShowFilters(!showFilters)}
+              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-[#dbeafe] text-[#1e40af] text-sm font-medium hover:bg-[#dbeafe] transition-colors"
+            >
+              <Filter size={16} />
+              Filters
+              {(searchTerm || selectedCategory) && (
+                <span className="ml-1 px-1.5 py-0.5 text-xs bg-[#1e40af] text-white rounded-full">
+                  {(searchTerm ? 1 : 0) + (selectedCategory ? 1 : 0)}
+                </span>
+              )}
+            </button>
+            
+            {(searchTerm || selectedCategory) && (
+              <button
+                onClick={clearFilters}
+                className="flex items-center gap-1 text-slate-400 text-sm hover:text-slate-600 transition-colors"
+              >
+                <X size={14} />
+                Clear all
+              </button>
+            )}
+          </div>
+
+          <div className="flex items-center gap-2 bg-white rounded-xl border border-[#dbeafe] p-1">
+            <button
+              onClick={() => setViewMode("grid")}
+              className={`p-2 rounded-lg transition-colors ${viewMode === "grid" ? "bg-[#1e40af] text-white" : "text-slate-400 hover:text-slate-600"}`}
+            >
+              <Grid3X3 size={18} />
+            </button>
+            <button
+              onClick={() => setViewMode("list")}
+              className={`p-2 rounded-lg transition-colors ${viewMode === "list" ? "bg-[#1e40af] text-white" : "text-slate-400 hover:text-slate-600"}`}
+            >
+              <List size={18} />
+            </button>
+          </div>
+        </div>
+
+        {/* Expandable Filters */}
+        <AnimatePresence>
+          {showFilters && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              className="overflow-hidden mb-8"
+            >
+              <div className="bg-white rounded-2xl border border-[#dbeafe] p-5">
+                <h3 className="font-semibold text-[#0f2d6b] mb-3">Categories</h3>
+                <div className="flex flex-wrap gap-2">
+                  <button
+                    onClick={() => setSelectedCategory("")}
+                    className={`px-3 py-1.5 rounded-full text-sm transition-all ${!selectedCategory ? "bg-[#1e40af] text-white" : "bg-[#eaf1fb] text-[#1e40af] hover:bg-[#dbeafe]"}`}
+                  >
+                    All
+                  </button>
+                  {categories.map((cat) => (
+                    <button
+                      key={cat}
+                      onClick={() => setSelectedCategory(cat)}
+                      className={`px-3 py-1.5 rounded-full text-sm transition-all ${selectedCategory === cat ? "bg-[#1e40af] text-white" : "bg-[#eaf1fb] text-[#1e40af] hover:bg-[#dbeafe]"}`}
+                    >
+                      {cat}
+                    </button>
+                  ))}
                 </div>
-              </article>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Results count */}
+        {!loading && (
+          <div className="text-sm text-slate-400 mb-6">
+            Showing {totalResults} {totalResults === 1 ? "article" : "articles"}
+          </div>
+        )}
+
+        {/* Blog Grid/List */}
+        {loading ? (
+          <div className={viewMode === "grid" 
+            ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" 
+            : "space-y-6"
+          }>
+            {[...Array(6)].map((_, i) => (
+              <SkeletonCard key={i} viewMode={viewMode} />
             ))}
           </div>
-        </div>
-      </section>
-
-      <section className="premium-section">
-        <div className="premium-shell">
-          <div className="premium-heading">
-            <div className="premium-kicker">Editorial Direction</div>
-            <h2>What this blog is meant to help you do better.</h2>
-            <p>
-              The aim is not to flood you with content. It is to make the most important project decisions
-              easier to understand before time and budget start getting consumed.
+        ) : error ? (
+          <div className="text-center py-16">
+            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-red-100 flex items-center justify-center">
+              <Sparkles className="text-red-400" size={28} />
+            </div>
+            <p className="text-slate-500 mb-4">{error}</p>
+            <button
+              onClick={() => window.location.reload()}
+              className="px-6 py-2 rounded-full bg-[#1e40af] text-white text-sm font-medium"
+            >
+              Try Again
+            </button>
+          </div>
+        ) : blogs.length === 0 ? (
+          <div className="text-center py-16 bg-white rounded-2xl border border-[#dbeafe]">
+            <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-[#eaf1fb] flex items-center justify-center">
+              <Search size={32} className="text-[#1e40af]" />
+            </div>
+            <h3 className="text-xl font-semibold text-[#0f2d6b] mb-2">No articles found</h3>
+            <p className="text-slate-500 mb-6">
+              {searchTerm || selectedCategory 
+                ? "Try adjusting your search or filter criteria" 
+                : "Check back soon for new content"}
             </p>
+            {(searchTerm || selectedCategory) && (
+              <button
+                onClick={clearFilters}
+                className="px-6 py-2 rounded-full bg-[#1e40af] text-white text-sm font-medium"
+              >
+                Clear Filters
+              </button>
+            )}
           </div>
-
-          <div className="premium-grid premium-grid--services">
-            {blogTopics.map((topic, index) => (
-              <article className="premium-card" key={topic.title}>
-                <div className="premium-card__index">{index + 1}</div>
-                <h3>{topic.title}</h3>
-                <p>{topic.text}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="premium-section">
-        <div className="premium-shell">
-          <div className="premium-cta-band">
-            <div>
-              <h3>Ready to move from reading to planning?</h3>
-              <p>
-                Use the estimator to understand your likely budget range, then compare packages and services
-                with more confidence.
-              </p>
+        ) : (
+          <>
+            <div className={viewMode === "grid" 
+              ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" 
+              : "space-y-6"
+            }>
+              {blogs.map((post, index) => (
+                <BlogCard key={post._id || post.id || index} post={post} index={index} viewMode={viewMode} />
+              ))}
             </div>
-            <div className="premium-actions">
-              <Link className="premium-button" to="/cost-estimator">
-                Calculate Cost
-              </Link>
-              <Link className="premium-button premium-button--ghost" to="/packages/compare">
-                Compare Packages
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
-  )
-}
 
-export default BlogsPage
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <div className="flex items-center justify-center gap-2 mt-12">
+                <button
+                  onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                  disabled={currentPage === 1}
+                  className="p-2 rounded-lg bg-white border border-[#dbeafe] text-[#1e40af] disabled:opacity-40 disabled:cursor-not-allowed hover:bg-[#dbeafe] transition-colors"
+                >
+                  <ChevronLeft size={18} />
+                </button>
+                <div className="flex items-center gap-1">
+                  {[...Array(Math.min(5, totalPages))].map((_, i) => {
+                    let pageNum;
+                    if (totalPages <= 5) {
+                      pageNum = i + 1;
+                    } else if (currentPage <= 3) {
+                      pageNum = i + 1;
+                    } else if (currentPage >= totalPages - 2) {
+                      pageNum = totalPages - 4 + i;
+                    } else {
+                      pageNum = currentPage - 2 + i;
+                    }
+                    return (
+                      <button
+                        key={pageNum}
+                        onClick={() => setCurrentPage(pageNum)}
+                        className={`min-w-[38px] h-[38px] rounded-lg text-sm font-medium transition-colors ${
+                          currentPage === pageNum
+                            ? "bg-[#1e40af] text-white"
+                            : "bg-white border border-[#dbeafe] text-[#1e40af] hover:bg-[#dbeafe]"
+                        }`}
+                      >
+                        {pageNum}
+                      </button>
+                    );
+                  })}
+                </div>
+                <button
+                  onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                  disabled={currentPage === totalPages}
+                  className="p-2 rounded-lg bg-white border border-[#dbeafe] text-[#1e40af] disabled:opacity-40 disabled:cursor-not-allowed hover:bg-[#dbeafe] transition-colors"
+                >
+                  <ChevronRight size={18} />
+                </button>
+              </div>
+            )}
+          </>
+        )}
+      </div>
+      <Testimonials/>
+    </div>
+  );
+};
+
+export default BlogsPage;
