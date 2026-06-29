@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Star, Quote, User, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface Testimonial {
@@ -17,11 +17,12 @@ const Testimonials: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [autoPlayActive, setAutoPlayActive] = useState<boolean>(true);
-  const autoPlayIntervalRef = useRef<NodeJS.Timeout | null>(null);
-  const restartTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  // ── Fixed: use ReturnType<typeof setInterval> instead of NodeJS.Timeout ──
+  const autoPlayIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const restartTimeoutRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const isHoveredRef = useRef<boolean>(false);
 
-  // Fetch testimonials (unchanged)
+  // Fetch testimonials
   useEffect(() => {
     fetchTestimonials();
   }, []);
@@ -30,7 +31,7 @@ const Testimonials: React.FC = () => {
     try {
       setLoading(true);
       setError(null);
-      const apiUrl = 'http://localhost:5000/api/testimonials';
+      const apiUrl = `${import.meta.env.VITE_API_URL}/api/testimonials`;
       const response = await fetch(apiUrl, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
@@ -70,7 +71,7 @@ const Testimonials: React.FC = () => {
     }
   };
 
-  // --- Auto-slide logic (same as before) ---
+  // Auto-slide logic
   const stopAutoPlay = () => {
     if (autoPlayIntervalRef.current) {
       clearInterval(autoPlayIntervalRef.current);
@@ -102,7 +103,7 @@ const Testimonials: React.FC = () => {
     return () => { if (restartTimeoutRef.current) clearTimeout(restartTimeoutRef.current); };
   }, []);
 
-  // Navigation helpers (with auto-slide interruption)
+  // Navigation
   const goToIndex = (newIndex: number) => {
     setAutoPlayActive(false);
     stopAutoPlay();
@@ -123,7 +124,6 @@ const Testimonials: React.FC = () => {
     setAutoPlayActive(true);
   };
 
-  // Helper: get previous, current, next testimonials (circular)
   const getCircularTriplet = () => {
     if (testimonials.length === 0) return { prev: null, current: null, next: null };
     const prevIndex = (currentIndex - 1 + testimonials.length) % testimonials.length;
@@ -143,50 +143,56 @@ const Testimonials: React.FC = () => {
     </div>
   );
 
-  // Card component (reused for prev/current/next with different styles)
-  const TestimonialCard: React.FC<{ testimonial: Testimonial; isCenter?: boolean; onClick?: () => void }> = 
-    ({ testimonial, isCenter = false, onClick }) => {
-      if (!testimonial) return <div className="w-full h-full" />;
-      return (
-        <div
-          onClick={onClick}
-          className={`
-            transition-all duration-500 ease-out cursor-pointer
-            ${isCenter 
-              ? 'scale-100 opacity-100 z-20 shadow-2xl bg-white' 
-              : 'scale-90 opacity-60 hover:opacity-90 hover:scale-95 bg-white/90 backdrop-blur-sm shadow-lg'
-            }
-            rounded-2xl p-6 md:p-8 flex flex-col items-center text-center
-          `}
-          style={{
-            minWidth: '280px',
-            maxWidth: '400px',
-            margin: '0 auto',
-          }}
-        >
-          <div className="relative mb-4">
-            {testimonial.avatarImage ? (
-              <img src={testimonial.avatarImage} alt={testimonial.name} className="w-20 h-20 rounded-full object-cover border-4 border-blue-500 shadow-lg" />
-            ) : (
-              <div className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center border-4 border-white shadow-lg">
-                <User size={32} className="text-white" />
-              </div>
-            )}
-          </div>
-          <RatingStars rating={testimonial.rating} />
-          <div className="my-4 px-2">
-            <Quote className="w-6 h-6 text-blue-400 mx-auto mb-2 opacity-50" />
-            <p className="text-gray-700 text-base line-clamp-3">{testimonial.quote}</p>
-          </div>
-          <div>
-            <h4 className="font-bold text-gray-800">{testimonial.name}</h4>
-            <p className="text-blue-600 text-sm">{testimonial.role}</p>
-          </div>
+  // ── Fixed: allow testimonial to be null ──
+  const TestimonialCard: React.FC<{ 
+    testimonial: Testimonial | null; 
+    isCenter?: boolean; 
+    onClick?: () => void 
+  }> = ({ testimonial, isCenter = false, onClick }) => {
+    // If no testimonial, render an empty placeholder (keeps layout)
+    if (!testimonial) {
+      return <div className="w-full h-full" style={{ minWidth: '280px', maxWidth: '400px' }} />;
+    }
+    return (
+      <div
+        onClick={onClick}
+        className={`
+          transition-all duration-500 ease-out cursor-pointer
+          ${isCenter 
+            ? 'scale-100 opacity-100 z-20 shadow-2xl bg-white' 
+            : 'scale-90 opacity-60 hover:opacity-90 hover:scale-95 bg-white/90 backdrop-blur-sm shadow-lg'
+          }
+          rounded-2xl p-6 md:p-8 flex flex-col items-center text-center
+        `}
+        style={{
+          minWidth: '280px',
+          maxWidth: '400px',
+          margin: '0 auto',
+        }}
+      >
+        <div className="relative mb-4">
+          {testimonial.avatarImage ? (
+            <img src={testimonial.avatarImage} alt={testimonial.name} className="w-20 h-20 rounded-full object-cover border-4 border-blue-500 shadow-lg" />
+          ) : (
+            <div className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center border-4 border-white shadow-lg">
+              <User size={32} className="text-white" />
+            </div>
+          )}
         </div>
-      );
-    };
+        <RatingStars rating={testimonial.rating} />
+        <div className="my-4 px-2">
+          <Quote className="w-6 h-6 text-blue-400 mx-auto mb-2 opacity-50" />
+          <p className="text-gray-700 text-base line-clamp-3">{testimonial.quote}</p>
+        </div>
+        <div>
+          <h4 className="font-bold text-gray-800">{testimonial.name}</h4>
+          <p className="text-blue-600 text-sm">{testimonial.role}</p>
+        </div>
+      </div>
+    );
+  };
 
-  // Loading / Error / Empty states (unchanged)
+  // Loading / Error states
   if (loading) return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-blue-100 to-cyan-50 flex items-center justify-center">
       <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-600 mx-auto"></div>
@@ -211,7 +217,6 @@ const Testimonials: React.FC = () => {
 
   const { prev, current, next } = getCircularTriplet();
 
-  // Main circular layout: previous (left), current (center), next (right)
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-blue-100 to-cyan-50 py-16 px-4">
       <div className="max-w-6xl mx-auto">
@@ -226,29 +231,36 @@ const Testimonials: React.FC = () => {
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >
-          {/* Carousel row - 3 items */}
           <div className="flex flex-wrap md:flex-nowrap justify-center items-center gap-4 md:gap-8 w-full">
-            {/* Previous testimonial (left) */}
+            {/* Left card (prev) */}
             <div className="hidden md:block flex-1 max-w-[320px]">
               <TestimonialCard testimonial={prev} isCenter={false} onClick={prevTestimonial} />
             </div>
-            {/* Current testimonial (center) */}
+            {/* Center card (current) */}
             <div className="w-full md:w-auto md:flex-1 flex justify-center z-10">
               <TestimonialCard testimonial={current} isCenter={true} />
             </div>
-            {/* Next testimonial (right) */}
+            {/* Right card (next) */}
             <div className="hidden md:block flex-1 max-w-[320px]">
               <TestimonialCard testimonial={next} isCenter={false} onClick={nextTestimonial} />
             </div>
           </div>
 
-          {/* Navigation buttons (arrows) */}
+          {/* Navigation arrows */}
           {testimonials.length > 1 && (
             <>
-              <button onClick={prevTestimonial} className="absolute left-2 md:left-0 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur rounded-full p-2 shadow-lg hover:bg-blue-50 transition">
+              <button 
+                onClick={prevTestimonial} 
+                className="absolute left-2 md:left-0 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur rounded-full p-2 shadow-lg hover:bg-blue-50 transition"
+                aria-label="Previous testimonial"
+              >
                 <ChevronLeft className="w-6 h-6 text-blue-600" />
               </button>
-              <button onClick={nextTestimonial} className="absolute right-2 md:right-0 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur rounded-full p-2 shadow-lg hover:bg-blue-50 transition">
+              <button 
+                onClick={nextTestimonial} 
+                className="absolute right-2 md:right-0 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur rounded-full p-2 shadow-lg hover:bg-blue-50 transition"
+                aria-label="Next testimonial"
+              >
                 <ChevronRight className="w-6 h-6 text-blue-600" />
               </button>
             </>
@@ -264,6 +276,7 @@ const Testimonials: React.FC = () => {
                   className={`h-2 rounded-full transition-all duration-300 ${
                     idx === currentIndex ? 'w-8 bg-blue-600' : 'w-2 bg-blue-300 hover:bg-blue-400'
                   }`}
+                  aria-label={`Go to testimonial ${idx + 1}`}
                 />
               ))}
             </div>

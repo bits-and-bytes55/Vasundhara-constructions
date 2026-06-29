@@ -7,16 +7,16 @@ export default function RouteSEO() {
   const location = useLocation()
 
   const BASE_URL =
-  import.meta.env.PROD
-    ? "https://vasundharaconstruction.com"
-    : window.location.origin
+    import.meta.env.PROD
+      ? "https://vasundharaconstruction.co.in"
+      : window.location.origin
 
-const url =
- `${BASE_URL}${location.pathname}`
+  const url =
+    `${BASE_URL}${location.pathname}`
 
   const seo =
     seoConfig[
-      location.pathname as keyof typeof seoConfig
+    location.pathname as keyof typeof seoConfig
     ] ?? {
 
       title:
@@ -29,7 +29,7 @@ const url =
         "construction company noida, interior design noida",
     }
 
-  
+
 
   const image =
     `${BASE_URL}/logo.png`
@@ -115,46 +115,46 @@ const url =
       />
 
       <script
-type="application/ld+json"
->
-{JSON.stringify({
+        type="application/ld+json"
+      >
+        {JSON.stringify({
 
-"@context":
-"https://schema.org",
+          "@context":
+            "https://schema.org",
 
-"@type":
-"ConstructionCompany",
+          "@type":
+            "ConstructionCompany",
 
-"name":
-"Vasundhara Construction",
+          "name":
+            "Vasundhara Construction",
 
-"url":
-"https://vasundharaconstruction.com",
+          "url":
+            "https://vasundharaconstruction.co.in",
 
-"logo":
-"https://vasundharaconstruction.com/logo.png",
+          "logo":
+            "https://vasundharaconstruction.co.in/logo.png",
 
-"telephone":
-"+91 9818866849",
+          "telephone":
+            "+91 9818866849",
 
-"address":{
+          "address": {
 
-"@type":
-"PostalAddress",
+            "@type":
+              "PostalAddress",
 
-"addressLocality":
-"Noida",
+            "addressLocality":
+              "Noida",
 
-"addressCountry":
-"IN"
+            "addressCountry":
+              "IN"
 
-},
+          },
 
-"areaServed":
-"Noida"
+          "areaServed":
+            "Noida"
 
-})}
-</script>
+        })}
+      </script>
 
     </Helmet>
 

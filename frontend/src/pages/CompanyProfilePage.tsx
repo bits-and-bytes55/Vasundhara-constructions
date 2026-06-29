@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef} from 'react'
 import Testimonials from './Testimonials'
 
 // Company Statistics
@@ -103,9 +103,8 @@ const values = [
 
 
 function CompanyProfilePage() {
-  const [activeJourney, setActiveJourney] = useState(0);
   const sectionsRef = useRef<(HTMLElement | null)[]>([]);
-  
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -117,14 +116,14 @@ function CompanyProfilePage() {
       },
       { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
     );
-    
+
     sectionsRef.current.forEach((section) => {
       if (section) observer.observe(section);
     });
-    
+
     return () => observer.disconnect();
   }, []);
-  
+
   return (
     <main className="bg-white">
       <style>{`
@@ -174,17 +173,17 @@ function CompanyProfilePage() {
           background-clip: text;
         }
       `}</style>
-      
+
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900 text-white">
         <div className="absolute inset-0 opacity-10">
-          <img 
+          <img
             src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=1800&q=80"
             alt="Construction background"
             className="w-full h-full object-cover"
           />
         </div>
-        
+
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="animate-fadeInUp" style={{ animation: 'fadeInUp 0.8s ease-out' }}>
@@ -196,26 +195,26 @@ function CompanyProfilePage() {
                 <span className="block text-blue-300">Where Quality Meets Commitment</span>
               </h1>
               <p className="text-lg text-blue-100 mb-8 leading-relaxed">
-                With over 12 years of experience, we've transformed thousands of dreams into reality. 
-                Our commitment to quality, transparency, and timely delivery makes us one of Delhi NCR's 
+                With over 12 years of experience, we've transformed thousands of dreams into reality.
+                Our commitment to quality, transparency, and timely delivery makes us one of Delhi NCR's
                 most trusted construction partners.
               </p>
               <div className="flex flex-wrap gap-4">
-                <Link 
-                  to="/cost-estimator" 
+                <Link
+                  to="/cost-estimator"
                   className="bg-white text-blue-900 hover:bg-blue-50 px-8 py-3 rounded-full font-semibold transition inline-flex items-center gap-2"
                 >
                   Get Free Estimate →
                 </Link>
-                <Link 
-                  to="/projects" 
+                <Link
+                  to="/projects"
                   className="border-2 border-white text-white hover:bg-white hover:text-blue-900 px-8 py-3 rounded-full font-semibold transition"
                 >
                   View Our Work
                 </Link>
               </div>
             </div>
-            
+
             <div className="grid grid-cols-2 gap-4 animate-fadeInUp" style={{ animation: 'fadeInUp 0.8s ease-out 0.2s forwards', opacity: 0 }}>
               {leadershipStats.map((stat, idx) => (
                 <div key={idx} className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-center hover-lift">
@@ -229,10 +228,11 @@ function CompanyProfilePage() {
           </div>
         </div>
       </section>
-      
+
       {/* Our Values Section */}
-      <section 
-        ref={(el) => (sectionsRef.current[0] = el)}
+      <section
+        ref={(el) => { sectionsRef.current[0] = el; }}
+
         className="reveal-section py-10 bg-white"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -245,7 +245,7 @@ function CompanyProfilePage() {
               These principles guide everything we do, from first consultation to final handover
             </p>
           </div>
-          
+
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {companyValues.map((value, idx) => (
               <div key={idx} className="bg-gray-50 rounded-2xl p-6 hover-lift border border-gray-100">
@@ -257,64 +257,63 @@ function CompanyProfilePage() {
           </div>
         </div>
       </section>
-      
+
       {/* Leadership Section */}
-  
 
-    {/* ceo and founder */}
-<section className="bg-gray-50 py-16 md:py-20">
-  <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-    <div className="grid md:grid-cols-2 gap-12 items-center">
-      {/* Left: Image Card */}
-      <div
-        className="relative  rounded-2xl overflow-hidden aspect-[5/5] bg-cover bg-center shadow-xl"
-        style={{
-          backgroundImage: "linear-gradient(180deg, rgba(31, 23, 17, 0.08), rgba(31, 23, 17, 0.42)), url('/images/Anoj.jpeg')",
-        }}
-      >
-        <div className="absolute bottom-6 left-6 right-6">
-          <strong className="text-white text-lg font-bold block">Anoj Gupta</strong>
-          <p className="text-white text-sm opacity-90 mt-1">
-            CEO and Founder, focused on building a company where design quality and execution integrity
-            stay equally important.
-          </p>
-        </div>
-      </div>
 
-      {/* Right: Content */}
-      <div className="space-y-8">
-        <div>
-          <span className="inline-block bg-blue-100 text-blue-600 rounded-full px-4 py-1 text-xs font-bold uppercase tracking-wider mb-4">
-            Leadership
-          </span>
-          <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-4">
-            The company vision starts with reducing friction for homeowners.
-          </h2>
-          <p className="text-gray-600 text-lg">
-            Vasundhara was shaped around the idea that premium construction should feel more dependable,
-            better explained, and more intentional from the first meeting onward.
-          </p>
-        </div>
-
-        <div className="space-y-6">
-          {values.map((item) => (
-            <div key={item.title} className="flex gap-4">
-              <span className="text-2xl text-blue-600 font-bold leading-8">+</span>
-              <div>
-                <strong className="block text-gray-900 font-bold">{item.title}</strong>
-                <p className="text-gray-600 text-sm mt-1">{item.text}</p>
+      {/* ceo and founder */}
+      <section className="bg-gray-50 py-16 md:py-20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            {/* Left: Image Card */}
+            <div
+              className="relative  rounded-2xl overflow-hidden aspect-[5/5] bg-cover bg-center shadow-xl"
+              style={{
+                backgroundImage: "linear-gradient(180deg, rgba(31, 23, 17, 0.08), rgba(31, 23, 17, 0.42)), url('/images/Anoj.jpeg')",
+              }}
+            >
+              <div className="absolute bottom-6 left-6 right-6">
+                <strong className="text-white text-lg font-bold block">Anoj Gupta</strong>
+                <p className="text-white text-sm opacity-90 mt-1">
+                  CEO and Founder, focused on building a company where design quality and execution integrity
+                  stay equally important.
+                </p>
               </div>
             </div>
-          ))}
+
+            {/* Right: Content */}
+            <div className="space-y-8">
+              <div>
+                <span className="inline-block bg-blue-100 text-blue-600 rounded-full px-4 py-1 text-xs font-bold uppercase tracking-wider mb-4">
+                  Leadership
+                </span>
+                <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-4">
+                  The company vision starts with reducing friction for homeowners.
+                </h2>
+                <p className="text-gray-600 text-lg">
+                  Vasundhara was shaped around the idea that premium construction should feel more dependable,
+                  better explained, and more intentional from the first meeting onward.
+                </p>
+              </div>
+
+              <div className="space-y-6">
+                {values.map((item) => (
+                  <div key={item.title} className="flex gap-4">
+                    <span className="text-2xl text-blue-600 font-bold leading-8">+</span>
+                    <div>
+                      <strong className="block text-gray-900 font-bold">{item.title}</strong>
+                      <p className="text-gray-600 text-sm mt-1">{item.text}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
+      </section>
       {/* Company Journey Timeline */}
-      <section 
-        ref={(el) => (sectionsRef.current[3] = el)}
-        className="reveal-section py-20 bg-gradient-to-br from-blue-50 to-indigo-50"
+      <section
+        ref={(el) => { sectionsRef.current[3] = el; }}        className="reveal-section py-20 bg-gradient-to-br from-blue-50 to-indigo-50"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
@@ -326,11 +325,11 @@ function CompanyProfilePage() {
               From humble beginnings to industry leadership
             </p>
           </div>
-          
+
           <div className="relative">
             {/* Timeline Line */}
             <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-blue-300 hidden md:block"></div>
-            
+
             {companyJourney.map((item, idx) => (
               <div key={idx} className={`relative mb-12 ${idx % 2 === 0 ? 'md:pr-1/2' : 'md:pl-1/2 md:ml-auto'} md:w-1/2`}>
                 <div className={`flex items-start gap-4 ${idx % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}`}>
@@ -348,12 +347,12 @@ function CompanyProfilePage() {
           </div>
         </div>
       </section>
-    
+
 
       <Testimonials />
       {/* Numbers Section */}
-      <section 
-        ref={(el) => (sectionsRef.current[5] = el)}
+      <section
+        ref={(el) => {sectionsRef.current[5] = el}}
         className="reveal-section gradient-bg text-white py-20"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -363,7 +362,7 @@ function CompanyProfilePage() {
               The metrics that reflect our commitment to excellence
             </p>
           </div>
-          
+
           <div className="grid md:grid-cols-4 gap-8">
             {leadershipStats.map((stat, idx) => (
               <div key={idx} className="text-center">
@@ -376,7 +375,7 @@ function CompanyProfilePage() {
           </div>
         </div>
       </section>
-      
+
       {/* CTA Section */}
       <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -388,14 +387,14 @@ function CompanyProfilePage() {
               Let's discuss your project and create a space that exceeds your expectations
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
-              <Link 
-                to="/contact" 
+              <Link
+                to="/contact"
                 className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-3 rounded-full font-semibold transition inline-flex items-center gap-2"
               >
                 Schedule Consultation →
               </Link>
-              <Link 
-                to="/cost-estimator" 
+              <Link
+                to="/cost-estimator"
                 className="border-2 border-white text-white hover:bg-white hover:text-blue-600 px-8 py-3 rounded-full font-semibold transition"
               >
                 Get Free Estimate

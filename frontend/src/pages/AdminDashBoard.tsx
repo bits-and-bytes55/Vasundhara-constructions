@@ -63,9 +63,9 @@ const RichTextEditor = ({ value, onChange }: { value: string; onChange: (content
     if (el.innerHTML !== value) el.innerHTML = value || ''
   }, [value])
 
-  const exec = (command: string, val: string | null = null) => {
+  const exec = (command: string, _val: string | null = null) => {
     editorRef.current?.focus()
-    document.execCommand(command, false, val)
+    document.execCommand(command, false)
     emitChange()
   }
 

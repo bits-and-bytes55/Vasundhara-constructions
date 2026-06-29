@@ -71,12 +71,6 @@ const process = {
   ],
 }
 
-const cta = {
-  title: 'Ready to build your dream home?',
-  subtitle: 'Start your journey with a free consultation – no obligations.',
-  buttonLabel: 'Get Consultation',
-  perks: ['Free Site Visit', 'Transparent Quote', 'No Hidden Costs'],
-}
 
 const projects = {
   eyebrow: 'Featured Work',
@@ -180,13 +174,6 @@ const dreamSlides = [
   { label: 'Elevation View', image: 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=800' },
 ]
 
-const testimonials = [
-  { quote: 'Vasundhara delivered our home on time with exceptional quality. The entire process was smooth and completely hassle-free!', author: 'Mr. Rajesh Sharma', location: '', initials: 'PS', rating: 5 },
-  { quote: 'Amazing experience! They turned our ideas into reality while staying transparent and professional throughout.', author: 'Ms. Nisha Patel', location: '', initials: 'RV', rating: 5 },
-  { quote: 'The quality checks at every stage gave us confidence. Truly a world-class construction experience.', author: 'Dr. Arjun Singh', location: '', initials: 'AM', rating: 5 },
-  { quote: 'Escrow payment system is a game changer. We felt safe every step of the way. Highly recommend!', author: 'Suresh Iyer', location: '', initials: 'SI', rating: 5 },
-  { quote: 'From design to handover, every milestone was met perfectly. Our dream home is now a beautiful reality!', author: 'Deepa Nair', location: '', initials: 'DN', rating: 5 },
-]
 
 // FAQ data
 const faqs = [
@@ -220,85 +207,160 @@ const packagesData = {
   subtitle: 'Transparent, fixed-price packages for your dream home – no hidden costs.',
   cards: [
     {
-      name: 'Basic',
-      price: '₹1,950/sq.ft.',
-      rate: '₹1,950 – ₹2,150/sq.ft.',
+      name: 'Basic - Low',
+      price: '₹1,550/sq.ft.',
+      rate: '₹1,550 – ₹1,850/sq.ft.',
       color: '#3b82f6',
       gradient: 'linear-gradient(135deg, #3b82f6, #1e3a8a)',
       img: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&auto=format',
       eyebrow: 'Value Plus',
       popular: false,
       breakdown: [
-        ['Cement', 'Shree'],
-        ['TMT Bars', 'Rathi'],
-        ['Plumbing', 'Prince'],
-        ['Sanitary', 'Hind ware'],
-        ['Flooring', 'Vitrified tiles'],
-        ['Paint', 'Premium Emulsion'],
+        ['Cement', 'Shree / Bangur PPC'],
+        ['TMT Bars', 'Shree / Shyam'],
+        ['Plumbing', 'Prins'],
+        ['Sanitary', 'Lipka / Parryware'],
+        ['Flooring', 'Vitrified tiles – Somany'],
+        ['Paint', 'Birla Opus or Equivalent'],
       ],
       cta: 'Get Quote →',
+      fullSpecs: {
+        cement: 'Shree / Bangur PPC',
+        tmt: 'Shree / Shyam',
+        chowkhat: 'Mango Wood / Pine Wood',
+        doors: 'Mango Wood / Pine Wood with Paint',
+        windows: 'Pine Wood Frame with Float Glass',
+        railing: 'Normal Brickwork on Parapet',
+        flooring: 'Vitrified Tiles – Somany (all floors), Kota Stone in Stairs/Concrete Plaster, CC Flooring',
+        wallFinish: 'Birla Opus or Equivalent Paint Finish',
+        kitchen: 'Polished Granite Slab & BWR Plywood with Sunmica Finish',
+        shoeCrockery: 'Not Included',
+        falseCeiling: 'Normal POP on Ceiling (JK / SuperFine Brand)',
+        curtains: 'Not Included',
+        furniture: 'Not Included',
+        sanitary: 'Lipka / Parryware',
+        electrical: 'Prins',
+        switches: 'Finolex',
+        lights: 'Not Included'
+      }
     },
     {
-      name: 'Standard',
-      price: '₹2,300/sq.ft.',
-      rate: '₹2,300 – ₹2,500/sq.ft.',
+      name: 'Basic - High',
+      price: '₹1,750/sq.ft.',
+      rate: '₹1,750 – ₹2,300/sq.ft.',
       color: '#0ea5e9',
       gradient: 'linear-gradient(135deg, #0ea5e9, #0284c7)',
       img: 'https://images.unsplash.com/photo-1600210492493-0946911123ea?w=600&auto=format',
       eyebrow: 'Most Popular',
       popular: true,
       breakdown: [
-        ['Cement', 'Shree / JK Super'],
-        ['TMT Bars', 'Kamdhenu / Rathi'],
-        ['Plumbing', 'Supreme'],
-        ['Sanitary', 'Parryware'],
-        ['Flooring', 'Wooden flooring in MBR'],
-        ['Paint', 'Premium Emulsion'],
+        ['Cement', 'ACC / Ambuja'],
+        ['TMT Bars', 'Rathi / Indostar'],
+        ['Plumbing', 'AKG / BEC'],
+        ['Sanitary', 'Hindware / Parryware'],
+        ['Flooring', 'Vitrified tiles – Kajaria'],
+        ['Paint', 'Berger / Dulux / Nerolac'],
       ],
       cta: 'Get Quote →',
+      fullSpecs: {
+        cement: 'ACC / Ambuja',
+        tmt: 'Rathi / Indostar',
+        chowkhat: 'Marandi / Kapoor',
+        doors: 'Plywood Doors with Laminate on Both Sides',
+        windows: 'Teak or Sal Wood',
+        railing: 'MS Railing',
+        flooring: 'Vitrified Tiles – Kajaria (all floors), Granite in Stairs, Kota Stone in Parking',
+        wallFinish: 'Berger / Dulux / Nerolac Paint with Wallpaper / 3D Paint as required',
+        kitchen: 'Polished Granite Slab & Action Tesa with Advance Laminate / Merino Sheet incl. Ozone / Godrej Accessories',
+        shoeCrockery: 'BWR Plywood Open Shelves with Laminate Finish',
+        falseCeiling: 'Gypsum Cove Ceiling (Sakarni POP / Birla White)',
+        curtains: 'Not Included',
+        furniture: 'Not Included',
+        sanitary: 'Hindware / Parryware',
+        electrical: 'AKG / BEC',
+        switches: 'Anchor by Penta / Anchor by Panasonic',
+        lights: 'LED Downlight (Crompton / Wipro) – 4 nos per Bedroom & Drawing Room'
+      }
+    },
+    {
+      name: 'Standard',
+      price: '₹2,150/sq.ft.',
+      rate: '₹2,150 – ₹2,500/sq.ft.',
+      color: '#f59e0b',
+      gradient: 'linear-gradient(135deg, #f59e0b, #d97706)',
+      img: 'https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?w=600&auto=format',
+      eyebrow: 'Most Popular',
+      popular: true,
+      breakdown: [
+        ['Cement', 'JK Cement / Super'],
+        ['TMT Bars', 'Kamdhenu / Rathi'],
+        ['Plumbing', 'Supreme'],
+        ['Sanitary', 'Hindware / Jaquar'],
+        ['Flooring', 'Tile + Wooden in Drawing & Bedroom'],
+        ['Paint', 'Asian Apex Ultima'],
+      ],
+      cta: 'Get Quote →',
+      fullSpecs: {
+        cement: 'JK Cement / Super',
+        tmt: 'Kamdhenu / Rathi',
+        chowkhat: 'Teak or Sal Wood',
+        doors: 'Century Plyboard with Laminate on Both Sides',
+        windows: 'UPVC – Prominent',
+        railing: 'SS Railing / Glass Railing',
+        flooring: 'Tile + Wooden Flooring in Drawing & Bedroom, Granite in Stairs, Kota Stone in Parking',
+        wallFinish: 'Asian Apex Ultima Paint with PVC Moulding / Wooden Panelling / Cladding / Murals',
+        kitchen: 'Polished Italian Marble Slab & Century Ply HDHMR Board with Royale Touch Acrylic Sheet incl. Blum / Hafele Accessories (Designer TV Unit with Storage)',
+        shoeCrockery: 'Designer Shoe Cabinet / Crockery Unit with BWR Plywood Shutters & Advance Laminate Finish',
+        falseCeiling: 'Gypsum Cove Ceiling with LED Lighting (Birla White / Sakarni Gypsum Plaster)',
+        curtains: 'Included as per client selection',
+        furniture: 'Puja Unit, Bar Unit – HDHMR Board with Laminate Finish',
+        sanitary: 'Hindware / Jaquar',
+        electrical: 'Supreme',
+        switches: 'Polycab / Great White',
+        lights: 'LED Downlights & Panel Lights (Havells / Orient / Philips) – 4–6 nos per room'
+      }
     },
     {
       name: 'Premium',
       price: '₹2,750/sq.ft.',
       rate: '₹2,750 – ₹3,000/sq.ft.',
-      color: '#f59e0b',
-      gradient: 'linear-gradient(135deg, #f59e0b, #d97706)',
+      color: '#8b5cf6',
+      gradient: 'linear-gradient(135deg, #8b5cf6, #5b21b6)',
       img: 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&auto=format',
       eyebrow: 'Luxury Choice',
       popular: false,
       breakdown: [
-        ['Cement', 'Ultratech / JK Super'],
-        ['TMT Bars', 'SAIL'],
+        ['Cement', 'JK Cement / Super'],
+        ['TMT Bars', 'SAIL / Jindal'],
         ['Plumbing', 'Ashirwad'],
-        ['Sanitary', 'Jaquar / Roca'],
+        ['Sanitary', 'Grohe / Roca / Jaquar'],
         ['Flooring', 'Italian marble'],
-        ['Paint', 'Royal Shine'],
+        ['Paint', 'Asian Royale Shine'],
       ],
       cta: 'Get Quote →',
-    },
-    {
-      name: 'Luxury',
-      price: '₹3,000/sq.ft.',
-      rate: '₹3,000 – ₹3,300/sq.ft.',
-      color: '#4f46e5',
-      gradient: 'linear-gradient(135deg, #4f46e5, #3730a3)',
-      img: 'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=600&auto=format',
-      eyebrow: 'Ultimate',
-      popular: false,
-      breakdown: [
-        ['Cement', 'Ultratech'],
-        ['TMT Bars', 'Tata'],
-        ['Plumbing', 'Ashirwad'],
-        ['Sanitary', 'Jaguar / Kohler'],
-        ['Flooring', 'Italian marble + designer'],
-        ['Paint', 'Royal Shine + texture'],
-      ],
-      cta: 'Get Quote →',
-    },
-  ],
+      fullSpecs: {
+        cement: 'JK Cement / Super',
+        tmt: 'SAIL / Jindal',
+        chowkhat: 'Teak or Sal Wood',
+        doors: 'Century Plyboard with Veneer / Duco Polish Finish',
+        windows: 'UPVC – Veka',
+        railing: 'SS Railing / Glass Railing',
+        flooring: 'Italian Flooring in Drawing & Dining, Tiles in Rooms & Bathroom, Granite in Stairs, Kota Stone in Parking',
+        wallFinish: 'Asian Royale Shine Paint with PVC Moulding / Wooden Panelling / Featured Wall as required',
+        kitchen: 'Polished Italian Stone & Century Ply HDHMR Board with Acrylic Sheet incl. Blum / Hafele Accessories (Designer TV Unit with Storage)',
+        shoeCrockery: 'Designer Shoe Cabinet / Crockery Unit with BWR Plywood Shutters & Laminate Finish',
+        falseCeiling: 'Wooden Ceiling / Gyproc / USG Boral / Glass / Metal Ceiling with LED Lighting',
+        curtains: 'Included as per client selection',
+        furniture: 'Puja Unit, Bar Unit – HDHMR Board with Laminate & Glass Shutters',
+        sanitary: 'Grohe / Roca / Jaquar',
+        electrical: 'Ashirwad',
+        switches: 'Havells / Schneider',
+        lights: 'LED Downlights & Panel Lights (Havells / Orient / Philips) as required'
+      }
+    }
+  ]
 };
-// Helper for dynamic delays (kept for reveal animations)
-const wd = (d: number) => ({ '--delay': `${d}ms` } as React.CSSProperties)
+
 
 function HomePage() {
   // Typewriter state
@@ -310,9 +372,6 @@ function HomePage() {
   const [dreamSlide, setDreamSlide] = useState(0)
   const [whySlide, setWhySlide] = useState(0)
   const [projectSlide, setProjectSlide] = useState(0)
-  const [testiPage, setTestiPage] = useState(0)
-  const testiPerPage = 3
-  const testiPages = Math.ceil(testimonials.length / testiPerPage)
   const projectSlideCount = projects.items.length
 
   // ----- Hero Slider using services.cards -----
@@ -351,14 +410,7 @@ function HomePage() {
   const [heroSlideIndex, setHeroSlideIndex] = useState(0);
   const currentHeroSlide = heroSlides[heroSlideIndex];
 
-  const handleHeroPrev = () => {
-    setHeroSlideIndex((prev) => (prev === 0 ? heroSlides.length - 1 : prev - 1));
-  };
-
-  const handleHeroNext = () => {
-    setHeroSlideIndex((prev) => (prev === heroSlides.length - 1 ? 0 : prev + 1));
-  };
-
+  
   const goToHeroSlide = (index: number) => setHeroSlideIndex(index);
 
   // Auto-slide for hero slider
@@ -384,22 +436,12 @@ function HomePage() {
     };
   }, [resetAutoSlideTimer]);
 
-  // When user interacts, reset timer
-  const handleManualPrev = () => {
-    handleHeroPrev();
-    resetAutoSlideTimer();
-  };
-  const handleManualNext = () => {
-    handleHeroNext();
-    resetAutoSlideTimer();
-  };
+  
   const handleManualDot = (idx: number) => {
     goToHeroSlide(idx);
     resetAutoSlideTimer();
   };
-  // New state for packages slider
-  const [packageIndex, setPackageIndex] = useState(0)
-  const packageCount = packagesData.cards.length
+  
 
 
 
@@ -453,66 +495,17 @@ function HomePage() {
     return () => clearInterval(slider)
   }, [projectSlideCount])
 
-  useEffect(() => {
-    const timer = setInterval(() => setTestiPage((p) => (p + 1) % testiPages), 4500)
-    return () => clearInterval(timer)
-  }, [testiPages])
+  
 
-  const cards = packagesData.cards
-  const CARD_COUNT = cards.length
-
-  // We triple the cards for seamless infinite loop: [...cards, ...cards, ...cards]
-  // Start at index = CARD_COUNT (the middle copy)
-  const tripled = [...cards, ...cards, ...cards]
-  const [current, setCurrent] = useState(CARD_COUNT) // start at middle copy
   const [transitioning, setTransitioning] = useState(true)
-  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
-  const trackRef = useRef<HTMLDivElement>(null)
-  const sliderContainerRef = useRef<HTMLDivElement>(null) // for hover/touch pause
 
-  // How many cards visible per viewport
-  const getVisible = () => {
-    if (typeof window === 'undefined') return 1
-    if (window.innerWidth >= 1024) return 3
-    if (window.innerWidth >= 640) return 2
-    return 1
-  }
-  const [visible, setVisible] = useState(1)
+  
 
   // Pause state for auto-slide
-  const [isPaused, setIsPaused] = useState(false)
 
-  useEffect(() => {
-    const upd = () => setVisible(getVisible())
-    upd()
-    window.addEventListener('resize', upd)
-    return () => window.removeEventListener('resize', upd)
-  }, [])
+ 
 
-  // Auto-advance (respects pause)
-  const advance = useCallback(() => {
-    if (!isPaused) {
-      setTransitioning(true)
-      setCurrent(p => p + 1)
-    }
-  }, [isPaused])
-
-  useEffect(() => {
-    timerRef.current = setInterval(advance, 3200)
-    return () => clearInterval(timerRef.current)
-  }, [advance])
-
-  // When we reach the end of the 3rd copy → silently jump to 1st copy equivalent
-
-  const handleTransitionEnd = () => {
-    if (current >= CARD_COUNT * 2) {
-      setTransitioning(false)
-      setCurrent(CARD_COUNT)
-    } else if (current < CARD_COUNT) {
-      setTransitioning(false)
-      setCurrent(CARD_COUNT * 2 - 1)
-    }
-  }
+  
 
   // Re-enable transition after silent jump
   useEffect(() => {
@@ -522,54 +515,8 @@ function HomePage() {
     }
   }, [transitioning])
 
-  const goTo = (idx: number) => {
-    if (timerRef.current) clearInterval(timerRef.current)
-    setTransitioning(true)
-    setCurrent(CARD_COUNT + idx)
-    timerRef.current = setInterval(advance, 3200)
-  }
-
-  const prev = () => {
-    if (timerRef.current) clearInterval(timerRef.current)
-    setTransitioning(true)
-    setCurrent(p => p - 1)
-    timerRef.current = setInterval(advance, 3200)
-  }
-
-  const next = () => {
-    if (timerRef.current) clearInterval(timerRef.current)
-    advance()
-    timerRef.current = setInterval(advance, 3200)
-  }
-
-  // Active dot: which card in original array is at front
-  const activeDot = ((current - CARD_COUNT) % CARD_COUNT + CARD_COUNT) % CARD_COUNT
-
-  // Card width % based on visible count
-  const cardW = 100 / visible
-
-  // Pause on hover / touch
-  useEffect(() => {
-    const container = sliderContainerRef.current
-    if (!container) return
-
-    const handleMouseEnter = () => setIsPaused(true)
-    const handleMouseLeave = () => setIsPaused(false)
-    const handleTouchStart = () => setIsPaused(true)
-    const handleTouchEnd = () => setIsPaused(false)
-
-    container.addEventListener('mouseenter', handleMouseEnter)
-    container.addEventListener('mouseleave', handleMouseLeave)
-    container.addEventListener('touchstart', handleTouchStart)
-    container.addEventListener('touchend', handleTouchEnd)
-
-    return () => {
-      container.removeEventListener('mouseenter', handleMouseEnter)
-      container.removeEventListener('mouseleave', handleMouseLeave)
-      container.removeEventListener('touchstart', handleTouchStart)
-      container.removeEventListener('touchend', handleTouchEnd)
-    }
-  }, [])
+  
+  
 
   // Scroll reveal
   useEffect(() => {
@@ -586,7 +533,6 @@ function HomePage() {
     return () => observer.disconnect()
   }, [])
 
-  const visibleTestis = testimonials.slice(testiPage * testiPerPage, testiPage * testiPerPage + testiPerPage)
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null)
 
   return (
@@ -1028,8 +974,7 @@ function HomePage() {
         </div>
       </section>
 
-      {/* Packages */}
-      <section className="py-10 bg-blue-50" id="packages">
+       <section className="py-16 bg-blue-50" id="packages">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 reveal-on-scroll">
             <span className="text-sm font-bold uppercase tracking-wider text-blue-500">{packagesData.eyebrow}</span>
@@ -1037,49 +982,47 @@ function HomePage() {
             <p className="text-gray-600 max-w-2xl mx-auto mt-4">{packagesData.subtitle}</p>
           </div>
 
-          {/* Scrollable Cards */}
-          <div className="relative">
-            <div className="overflow-x-auto pb-4 scrollbar-hide" id="pkgScrollTrack" style={{ scrollBehavior: 'smooth', msOverflowStyle: 'none', scrollbarWidth: 'none' }}>
-              <div className="flex gap-5 min-w-max px-2">
-                {packagesData.cards.map((pkg) => (
-                  <div key={pkg.name} className={`w-72 rounded-2xl overflow-hidden shadow-lg flex-shrink-0 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl ${pkg.popular ? 'ring-2 ring-blue-500' : ''}`}>
-                    {/* Image top */}
-                    <div className="relative h-44 overflow-hidden">
-                      <img src={pkg.img} alt={pkg.name} className="w-full h-full object-cover" />
-                      <div className="absolute inset-0 flex flex-col justify-between p-4" style={{ background: `linear-gradient(0deg, ${pkg.color}cc 0%, transparent 55%)` }}>
-                        {pkg.popular && <span className="bg-white text-blue-600 text-[10px] font-black uppercase tracking-widest rounded-full px-3 py-1 w-fit shadow">⭐ Popular</span>}
-                        {!pkg.popular && <span />}
-                        <div>
-                          <p className="text-white/75 text-[10px] font-bold uppercase tracking-widest mb-1">{pkg.eyebrow}</p>
-                          <h3 className="text-xl font-black text-white drop-shadow">{pkg.name}</h3>
-                        </div>
-                      </div>
-                    </div>
-                    {/* Body */}
-                    <div className="bg-white p-5">
-                      <div className="text-2xl font-black mb-1" style={{ color: pkg.color }}>{pkg.price}</div>
-                      <div className="text-xs text-gray-500 mb-4">Effective rate: {pkg.rate}</div>
-                      <div className="border-t border-gray-100 pt-3 space-y-2 mb-5">
-                        {pkg.breakdown.map(([label, val]) => (
-                          <div key={label} className="flex justify-between text-xs text-gray-500">
-                            <span>{label}</span><span className="font-bold text-gray-800">{val}</span>
-                          </div>
-                        ))}
-                      </div>
-                      
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 reveal-on-scroll" style={{ transitionDelay: '0.1s' }}>
+            {packagesData.cards.map((pkg) => (
+              <div
+                key={pkg.name}
+                className={`bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 ${pkg.popular ? 'ring-2 ring-blue-500' : ''}`}
+              >
+                {/* Image top */}
+                <div className="relative h-44 overflow-hidden">
+                  <img src={pkg.img} alt={pkg.name} className="w-full h-full object-cover" />
+                  <div className="absolute inset-0 flex flex-col justify-between p-4" style={{ background: `linear-gradient(0deg, ${pkg.color}cc 0%, transparent 55%)` }}>
+                    {pkg.popular && <span className="bg-white text-blue-600 text-[10px] font-black uppercase tracking-widest rounded-full px-3 py-1 w-fit shadow">⭐ Popular</span>}
+                    {!pkg.popular && <span />}
+                    <div>
+                      <p className="text-white/75 text-[10px] font-bold uppercase tracking-widest mb-1">{pkg.eyebrow}</p>
+                      <h3 className="text-xl font-black text-white drop-shadow">{pkg.name}</h3>
                     </div>
                   </div>
-                ))}
+                </div>
+                {/* Body */}
+                <div className="bg-white p-5">
+                  <div className="text-2xl font-black mb-1" style={{ color: pkg.color }}>{pkg.price}</div>
+                  <div className="text-xs text-gray-500 mb-4">Effective rate: {pkg.rate}</div>
+                  <div className="border-t border-gray-100 pt-3 space-y-2 mb-5">
+                    {pkg.breakdown.map(([label, val]) => (
+                      <div key={label} className="flex justify-between text-xs text-gray-500">
+                        <span>{label}</span><span className="font-bold text-gray-800">{val}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <Link to={`/packages/${pkg.name.toLowerCase().replace(/ /g, '-')}`} className="block text-center py-2 rounded-lg text-white font-bold text-sm transition hover:opacity-90" style={{ background: pkg.color }}>
+                    {pkg.cta || 'Get Quote →'}
+                  </Link>
+                </div>
               </div>
-            </div>
-
-            {/* Nav Buttons */}
-            <button className="absolute left-0 top-[45%] -translate-y-1/2 w-10 h-10 bg-white rounded-full shadow-lg border border-gray-200 text-blue-500 hover:bg-blue-500 hover:text-white transition text-xl font-bold flex items-center justify-center" onClick={() => { const el = document.getElementById('pkgScrollTrack'); if (el) el.scrollBy({ left: -300, behavior: 'smooth' }); }}>‹</button>
-            <button className="absolute right-0 top-[45%] -translate-y-1/2 w-10 h-10 bg-white rounded-full shadow-lg border border-gray-200 text-blue-500 hover:bg-blue-500 hover:text-white transition text-xl font-bold flex items-center justify-center" onClick={() => { const el = document.getElementById('pkgScrollTrack'); if (el) el.scrollBy({ left: 300, behavior: 'smooth' }); }}>›</button>
+            ))}
           </div>
 
-          <div className="text-center mt-8">
-            <a href="/packages" className="inline-flex items-center gap-2 text-blue-500 font-bold border-2 border-blue-200 px-6 py-2.5 rounded-full hover:bg-blue-500 hover:text-white hover:border-blue-500 transition text-sm">View Full Package Details →</a>
+          <div className="text-center mt-10 reveal-on-scroll">
+            <Link to="/packages" className="inline-flex items-center gap-2 text-blue-500 font-bold border-2 border-blue-200 px-6 py-2.5 rounded-full hover:bg-blue-500 hover:text-white hover:border-blue-500 transition text-sm">
+              View Full Package Details →
+            </Link>
           </div>
         </div>
       </section>

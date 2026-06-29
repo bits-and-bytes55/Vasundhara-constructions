@@ -1,6 +1,4 @@
-import { Link } from 'react-router-dom'
 import type { FooterPageSlug } from '../data/footerPages'
-import { footerPageMap } from '../data/footerPages'
 import '../premium-pages.css'
 
 type FooterContentPageProps = {
@@ -8,7 +6,6 @@ type FooterContentPageProps = {
 }
 
 function FooterContentPage({ slug }: FooterContentPageProps) {
-  const page = footerPageMap[slug]
   const themeClassMap: Record<FooterPageSlug, string> = {
     'terms-and-conditions': 'premium-page--theme-slate',
     'privacy-policy': 'premium-page--theme-forest',
@@ -19,7 +16,6 @@ function FooterContentPage({ slug }: FooterContentPageProps) {
     'cancellation-policy': 'premium-page--theme-rose',
     'news-media': 'premium-page--theme-slate',
   }
-  const lowerLabel = page.label.toLowerCase()
 
   const footerServices = ['Construction', 'Interiors', 'Elevations', 'Terrace Garden', 'Luxury Bathrooms', 'Custom Furniture']
   const footerSocials = [

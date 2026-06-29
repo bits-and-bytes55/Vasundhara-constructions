@@ -28,8 +28,8 @@ const DEFAULT: FormState = {
 }
 
 /* ── package colours (blue theme) ───────────────────── */
-const PKG_COLOR = ['#3b82f6', '#0ea5e9', '#2563eb', '#1d4ed8']
-const PKG_LIGHT = ['#eff6ff', '#f0f9ff', '#dbeafe', '#e0e7ff']
+const PKG_COLOR = ['#3b82f6', '#0ea5e9', '#f59e0b', '#8b5cf6']
+const PKG_LIGHT = ['#eff6ff', '#f0f9ff', '#fffbeb', '#f5f3ff']
 
 /* ── construction stage % weights based on PDF payment stages ── */
 const STAGES = [
@@ -62,25 +62,23 @@ const FLOOR_PCT: Record<number, number[]> = {
   4: [0.32, 0.27, 0.23, 0.18],
 }
 
-/* ── package compare feature rows based on PDF data ── */
+/* ── package compare feature rows – updated for 4 packages ── */
 const COMPARE_FEATURES = [
-  { label: 'Cement Brand', values: ['Shree', 'Shree/JK Super', 'Ultratech/JK Super', 'Ultratech'] },
-  { label: 'TMT Bars', values: ['Rathi', 'Kamdhenu/Rathi', 'SAIL', 'Tata'] },
-  { label: 'Red Brick', values: ['Premium quality', '1st Number Brick', '1st Number Brick', '1st Number Brick'] },
-  { label: 'Plumbing', values: ['Prince', 'Supreme', 'Ashirwad', 'Ashirwad'] },
-  { label: 'Sanitary Fittings', values: ['Hind ware', 'Parryware', 'Jaquar/Roca', 'Jaguar/Kohler'] },
-  { label: 'Electrical Switches', values: ['Anchor', 'Polycab/GreatWhite', 'Havells', 'Havells'] },
-  { label: 'Electrical Wires', values: ['Anchor/Kaliga', 'Polycab', 'Havells', 'Havells'] },
-  { label: 'POP Finish', values: ['Gypsum', 'POP with Sakarni', 'POP with Sakarni', 'POP with Sakarni'] },
-  { label: 'Chowkhat', values: ['Marandi/Kapoor', 'Teak or Sal', 'Teak or Sal', 'Sagwan'] },
-  { label: 'Doors', values: ['Plywood Laminate', 'Century Ply Laminate', 'Century Ply Veneer', 'Century Ply Veneer'] },
-  { label: 'Windows', values: ['Wooden', 'Wooden', 'UPVC/Wooden', 'UPVC'] },
-  { label: 'Flooring', values: ['Vitrified Tiles', 'Tile + Wooden MBR', 'Italian + Tiles', 'Italian + Premium'] },
-  { label: 'Paint', values: ['Premium Emulsion', 'Premium Emulsion', 'Royal Shine', 'Royal Shine'] },
-  { label: 'Interiors', values: ['Laminate Finish', 'Acrylic Finish', 'Acrylic + Duco', 'Glass/Wooden High Gloss'] },
+  { label: 'Cement Brand', values: ['Shree / Bangur PPC', 'ACC / Ambuja', 'JK Cement / Super', 'JK Cement / Super'] },
+  { label: 'TMT Bars', values: ['Shree / Shyam', 'Rathi / Indostar', 'Kamdhenu / Rathi', 'SAIL / Jindal'] },
+  { label: 'Door Chowkhat', values: ['Mango Wood / Pine', 'Marandi / Kapoor', 'Teak or Sal Wood', 'Teak or Sal Wood'] },
+  { label: 'Doors', values: ['Mango Wood / Pine with Paint', 'Plywood Laminate', 'Century Ply Laminate', 'Century Ply Veneer / Duco'] },
+  { label: 'Windows', values: ['Pine Wood with Float Glass', 'Teak or Sal Wood', 'UPVC – Prominent', 'UPVC – Veka'] },
+  { label: 'Railing', values: ['Normal Brickwork', 'MS Railing', 'SS / Glass Railing', 'SS / Glass Railing'] },
+  { label: 'Flooring', values: ['Vitrified Somany + Kota + CC', 'Vitrified Kajaria + Granite + Kota', 'Tile + Wooden in Drawing & Bedroom', 'Italian Marble + Tiles + Granite'] },
+  { label: 'Wall Finish', values: ['Birla Opus or Equivalent', 'Berger / Dulux / Nerolac + Wallpaper', 'Asian Apex Ultima + PVC / Wooden', 'Asian Royale Shine + Featured'] },
+  { label: 'Kitchen', values: ['Granite + Sunmica Ply', 'Granite + Laminate + Godrej', 'Italian Marble + Acrylic + Blum', 'Italian Stone + Acrylic + Blum'] },
+  { label: 'Sanitaryware', values: ['Lipka / Parryware', 'Hindware / Parryware', 'Hindware / Jaquar', 'Grohe / Roca / Jaquar'] },
+  { label: 'Electrical Fittings', values: ['Prins', 'AKG / BEC', 'Supreme', 'Ashirwad'] },
+  { label: 'Switches & Wiring', values: ['Finolex', 'Anchor by Penta / Panasonic', 'Polycab / Great White', 'Havells / Schneider'] },
+  { label: 'Lights', values: ['Not Included', 'LED Downlights (4 per room)', 'LED Downlights & Panels (4–6 per room)', 'Premium LED as required'] },
+  { label: 'False Ceiling', values: ['Normal POP (JK / SuperFine)', 'Gypsum Cove (Sakarni / Birla)', 'Gypsum Cove + LED', 'Wooden / Gyproc / Glass + LED'] },
   { label: 'Structure Warranty', values: ['10 Years', '10 Years', '10 Years', '10 Years'] },
-  { label: 'Site Engineer', values: ['✓ Dedicated', '✓ Dedicated', '✓ Dedicated', '✓ Dedicated'] },
-  { label: 'Quality Checks', values: ['500+', '500+', '500+', '500+'] },
   { label: 'Payment Milestones', values: ['✓ 13 Stages', '✓ 13 Stages', '✓ 13 Stages', '✓ 13 Stages'] },
 ]
 
@@ -166,7 +164,7 @@ export default function CostEstimatorPage() {
               <div className="flex flex-wrap gap-3">
                 {estimatorPackages.map((pkg, i) => (
                   <div key={pkg.name} className="bg-white border rounded-xl px-4 py-2 shadow-sm" style={{ borderColor: PKG_COLOR[i % PKG_COLOR.length] + '44' }}>
-                    <div className="font-bold text-gray-900 text-sm">{pkg.name.replace(' Package', '')}</div>
+                    <div className="font-bold text-gray-900 text-sm">{pkg.name}</div>
                     <div className="text-xs font-bold" style={{ color: PKG_COLOR[i % PKG_COLOR.length] }}>{formatInr(pkg.rate)}/sqft</div>
                   </div>
                 ))}
@@ -312,7 +310,7 @@ export default function CostEstimatorPage() {
                     className={`px-5 py-2 rounded-full text-sm font-bold border transition ${pkg.name === active.name ? 'text-white border-transparent' : 'text-gray-600 border-gray-300 hover:border-blue-500 hover:text-blue-600'}`}
                     style={pkg.name === active.name ? { background: pkg.color } : {}}
                   >
-                    {pkg.name.replace(' Package', '')} · {formatInr(pkg.breakdown.adjustedRate)}/sqft
+                    {pkg.name} · {formatInr(pkg.breakdown.adjustedRate)}/sqft
                   </button>
                 ))}
               </div>
@@ -333,8 +331,13 @@ export default function CostEstimatorPage() {
                         Most Popular
                       </div>
                     )}
-                    <div className={i === 1 ? 'mt-3' : ''}>
-                      <div className="text-xs font-black uppercase tracking-wider" style={{ color: pkg.color }}>{pkg.tag ?? pkg.name.replace(' Package', '')}</div>
+                    {i === 2 && (
+                      <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-orange-500 text-white text-[0.6rem] font-black px-3 py-0.5 rounded-full">
+                        Most Popular
+                      </div>
+                    )}
+                    <div className={i === 1 || i === 2 ? 'mt-3' : ''}>
+                      <div className="text-xs font-black uppercase tracking-wider" style={{ color: pkg.color }}>{pkg.tag ?? pkg.name}</div>
                       <h3 className="text-xl font-black text-gray-900 mt-1">{pkg.name}</h3>
                       <p className="text-sm text-gray-500 mt-1 mb-4">{pkg.summary}</p>
                       <div className="text-3xl font-black" style={{ color: pkg.color }}>{formatInr(pkg.breakdown.total)}</div>
@@ -344,9 +347,7 @@ export default function CostEstimatorPage() {
                         <div className="flex justify-between"><span>Car parking</span><span>{formatInr(pkg.breakdown.parkingCost)}</span></div>
                         <div className="flex justify-between"><span>Balcony & utility</span><span>{formatInr(pkg.breakdown.balconyCost)}</span></div>
                       </div>
-                      <Link to={`/packages/${pkg.slug ?? ''}`} className="mt-4 block text-center py-2 rounded-lg text-white font-bold text-sm transition hover:opacity-90" style={{ background: pkg.color }}>
-                        View Full Package Details
-                      </Link>
+                      
                     </div>
                   </div>
                 ))}

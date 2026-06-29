@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { useState, useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { motion, useAnimation, useInView } from 'framer-motion'
 
 // Construction Services Data
@@ -176,8 +176,7 @@ const whyChooseUs = [
 
 
 function ConstructionPage() {
-  const [activeService, setActiveService] = useState(0)
-  const [activeTestimonial, setActiveTestimonial] = useState(0)
+  
   const controls = useAnimation()
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, amount: 0.2 })

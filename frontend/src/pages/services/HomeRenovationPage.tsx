@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect,} from 'react';
 import { Link } from 'react-router-dom';
 
 // WhatsApp helper
@@ -129,33 +129,7 @@ const STATS = [
   { value: "12+", label: "Years Experience", icon: "", detail: "In renovation expertise" }
 ];
 
-// Testimonials
-const TESTIMONIALS = [
-  {
-    quote: "Vasundhara transformed our 30-year-old home into a modern masterpiece. The team was professional, punctual, and the quality exceeded our expectations. Best decision we ever made!",
-    author: "Meera & Rajesh Sharma",
-    location: "South Delhi",
-    initials: "MS",
-    tag: "Full Home Renovation",
-    rating: 5
-  },
-  {
-    quote: "Our kitchen renovation was completed in just 18 days! The modular design is stunning, and we love cooking in our new space. Highly recommend their services.",
-    author: "Priya Khanna",
-    location: "Noida",
-    initials: "PK",
-    tag: "Kitchen Renovation",
-    rating: 5
-  },
-  {
-    quote: "The team was transparent about costs and delivered exactly what was promised. Our bathrooms look like luxury hotel spas. Worth every rupee!",
-    author: "Vikram Singh",
-    location: "Gurgaon",
-    initials: "VS",
-    tag: "Bathroom Renovation",
-    rating: 5
-  }
-];
+
 
 // Before & After Data
 const BEFORE_AFTER = [
@@ -210,19 +184,9 @@ function useScrollReveal() {
 
 export default function HomeRenovationPage() {
   const [activeService, setActiveService] = useState(0);
-  const [activeTesti, setActiveTesti] = useState(0);
   const [selectedBeforeAfter, setSelectedBeforeAfter] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [formData, setFormData] = useState({
-    name: '',
-    phone: '',
-    email: '',
-    service: '',
-    area: '',
-    timeline: '',
-    budget: '',
-    message: ''
-  });
+  
   
   useScrollReveal();
   
@@ -230,27 +194,11 @@ export default function HomeRenovationPage() {
   
   useEffect(() => {
     const timer = setInterval(() => {
-      setActiveTesti(prev => (prev + 1) % TESTIMONIALS.length);
     }, 5000);
     return () => clearInterval(timer);
   }, []);
   
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
   
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const message = `Hi! I'm interested in renovation services.
-Name: ${formData.name}
-Service: ${formData.service}
-Area: ${formData.area}
-Timeline: ${formData.timeline}
-Budget: ${formData.budget}
-Message: ${formData.message}`;
-    window.open(WA(message), '_blank');
-  };
   
   return (
     <main className="bg-white text-gray-800 overflow-x-hidden">

@@ -21,6 +21,7 @@ export type EstimatorCity = {
   note: string
 }
 
+// ─── CITIES ───────────────────────────────────────────────
 export const estimatorCities: EstimatorCity[] = [
   { name: 'Delhi NCR', code: 'NOI_UP_IN', factor: 1.0, note: 'Base location - Noida, Greater Noida, Ghaziabad' },
   { name: 'Noida', code: 'NOI_UP_IN', factor: 1.0, note: 'Primary service area' },
@@ -30,24 +31,27 @@ export const estimatorCities: EstimatorCity[] = [
   { name: 'Gurugram', code: 'GUR_HR_IN', factor: 1.08, note: 'Premium NCR market' },
 ]
 
+// ─── PACKAGES (from quotation) ────────────────────────────
 export const estimatorPackages: EstimatorPackage[] = [
   {
-    slug: 'basic',
-    name: 'Basic Package',
-    rate: 1950,
-    tag: 'Budget-Friendly',
-    summary: 'Standard material palette for practical turnkey construction. Includes Shree cement, Rathi TMT, and essential finishes.',
+    slug: 'basic-low',
+    name: 'Basic – Low',
+    rate: 1550,
+    tag: 'Budget Friendly',
+    summary: 'Value-focused package with Shree cement, Shyam TMT, and essential finishes. Ideal for cost-conscious builds.',
     accent: '#3b82f6',
     surface: '#eff6ff',
     components: [
       {
         name: 'Structure & Civil',
         blocks: [
-          'Cement - Shree',
-          'TMT Bars - Rathi',
-          'Red Brick - Premium quality',
-          'Dust - Premium quality',
-          'Concrete - Premium quality M20 Grade (1:1.5:3)',
+          'Cement – Shree / Bangur PPC',
+          'TMT Bars – Shree / Shyam',
+          'Door Chowkhat – Mango Wood / Pine Wood',
+          'Doors – Mango Wood / Pine Wood with Paint',
+          'Windows – Pine Wood Frame with Float Glass',
+          'Railing – Normal Brickwork on Parapet',
+          'Flooring – Vitrified Tiles (Somany) all floors, Kota Stone in Stairs/Concrete Plaster, CC Flooring',
           'PCC (1:4:8) for foundation',
           'RCC M20 Grade with rotary mixer & vibrator',
           '12mm shuttering plywood for slab casting',
@@ -56,8 +60,8 @@ export const estimatorPackages: EstimatorPackage[] = [
       {
         name: 'Kitchen',
         blocks: [
-          'Kitchen interior in Laminate Finish',
-          'Ceramic wall dado up to standard',
+          'Polished Granite Slab',
+          'BWR Plywood with Sunmica Finish',
           'Single bowl stainless sink',
           'Prince plumbing fittings',
         ],
@@ -65,7 +69,7 @@ export const estimatorPackages: EstimatorPackage[] = [
       {
         name: 'Bathroom',
         blocks: [
-          'Sanitary fittings - Hind ware',
+          'Sanitary – Lipka / Parryware',
           'Prince plumbing pipes & fittings',
           'Waterproofing of toilets/kitchen (Dr fixit)',
           'Ceramic wall dado',
@@ -74,33 +78,33 @@ export const estimatorPackages: EstimatorPackage[] = [
       {
         name: 'Doors & Windows',
         blocks: [
-          'Chowkhat - Marandi/Kapoor',
-          'Plywood doors with Laminate on both sides',
-          'Wooden windows',
+          'Chowkhat – Mango Wood / Pine Wood',
+          'Doors – Mango Wood / Pine Wood with Paint',
+          'Windows – Pine Wood Frame with Float Glass',
         ],
       },
       {
         name: 'Flooring',
         blocks: [
-          'Tile - Vitrified tiles',
-          'Granite in Stairs',
-          'Kota Stone in Parking',
+          'Vitrified Tiles – Somany (all floors)',
+          'Kota Stone in Stairs/Concrete Plaster',
+          'CC Flooring',
         ],
       },
       {
         name: 'Electrical',
         blocks: [
-          'Electrical Fittings/Conduit - Prince',
-          'Switch Board & Switches - Anchor',
-          'Electrical Wires - Anchor/Kaliga',
-          'Fire-proof standard wiring',
+          'Electrical Fittings/Conduit – Prins',
+          'Switch Board & Switches – Finolex',
+          'Wiring – Finolex',
+          'Standard wiring',
         ],
       },
       {
         name: 'Finishing',
         blocks: [
-          'POP - Gypsum',
-          'Paint - Premium Emulsion',
+          'Normal POP on Ceiling (JK / SuperFine Brand)',
+          'Birla Opus or Equivalent Paint Finish',
           'Internal plaster mix (1:4)',
           'External plaster mix (1:4)',
         ],
@@ -108,22 +112,25 @@ export const estimatorPackages: EstimatorPackage[] = [
     ],
   },
   {
-    slug: 'standard',
-    name: 'Standard Package',
-    rate: 2300,
-    tag: 'Most Popular',
-    summary: 'Balanced upgrade with better materials, wooden flooring in MBR, and premium finishes.',
+    slug: 'basic-high',
+    name: 'Basic – High',
+    rate: 1750,
+    tag: 'Value Plus',
+    summary: 'Upgraded materials with ACC cement, Rathi TMT, gypsum cove ceiling, and better sanitaryware.',
     accent: '#0ea5e9',
     surface: '#f0f9ff',
     components: [
       {
         name: 'Structure & Civil',
         blocks: [
-          'Cement - Shree / JK Super',
-          'TMT Bars - Kamdhenu / Rathi',
-          'Red Brick - 1st Number Brick',
-          'Dust - 1st Number Quality',
-          'Concrete - Premium quality',
+          'Cement – ACC / Ambuja',
+          'TMT Bars – Rathi / Indostar',
+          'Door Chowkhat – Marandi / Kapoor',
+          'Doors – Plywood Doors with Laminate on Both Sides',
+          'Windows – Teak or Sal Wood',
+          'Railing – MS Railing',
+          'Flooring – Vitrified Tiles (Kajaria) all floors, Granite in Stairs, Kota Stone in Parking',
+          'PCC (1:4:8) for foundation',
           'RCC M20 Grade with vibrator',
           '12mm shuttering plywood',
         ],
@@ -131,17 +138,17 @@ export const estimatorPackages: EstimatorPackage[] = [
       {
         name: 'Kitchen',
         blocks: [
-          'Kitchen in Acrylic Finish',
+          'Polished Granite Slab',
+          'Action Tesa with Advance Laminate / Merino Sheet',
+          'Ozone / Godrej accessories',
           'Supreme plumbing fittings',
-          'Ceramic dado upgrade',
-          'Single bowl stainless sink',
         ],
       },
       {
         name: 'Bathroom',
         blocks: [
-          'Sanitary - Parryware',
-          'Supreme CPVC pipes',
+          'Sanitary – Hindware / Parryware',
+          'AKG / BEC plumbing pipes & fittings',
           'Dr fixit waterproofing',
           'Ceramic dado up to 7 feet',
         ],
@@ -149,15 +156,15 @@ export const estimatorPackages: EstimatorPackage[] = [
       {
         name: 'Doors & Windows',
         blocks: [
-          'Chowkhat - Teak or Sal',
-          'Century Plyboard with Laminate on both sides',
-          'Wooden windows',
+          'Chowkhat – Marandi / Kapoor',
+          'Plywood Doors with Laminate on Both Sides',
+          'Windows – Teak or Sal Wood',
         ],
       },
       {
         name: 'Flooring',
         blocks: [
-          'Tile with Wooden Flooring in MBR',
+          'Vitrified Tiles – Kajaria (all floors)',
           'Granite in Stairs',
           'Kota Stone in Parking',
         ],
@@ -165,56 +172,138 @@ export const estimatorPackages: EstimatorPackage[] = [
       {
         name: 'Electrical',
         blocks: [
-          'Electrical Fittings - Supreme',
-          'Switches - Polycab/GreatWhite',
-          'Wires - Polycab',
-          'UPS wiring provision',
+          'Electrical Fittings – AKG / BEC',
+          'Switches – Anchor by Penta / Anchor by Panasonic',
+          'Wires – Anchor/Kaliga',
+          'LED Downlight (Crompton / Wipro) – 4 nos per Bedroom & Drawing Room',
         ],
       },
       {
         name: 'Finishing',
         blocks: [
-          'POP with Sakarni',
-          'Premium Emulsion paint',
+          'Gypsum Cove Ceiling (Sakarni POP / Birla White)',
+          'Berger / Dulux / Nerolac Paint with Wallpaper / 3D Paint as required',
           'Enhanced plaster mix',
         ],
       },
     ],
   },
   {
-    slug: 'premium',
-    name: 'Premium Package',
-    rate: 2750,
-    tag: 'Luxury Choice',
-    summary: 'Premium-grade structure with Italian flooring, designer interiors, and top-tier brands.',
+    slug: 'standard',
+    name: 'Standard',
+    rate: 2150,
+    tag: 'Most Popular',
+    summary: 'Balanced upgrade with JK cement, wooden flooring in drawing & bedroom, Italian marble kitchen slab, and UPVC windows.',
     accent: '#f59e0b',
     surface: '#fffbeb',
     components: [
       {
         name: 'Structure & Civil',
         blocks: [
-          'Cement - Ultratech / JK Super',
-          'TMT Bars - SAIL',
-          'Red Brick - 1st Number Brick',
-          'Premium quality aggregates',
-          'M20 Grade RCC with full vibration',
+          'Cement – JK Cement / Super',
+          'TMT Bars – Kamdhenu / Rathi',
+          'Door Chowkhat – Teak or Sal Wood',
+          'Doors – Century Plyboard with Laminate on Both Sides',
+          'Windows – UPVC (Prominent)',
+          'Railing – SS Railing / Glass Railing',
+          'Flooring – Tile + Wooden Flooring in Drawing & Bedroom, Granite in Stairs, Kota Stone in Parking',
+          'PCC (1:4:8) for foundation',
+          'RCC M20 Grade with full vibration',
           'Premium shuttering work',
         ],
       },
       {
         name: 'Kitchen',
         blocks: [
-          'Kitchen in Acrylic Finish',
-          'Mandir in Duco Finish',
-          'Crockery unit in Glass Finish',
-          'Ashirwad plumbing',
-          'Premium sink & faucet',
+          'Polished Italian Marble Slab',
+          'Century Ply HDHMR Board with Royale Touch Acrylic Sheet',
+          'Blum / Hafele accessories',
+          'Designer TV Unit with Storage',
+          'Supreme plumbing fittings',
         ],
       },
       {
         name: 'Bathroom',
         blocks: [
-          'Sanitary - Jaquar/Roca',
+          'Sanitary – Hindware / Jaquar',
+          'Supreme CPVC pipes & fittings',
+          'Dr fixit waterproofing',
+          'Ceramic dado up to 7 feet',
+        ],
+      },
+      {
+        name: 'Doors & Windows',
+        blocks: [
+          'Chowkhat – Teak or Sal Wood',
+          'Century Plyboard with Laminate on Both Sides',
+          'Windows – UPVC (Prominent)',
+        ],
+      },
+      {
+        name: 'Flooring',
+        blocks: [
+          'Tile + Wooden Flooring in Drawing & Bedroom',
+          'Granite in Stairs',
+          'Kota Stone in Parking',
+        ],
+      },
+      {
+        name: 'Electrical',
+        blocks: [
+          'Electrical Fittings – Supreme',
+          'Switches – Polycab / Great White',
+          'Wires – Polycab',
+          'LED Downlights & Panel Lights (Havells / Orient / Philips) – 4–6 nos per room',
+        ],
+      },
+      {
+        name: 'Finishing',
+        blocks: [
+          'Gypsum Cove Ceiling with LED Lighting (Birla White / Sakarni Gypsum Plaster)',
+          'Asian Apex Ultima Paint with PVC Moulding / Wooden Panelling / Cladding / Murals',
+          'Superior plaster finish',
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'premium',
+    name: 'Premium',
+    rate: 2550,
+    tag: 'Luxury Choice',
+    summary: 'Premium-grade construction with Italian marble flooring, Duco polish doors, Grohe sanitaryware, and designer interiors.',
+    accent: '#8b5cf6',
+    surface: '#f5f3ff',
+    components: [
+      {
+        name: 'Structure & Civil',
+        blocks: [
+          'Cement – JK Cement / Super',
+          'TMT Bars – SAIL / Jindal',
+          'Door Chowkhat – Teak or Sal Wood',
+          'Doors – Century Plyboard with Veneer / Duco Polish Finish',
+          'Windows – UPVC (Veka)',
+          'Railing – SS Railing / Glass Railing',
+          'Flooring – Italian Flooring in Drawing & Dining, Tiles in Rooms & Bathroom, Granite in Stairs, Kota Stone in Parking',
+          'PCC (1:4:8) for foundation',
+          'RCC M20 Grade with full vibration',
+          'Premium shuttering with smooth finish',
+        ],
+      },
+      {
+        name: 'Kitchen',
+        blocks: [
+          'Polished Italian Stone',
+          'Century Ply HDHMR Board with Acrylic Sheet',
+          'Blum / Hafele accessories',
+          'Designer TV Unit with Storage',
+          'Ashirwad plumbing fittings',
+        ],
+      },
+      {
+        name: 'Bathroom',
+        blocks: [
+          'Sanitary – Grohe / Roca / Jaquar',
           'Ashirwad pipes & fittings',
           'Premium waterproofing',
           'Designer ceramic dado',
@@ -223,9 +312,9 @@ export const estimatorPackages: EstimatorPackage[] = [
       {
         name: 'Doors & Windows',
         blocks: [
-          'Chowkhat - Teak or Sal',
-          'Century Plyboard with Veneer & Polish',
-          'UPVC/ Wooden windows',
+          'Chowkhat – Teak or Sal Wood',
+          'Century Plyboard with Veneer / Duco Polish Finish',
+          'Windows – UPVC (Veka)',
         ],
       },
       {
@@ -240,98 +329,17 @@ export const estimatorPackages: EstimatorPackage[] = [
       {
         name: 'Electrical',
         blocks: [
-          'Fittings - Ashirwad',
-          'Switches - Havells',
-          'Wires - Havells',
-          'Complete UPS wiring',
-          'Premium switch plates',
+          'Electrical Fittings – Ashirwad',
+          'Switches – Havells / Schneider',
+          'Wires – Havells',
+          'LED Downlights & Panel Lights (Havells / Orient / Philips) as required',
         ],
       },
       {
         name: 'Finishing',
         blocks: [
-          'POP with Sakarni',
-          'Royal Shine paint',
-          'Superior plaster finish',
-          'Designer moldings',
-        ],
-      },
-    ],
-  },
-  {
-    slug: 'luxury',
-    name: 'Luxury Package',
-    rate: 3000,
-    tag: 'Ultimate Luxury',
-    summary: 'Luxury-grade fittings, premium brands, Italian bathroom tiles, and Sagwan woodwork.',
-    accent: '#8b5cf6',
-    surface: '#f5f3ff',
-    components: [
-      {
-        name: 'Structure & Civil',
-        blocks: [
-          'Cement - Ultratech',
-          'TMT Bars - Tata',
-          'Red Brick - 1st Number Brick',
-          'Premium quality materials',
-          'Superior M20 Grade RCC',
-          'Premium shuttering with smooth finish',
-        ],
-      },
-      {
-        name: 'Kitchen',
-        blocks: [
-          'Kitchen in Acrylic Finish',
-          'Mandir in Duco Finish',
-          'Crockery unit in Glass Finish',
-          'Wardrobe in Glass/Wooden Finish with High Gloss Laminate',
-          'TV unit and Vanity in Laminate Finish',
-          'Ashirwad premium plumbing',
-        ],
-      },
-      {
-        name: 'Bathroom',
-        blocks: [
-          'Sanitary - Jaguar/Kohler',
-          'Ashirwad/Astral pipes',
-          'Italian Flooring with Tiles in Bathroom',
-          'Premium shower panels',
-          'Designer CP fittings',
-        ],
-      },
-      {
-        name: 'Doors & Windows',
-        blocks: [
-          'Chowkhat - Sagwan (Teak)',
-          'Century Plyboard with Veneer & Polish',
-          'Premium UPVC windows',
-        ],
-      },
-      {
-        name: 'Flooring',
-        blocks: [
-          'Italian Flooring',
-          'Tiles in Bathroom',
-          'Granite in Stairs',
-          'Kota Stone in Parking',
-        ],
-      },
-      {
-        name: 'Electrical',
-        blocks: [
-          'Fittings - Ashirwad/Astral',
-          'Switches - Havells premium series',
-          'Wires - Havells',
-          'Complete UPS wiring',
-          'EV charging point provision',
-          'Smart home ready wiring',
-        ],
-      },
-      {
-        name: 'Finishing',
-        blocks: [
-          'POP with Sakarni premium',
-          'Royal Shine paint with extra coat',
+          'Wooden Ceiling / Gyproc / USG Boral / Glass / Metal Ceiling with LED Lighting',
+          'Asian Royale Shine Paint with PVC Moulding / Wooden Panelling / Featured Wall as required',
           'Premium wall finishes',
           'Decorative moldings and cornices',
         ],
@@ -340,10 +348,11 @@ export const estimatorPackages: EstimatorPackage[] = [
   },
 ]
 
+// ─── FAQ (from quotation + common questions) ──────────────
 export const estimatorFaqs = [
   {
     question: 'What is included in the construction package?',
-    answer: 'Our packages include complete civil work - PCC, DPC, RCC M20 grade columns/beams/slabs, brick masonry, shuttering, reinforcement, plaster, flooring, plumbing, electrical, waterproofing, and interiors as per the package specifications.',
+    answer: 'Our packages include complete civil work – PCC, DPC, RCC M20 grade columns/beams/slabs, brick masonry, shuttering, reinforcement, plaster, flooring, plumbing, electrical, waterproofing, and interiors as per the package specifications.',
   },
   {
     question: 'How are balcony and car parking areas calculated?',
@@ -355,7 +364,7 @@ export const estimatorFaqs = [
   },
   {
     question: 'Which package should I choose?',
-    answer: 'Basic is value-focused with essential finishes, Standard adds wooden flooring and better brands, Premium offers Italian flooring and designer interiors, and Luxury delivers top-tier materials like Tata Steel, Kohler fittings, and Sagwan woodwork.',
+    answer: 'Basic-Low is value-focused with essential finishes, Basic-High adds better brands and gypsum ceiling, Standard offers wooden flooring, Italian marble kitchen slab, and UPVC windows, while Premium delivers Italian marble flooring, Duco polish doors, Grohe sanitaryware, and designer interiors.',
   },
   {
     question: 'What is the construction timeline?',
@@ -363,7 +372,7 @@ export const estimatorFaqs = [
   },
   {
     question: 'How are payments structured?',
-    answer: 'Payments are milestone-based - 10% advance, 10% on earthwork, 10% on footing, 20% on columns & slabs, and remaining on plaster, flooring, doors, plumbing, electrical, and finishing works as per the stage-wise breakdown.',
+    answer: 'Payments are milestone-based – 10% advance, 10% on earthwork, 10% on footing, 20% on columns & slabs, and remaining on plaster, flooring, doors, plumbing, electrical, and finishing works as per the stage-wise breakdown.',
   },
   {
     question: 'Do you provide drawings?',
@@ -373,8 +382,13 @@ export const estimatorFaqs = [
     question: 'What about water and electricity?',
     answer: 'The client will arrange water and electricity free of cost at the workplace wherever required.',
   },
+  {
+    question: 'What is the warranty on construction?',
+    answer: 'Structure warranty – 10 years, Waterproofing – 5 years, Service support – 1 year after handover, Sanitary & electrical fixtures – 2–5 years as per brand warranty.',
+  },
 ]
 
+// ─── PAYMENT STAGES (from quotation) ──────────────────────
 export const estimatorStageBreakdown = [
   { label: 'Advance on quotation submission', share: 0.10 },
   { label: 'Completion of earth work excavation', share: 0.10 },
@@ -391,6 +405,7 @@ export const estimatorStageBreakdown = [
   { label: 'False ceiling & interior fit-out', share: 0.05 },
 ] as const
 
+// ─── FLOOR PRESETS (keep as is) ────────────────────────────
 export const estimatorFloorPresets = [
   {
     label: 'G',
@@ -422,6 +437,36 @@ export const estimatorFloorPresets = [
   },
 ]
 
+// ─── EXTRA ITEM RATES (from quotation) ─────────────────────
+export const extraItemRates = [
+  { item: 'DPC at Plinth Level', rate: 'As per slab area', unit: 'sq. ft.' },
+  { item: 'Waterproofing', rate: 40, unit: 'per sq. ft.' },
+  { item: 'Architectural & Structural Drawing', rate: 60, unit: 'per sq. ft.' },
+  { item: 'Set Back Area Development', rate: 600, unit: 'per sq. ft.' },
+  { item: 'Underground Water Tank', rate: 35, unit: 'per Litre' },
+  { item: 'Overhead Tank', rate: 25, unit: 'per Litre' },
+  { item: 'Anti-Termite Treatment', rate: 10, unit: 'per sq. ft.' },
+  { item: 'Brick Coba & Parapet Wall', rate: 600, unit: 'per sq. ft.' },
+  { item: 'Steel Binding', rate: 'Market rate', unit: 'per kg' },
+  { item: 'Excavation of Basement Work', rate: 'Market rate', unit: 'per cu. ft.' },
+]
+
+// ─── COMPANY DETAILS (from quotation) ──────────────────────
+export const companyDetails = {
+  name: 'VASUNDHARA CONSTRUCTION & INTERIOR',
+  gst: '09ANWPK9076H1Z2',
+  phone: '+91 9818866849',
+  email: 'info@vasundharaconstruction.in',
+  address: 'G-9, Sector 63, Noida, Uttar Pradesh',
+  bank: {
+    name: 'State Bank of India',
+    accountName: 'VASUNDHARA CONSTRUCTION',
+    accountNumber: '44404823521',
+    ifsc: 'SBIN0005222',
+  },
+}
+
+// ─── COST CALCULATION HELPERS (unchanged) ──────────────────
 export type CostBreakdownInput = {
   builtUpArea: number
   balconyUnits: number
@@ -459,33 +504,4 @@ export function calculatePackageCost(rate: number, input: CostBreakdownInput): C
 
 export function formatInr(value: number): string {
   return `₹${Math.round(value).toLocaleString('en-IN')}`
-}
-
-// Extra items rates from PDF
-export const extraItemRates = [
-  { item: 'DPC at plinth Level', rate: 'As per slab area', unit: 'sq. ft.' },
-  { item: 'Waterproofing', rate: 40, unit: 'per sq. ft.' },
-  { item: 'Architectural & Structural Drawing', rate: 60, unit: 'per sq. ft.' },
-  { item: 'Set Back Area Development', rate: 600, unit: 'per sq. ft.' },
-  { item: 'Underground water tank', rate: 35, unit: 'per Litre' },
-  { item: 'Overhead Tank', rate: 25, unit: 'per Litre' },
-  { item: 'Anti-termite treatment', rate: 10, unit: 'per sq. ft.' },
-  { item: 'Brick Coba & parapet wall with plaster', rate: 600, unit: 'per sq. ft.' },
-  { item: 'Steel binding', rate: 'Market rate', unit: 'per kg' },
-  { item: 'Excavation of basement work', rate: 'Market rate', unit: 'per cu. ft.' },
-]
-
-// Company details from PDF
-export const companyDetails = {
-  name: 'VASUNDHARA CONSTRUCTION & INTERIOR',
-  gst: '09ANWPK9076H1Z2',
-  phone: '+91 9818866849',
-  email: 'info@vasundharaconstruction.in',
-  address: 'G-9, Sector 63, Noida, Uttar Pradesh',
-  bank: {
-    name: 'State Bank of India',
-    accountName: 'VASUNDHARA CONSTRUCTION',
-    accountNumber: '44404823521',
-    ifsc: 'SBIN0005222',
-  },
 }

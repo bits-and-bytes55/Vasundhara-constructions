@@ -58,11 +58,7 @@ const STATS = [
   { value: "12+", label: "Years Experience", icon: "" },
 ];
 
-const TESTIMONIALS = [
-  { quote: "Vasundhara turned our bare flat into a magazine-worthy home. Every detail, down to the switch plates, was thought through. We're absolutely in love.", author: "Shreya & Rohan Kapoor", location: "Noida", initials: "SK", tag: "3BHK Full Home" },
-  { quote: "The 3D renders were spot-on — what we saw on screen is exactly what we got. The modular kitchen is my favourite part of the entire house.", author: "Priti Malhotra", location: "Gurgaon", initials: "PM", tag: "Kitchen + Living" },
-  { quote: "Professional, transparent, and genuinely creative. They respected our budget without compromising one bit on quality. Highly recommend.", author: "Vikram Nair", location: "Delhi", initials: "VN", tag: "2BHK Interior" },
-];
+
 
 const STYLES = [
   { name: "Contemporary", desc: "Clean lines, neutral tones, statement pieces", img: "https://images.unsplash.com/photo-1600210492493-0946911123ea?w=600&q=80" },
@@ -103,19 +99,12 @@ function useReveal() {
 
 export default function InteriorPage() {
   const [activeService, setActiveService] = useState(0);
-  const [activeTesti, setActiveTesti] = useState(0);
-  const [heroLoaded, setHeroLoaded] = useState(false);
+  
   useReveal();
 
-  useEffect(() => { setTimeout(() => setHeroLoaded(true), 100); }, []);
-
-  useEffect(() => {
-    const t = setInterval(() => setActiveTesti(p => (p + 1) % TESTIMONIALS.length), 4500);
-    return () => clearInterval(t);
-  }, []);
+  
 
   const svc = SERVICES[activeService];
-  const testi = TESTIMONIALS[activeTesti];
 
   return (
     <div className="font-serif bg-[#fafaf8] text-[#1a1a2e] overflow-x-hidden">

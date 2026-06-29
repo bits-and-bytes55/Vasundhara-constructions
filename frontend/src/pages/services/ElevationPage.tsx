@@ -210,7 +210,6 @@ const designProcess = [
 
 function ElevationPage() {
   const [activeStyle, setActiveStyle] = useState(0)
-  const [activeTestimonial, setActiveTestimonial] = useState(0)
   
   const controls = useAnimation()
   const ref = useRef(null)
@@ -242,7 +241,6 @@ function ElevationPage() {
 
   const currentStyle = elevationStyles[activeStyle]
 
-    const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null)
 
   return (
     <main className="bg-white">

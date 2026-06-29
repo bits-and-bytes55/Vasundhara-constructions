@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom'
-import { footerInfoLinks, footerPolicyLinks } from '../../data/footerPages'
 
 const quickLinks = [
   { to: '/', label: 'Home' },
@@ -139,12 +138,10 @@ function SiteFooter() {
             </ul>
           </div>
 
-          {/* Contact & Map */}
           <div>
             <h3 className="text-sm font-bold tracking-wider text-gray-400 mb-4">
               Find-Us
             </h3>
-            {/* Map Embed */}
             <div className="mt-4 rounded-lg overflow-hidden shadow-md">
               <iframe
                 title="Office Location"

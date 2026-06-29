@@ -1,8 +1,5 @@
 import { useEffect, useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { fetchHomeContent } from '../api/content'
-import { defaultHomeContent } from '../data/defaultHomeContent'
-import type { HomeContent } from '../types/homeContent'
 import Testimonials from './Testimonials'
 
 // Unsplash image URLs – you can replace with your own
@@ -208,17 +205,7 @@ const teamMembers = [
   { name: 'Yash Tyagi', designation: 'Civil Engineer', experience: '5 years', icon: '👨‍🔧' }
 ]
 
-// Featured Projects (combining completed projects for showcase)
-const featuredProjects = completedProjects.map(project => ({
-  title: project.title,
-  location: project.location,
-  area: '',
-  tag: project.category,
-  description: project.description,
-  images: project.images,
-  client: project.client,
-  year: project.year
-}))
+
 
 const videoItems = [
   
@@ -233,7 +220,6 @@ const videoItems = [
 ]
 
 function ProjectsPage() {
-  const [homeContent, setHomeContent] = useState<HomeContent>(defaultHomeContent)
   const [typedWord, setTypedWord] = useState('')
   const [wordIndex, setWordIndex] = useState(0)
   const [isDeleting, setIsDeleting] = useState(false)
@@ -242,13 +228,7 @@ function ProjectsPage() {
   const sectionsRef = useRef<(HTMLElement | null)[]>([])
   const observerRef = useRef<IntersectionObserver | null>(null)
 
-  useEffect(() => {
-    let active = true
-    fetchHomeContent()
-      .then((content) => { if (active) setHomeContent(content) })
-      .catch(() => { if (active) setHomeContent(defaultHomeContent) })
-    return () => { active = false }
-  }, [])
+  
 
   // Typewriter effect
   useEffect(() => {
@@ -279,7 +259,6 @@ function ProjectsPage() {
     return () => observerRef.current?.disconnect()
   }, [])
 
-  const projectSection = homeContent.projects
 
   return (
     <main>
@@ -339,7 +318,7 @@ function ProjectsPage() {
       </section>
 
       {/* Projects Section with Tabs */}
-      <section ref={(el) => (sectionsRef.current[0] = el)} className="reveal-section py-20 bg-gray-50">
+      <section ref={(el) => { sectionsRef.current[0] = el; }} className="reveal-section py-20 bg-gray-50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <span className="text-sm font-bold uppercase tracking-wider text-blue-600">Our Work</span>
@@ -442,7 +421,6 @@ function ProjectsPage() {
                     <img src={project.image} alt={project.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" onError={(e) => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1617104678098-de229db51175?w=600&auto=format' }} />
                   </div>
                   <div className="p-6">
-                    <div className="inline-block text-xs font-semibold px-2 py-1 rounded-full mb-2 bg-blue-100 text-blue-600">{project.category}</div>
                     <h3 className="text-xl font-bold text-gray-900 mb-2">{project.title}</h3>
                     <p className="text-gray-500 text-sm">{project.description}</p>
                   </div>
@@ -459,7 +437,7 @@ function ProjectsPage() {
       </section>
 
       {/* Team Section */}
-      <section ref={(el) => (sectionsRef.current[2] = el)} className="reveal-section py-20 bg-white">
+      <section ref={(el) => { sectionsRef.current[2] = el; }} className="reveal-section py-20 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <span className="text-sm font-bold uppercase tracking-wider text-blue-600">Our Experts</span>
@@ -480,7 +458,7 @@ function ProjectsPage() {
       </section>
 
       {/* Videos Section */}
-      <section ref={(el) => (sectionsRef.current[1] = el)} className="reveal-section py-20 bg-gray-50">
+      <section ref={(el) => { sectionsRef.current[1] = el; }} className="reveal-section py-20 bg-gray-50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <span className="text-sm font-bold uppercase tracking-wider text-blue-600">Watch</span>
@@ -502,7 +480,7 @@ function ProjectsPage() {
       </section>
 
       {/* Metrics Section */}
-      <section ref={(el) => (sectionsRef.current[3] = el)} className="reveal-section py-20 bg-white">
+      <section ref={(el) => { sectionsRef.current[3] = el; }} className="reveal-section py-20 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <span className="text-sm font-bold uppercase tracking-wider text-blue-600">Trust & Credibility</span>
@@ -522,7 +500,7 @@ function ProjectsPage() {
       </section>
 
       {/* Project DNA Section */}
-      <section ref={(el) => (sectionsRef.current[4] = el)} className="reveal-section py-20 bg-blue-50">
+      <section ref={(el) => { sectionsRef.current[4] = el; }} className="reveal-section py-20 bg-blue-50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12">
             <div>
@@ -551,7 +529,7 @@ function ProjectsPage() {
       <Testimonials />
 
       {/* FAQ Section */}
-      <section ref={(el) => (sectionsRef.current[5] = el)} className="reveal-section py-20">
+      <section ref={(el) => { sectionsRef.current[5] = el; }} className="reveal-section py-20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <span className="text-sm font-bold uppercase tracking-wider text-blue-600">Have Questions?</span>
@@ -579,7 +557,7 @@ function ProjectsPage() {
       </section>
 
       {/* CTA Section */}
-      <section ref={(el) => (sectionsRef.current[6] = el)} className="reveal-section py-20 bg-blue-600 text-white">
+      <section ref={(el) => { sectionsRef.current[6] = el; }} className="reveal-section py-20 bg-blue-600 text-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center">
             <h3 className="text-3xl md:text-4xl font-black mb-4">Ready to build your dream home?</h3>

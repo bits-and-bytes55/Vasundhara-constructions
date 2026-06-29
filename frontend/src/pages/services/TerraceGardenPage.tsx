@@ -276,37 +276,10 @@ const processSteps = [
   }
 ]
 
-// Testimonials
-const testimonials = [
-  {
-    name: 'Rahul & Neha Sharma',
-    project: 'Tropical Terrace Garden',
-    quote: 'Our terrace is now our favorite spot! The tropical garden with water feature creates such a relaxing atmosphere. Vasundhara delivered exactly what we envisioned.',
-    rating: 5,
-    location: 'Noida',
-    image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&q=80'
-  },
-  {
-    name: 'Anita Mehta',
-    project: 'Edible Garden',
-    quote: 'Growing our own vegetables has been so rewarding. The design is beautiful and functional. The team was professional and completed on time.',
-    rating: 5,
-    location: 'Gurgaon',
-    image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80'
-  },
-  {
-    name: 'Vikram Singh',
-    project: 'Zen Meditation Garden',
-    quote: 'The Japanese Zen garden is absolutely peaceful. Perfect for meditation and relaxation. Excellent craftsmanship and attention to detail.',
-    rating: 5,
-    location: 'Delhi',
-    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80'
-  }
-]
+
 
 function TerraceGardenPage() {
   const [activeStyle, setActiveStyle] = useState(0)
-  const [activeTestimonial, setActiveTestimonial] = useState(0)
   const controls = useAnimation()
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, amount: 0.2 })
@@ -319,7 +292,6 @@ function TerraceGardenPage() {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setActiveTestimonial((prev) => (prev + 1) % testimonials.length)
     }, 5000)
     return () => clearInterval(timer)
   }, [])

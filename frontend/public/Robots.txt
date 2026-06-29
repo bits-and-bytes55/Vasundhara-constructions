@@ -2,4 +2,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://vasundharaconstruction.com/sitemap.xml
+Sitemap: https://vasundharaconstruction.co.in/sitemap.xml

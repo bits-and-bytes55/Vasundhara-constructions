@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState, useRef } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import {
@@ -19,18 +19,43 @@ import Testimonials from "./Testimonials";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-// Animation variants
+// ─── Local Types ─────────────────────────────────────────────
+interface BlogPost {
+  _id?: string;
+  id?: string;
+  slug?: string;
+  title: string;
+  content: string;
+  image?: string;
+  category?: string;
+  tags?: string[];
+  author?: string;
+  createdAt?: string;
+  updatedAt?: string;
+  views?: number;
+}
+
+// ─── Animation Variants (fixed ease) ──────────────────────
 const fadeUp = {
   hidden: { opacity: 0, y: 32 },
   show: (i = 0) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: i * 0.08 },
+    transition: { duration: 0.6, ease: "easeOut" as const, delay: i * 0.08 },
   }),
 };
 
-const Reveal = ({ children, className = "", delay = 0 }) => {
-  const ref = useRef(null);
+// ─── Reveal Component ───────────────────────────────────────
+const Reveal = ({
+  children,
+  className = "",
+  delay = 0,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  delay?: number;
+}) => {
+  const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
 
   return (
@@ -47,6 +72,7 @@ const Reveal = ({ children, className = "", delay = 0 }) => {
   );
 };
 
+// ─── Helpers ────────────────────────────────────────────────
 const stripHtml = (html = "") =>
   html
     .replace(/<[^>]*>/g, " ")
@@ -59,11 +85,20 @@ const truncateText = (text = "", maxLength = 120) => {
   return `${text.slice(0, maxLength - 3).trim()}...`;
 };
 
-// Blog Card Component
-const BlogCard = ({ post, index, viewMode }) => {
+// ─── Blog Card Component ────────────────────────────────────
+const BlogCard = ({
+  post,
+  index,
+  viewMode,
+}: {
+  post: BlogPost;
+  index: number;
+  viewMode: "grid" | "list";
+}) => {
   const plainContent = stripHtml(post.content || "");
   const excerpt = truncateText(plainContent, viewMode === "grid" ? 100 : 140);
   const readTime = Math.max(1, Math.ceil(plainContent.split(/\s+/).filter(Boolean).length / 200));
+  const postSlug = post.slug || post._id || post.id || "";
 
   if (viewMode === "list") {
     return (
@@ -73,7 +108,7 @@ const BlogCard = ({ post, index, viewMode }) => {
         transition={{ delay: index * 0.05 }}
         className="group bg-white rounded-2xl border border-[#dbeafe] hover:border-[#bfdbfe] hover:shadow-lg transition-all duration-300 overflow-hidden"
       >
-        <Link to={`/blogs/${post.slug}`} className="flex flex-col md:flex-row">
+        <Link to={`/blogs/${postSlug}`} className="flex flex-col md:flex-row">
           <div className="md:w-72 h-52 md:h-auto overflow-hidden bg-[#dbeafe]">
             <img
               src={post.image || "/img/report.jpg"}
@@ -85,7 +120,7 @@ const BlogCard = ({ post, index, viewMode }) => {
             <div className="flex flex-wrap items-center gap-3 text-xs text-slate-400 mb-3">
               <span className="flex items-center gap-1">
                 <Calendar size={12} />
-                {new Date(post.createdAt).toLocaleDateString("en-IN", {
+                {new Date(post.createdAt || Date.now()).toLocaleDateString("en-IN", {
                   day: "numeric",
                   month: "short",
                   year: "numeric",
@@ -128,7 +163,7 @@ const BlogCard = ({ post, index, viewMode }) => {
       transition={{ delay: index * 0.05 }}
       className="group bg-white rounded-2xl border border-[#dbeafe] hover:border-[#bfdbfe] hover:shadow-lg transition-all duration-300 overflow-hidden flex flex-col"
     >
-      <Link to={`/blogs/${post.slug}`} className="block overflow-hidden h-52 bg-[#dbeafe]">
+      <Link to={`/blogs/${postSlug}`} className="block overflow-hidden h-52 bg-[#dbeafe]">
         <img
           src={post.image || "/img/report.jpg"}
           alt={post.title}
@@ -139,7 +174,7 @@ const BlogCard = ({ post, index, viewMode }) => {
         <div className="flex flex-wrap items-center gap-2 text-xs text-slate-400 mb-3">
           <span className="flex items-center gap-1">
             <Calendar size={11} />
-            {new Date(post.createdAt).toLocaleDateString("en-IN", {
+            {new Date(post.createdAt || Date.now()).toLocaleDateString("en-IN", {
               day: "numeric",
               month: "short",
               year: "numeric",
@@ -150,7 +185,7 @@ const BlogCard = ({ post, index, viewMode }) => {
             {readTime} min
           </span>
         </div>
-        <Link to={`/blogs/${post.slug}`}>
+        <Link to={`/blogs/${postSlug}`}>
           <h3 className="text-lg font-bold text-[#0f2d6b] group-hover:text-[#1e40af] transition-colors mb-2 line-clamp-2">
             {post.title}
           </h3>
@@ -163,7 +198,7 @@ const BlogCard = ({ post, index, viewMode }) => {
             {post.author || "Bits and Bytes"}
           </span>
           <Link
-            to={`/blogs/${post.slug}`}
+            to={`/blogs/${postSlug}`}
             className="inline-flex items-center gap-1 text-[#1d4ed8] text-sm font-medium group-hover:gap-2 transition-all"
           >
             Read <ArrowRight size={13} />
@@ -174,8 +209,8 @@ const BlogCard = ({ post, index, viewMode }) => {
   );
 };
 
-// Skeleton Loader
-const SkeletonCard = ({ viewMode }) => {
+// ─── Skeleton Loader ────────────────────────────────────────
+const SkeletonCard = ({ viewMode }: { viewMode: "grid" | "list" }) => {
   if (viewMode === "list") {
     return (
       <div className="bg-white rounded-2xl border border-[#dbeafe] overflow-hidden animate-pulse">
@@ -223,15 +258,15 @@ const SkeletonCard = ({ viewMode }) => {
   );
 };
 
+// ─── Main Page ──────────────────────────────────────────────
 const BlogsPage = () => {
-  const navigate = useNavigate();
-  const [blogs, setBlogs] = useState([]);
+  const [blogs, setBlogs] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [categories, setCategories] = useState([]);
-  const [viewMode, setViewMode] = useState("grid"); // 'grid' or 'list'
+  const [categories, setCategories] = useState<string[]>([]);
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [showFilters, setShowFilters] = useState(false);
@@ -249,22 +284,21 @@ const BlogsPage = () => {
             category: selectedCategory || undefined,
           },
         });
-        
+
         const blogsData = response.data.blogs || response.data || [];
         setBlogs(Array.isArray(blogsData) ? blogsData : []);
-        
-        // Extract unique categories from all blogs (if we have all blogs, otherwise from response)
+
+        // Extract categories – from all blogs (if we have them) or fallback to fetch all
         let allBlogs = blogsData;
         if (!Array.isArray(blogsData) || blogsData.length === 0) {
-          // Fallback: fetch all blogs for categories
           const allResponse = await axios.get(`${API_URL}/api/blogs?limit=100`);
           allBlogs = allResponse.data.blogs || allResponse.data || [];
         }
-        
-        const uniqueCategories = [...new Set(allBlogs.map(blog => blog.category).filter(Boolean))];
+        const uniqueCategories = [
+          ...new Set(allBlogs.map((blog: BlogPost) => blog.category).filter(Boolean)),
+        ] as string[];
         setCategories(uniqueCategories);
-        
-        // Pagination info
+
         const total = response.data.total || blogsData.length;
         setTotalPages(Math.ceil(total / postsPerPage));
         setError(null);
@@ -279,7 +313,7 @@ const BlogsPage = () => {
     fetchBlogs();
   }, [currentPage, searchTerm, selectedCategory]);
 
-  const handleSearch = (e) => {
+  const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     setCurrentPage(1);
   };
@@ -351,7 +385,7 @@ const BlogsPage = () => {
                 </span>
               )}
             </button>
-            
+
             {(searchTerm || selectedCategory) && (
               <button
                 onClick={clearFilters}
@@ -366,13 +400,17 @@ const BlogsPage = () => {
           <div className="flex items-center gap-2 bg-white rounded-xl border border-[#dbeafe] p-1">
             <button
               onClick={() => setViewMode("grid")}
-              className={`p-2 rounded-lg transition-colors ${viewMode === "grid" ? "bg-[#1e40af] text-white" : "text-slate-400 hover:text-slate-600"}`}
+              className={`p-2 rounded-lg transition-colors ${
+                viewMode === "grid" ? "bg-[#1e40af] text-white" : "text-slate-400 hover:text-slate-600"
+              }`}
             >
               <Grid3X3 size={18} />
             </button>
             <button
               onClick={() => setViewMode("list")}
-              className={`p-2 rounded-lg transition-colors ${viewMode === "list" ? "bg-[#1e40af] text-white" : "text-slate-400 hover:text-slate-600"}`}
+              className={`p-2 rounded-lg transition-colors ${
+                viewMode === "list" ? "bg-[#1e40af] text-white" : "text-slate-400 hover:text-slate-600"
+              }`}
             >
               <List size={18} />
             </button>
@@ -393,7 +431,9 @@ const BlogsPage = () => {
                 <div className="flex flex-wrap gap-2">
                   <button
                     onClick={() => setSelectedCategory("")}
-                    className={`px-3 py-1.5 rounded-full text-sm transition-all ${!selectedCategory ? "bg-[#1e40af] text-white" : "bg-[#eaf1fb] text-[#1e40af] hover:bg-[#dbeafe]"}`}
+                    className={`px-3 py-1.5 rounded-full text-sm transition-all ${
+                      !selectedCategory ? "bg-[#1e40af] text-white" : "bg-[#eaf1fb] text-[#1e40af] hover:bg-[#dbeafe]"
+                    }`}
                   >
                     All
                   </button>
@@ -401,7 +441,9 @@ const BlogsPage = () => {
                     <button
                       key={cat}
                       onClick={() => setSelectedCategory(cat)}
-                      className={`px-3 py-1.5 rounded-full text-sm transition-all ${selectedCategory === cat ? "bg-[#1e40af] text-white" : "bg-[#eaf1fb] text-[#1e40af] hover:bg-[#dbeafe]"}`}
+                      className={`px-3 py-1.5 rounded-full text-sm transition-all ${
+                        selectedCategory === cat ? "bg-[#1e40af] text-white" : "bg-[#eaf1fb] text-[#1e40af] hover:bg-[#dbeafe]"
+                      }`}
                     >
                       {cat}
                     </button>
@@ -421,10 +463,11 @@ const BlogsPage = () => {
 
         {/* Blog Grid/List */}
         {loading ? (
-          <div className={viewMode === "grid" 
-            ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" 
-            : "space-y-6"
-          }>
+          <div
+            className={
+              viewMode === "grid" ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" : "space-y-6"
+            }
+          >
             {[...Array(6)].map((_, i) => (
               <SkeletonCard key={i} viewMode={viewMode} />
             ))}
@@ -449,8 +492,8 @@ const BlogsPage = () => {
             </div>
             <h3 className="text-xl font-semibold text-[#0f2d6b] mb-2">No articles found</h3>
             <p className="text-slate-500 mb-6">
-              {searchTerm || selectedCategory 
-                ? "Try adjusting your search or filter criteria" 
+              {searchTerm || selectedCategory
+                ? "Try adjusting your search or filter criteria"
                 : "Check back soon for new content"}
             </p>
             {(searchTerm || selectedCategory) && (
@@ -464,10 +507,11 @@ const BlogsPage = () => {
           </div>
         ) : (
           <>
-            <div className={viewMode === "grid" 
-              ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" 
-              : "space-y-6"
-            }>
+            <div
+              className={
+                viewMode === "grid" ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" : "space-y-6"
+              }
+            >
               {blogs.map((post, index) => (
                 <BlogCard key={post._id || post.id || index} post={post} index={index} viewMode={viewMode} />
               ))}
@@ -477,7 +521,7 @@ const BlogsPage = () => {
             {totalPages > 1 && (
               <div className="flex items-center justify-center gap-2 mt-12">
                 <button
-                  onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                  onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                   disabled={currentPage === 1}
                   className="p-2 rounded-lg bg-white border border-[#dbeafe] text-[#1e40af] disabled:opacity-40 disabled:cursor-not-allowed hover:bg-[#dbeafe] transition-colors"
                 >
@@ -511,7 +555,7 @@ const BlogsPage = () => {
                   })}
                 </div>
                 <button
-                  onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                  onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
                   disabled={currentPage === totalPages}
                   className="p-2 rounded-lg bg-white border border-[#dbeafe] text-[#1e40af] disabled:opacity-40 disabled:cursor-not-allowed hover:bg-[#dbeafe] transition-colors"
                 >
@@ -522,7 +566,7 @@ const BlogsPage = () => {
           </>
         )}
       </div>
-      <Testimonials/>
+      <Testimonials />
     </div>
   );
 };

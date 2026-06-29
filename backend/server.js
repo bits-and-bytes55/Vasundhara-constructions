@@ -18,9 +18,7 @@ app.use(express.urlencoded({ limit: "10mb", extended: true }));
 
 
 const allowedOrigins = [
-  "https://bitsandbytesitsolution.com",
-  "https://www.bitsandbytesitsolution.com",
-  "https://bitsandbytes-sb2k.onrender.com",
+  "https://vasundharaconstruction.co.in/",
   "http://localhost:5173",
   "http://localhost:5174",
   "http://127.0.0.1:5173"

@@ -19,17 +19,17 @@ interface ContactFormData {
 // Animation variants
 const fadeInUp = {
   hidden: { opacity: 0, y: 60 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as const } }
 };
 
 const fadeInLeft = {
   hidden: { opacity: 0, x: -50 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: "easeOut" } }
+  visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: "easeOut" as const } }
 };
 
 const fadeInRight = {
   hidden: { opacity: 0, x: 50 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: "easeOut" } }
+  visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: "easeOut" as const } }
 };
 
 const staggerContainer = {
@@ -315,7 +315,6 @@ function ContactPage() {
                 backgroundImage: `url('${contactPageData.hero.visualImage}')`,
               }}
               whileHover={{ scale: 1.02 }}
-              transition={{ duration: 0.3 }}
             >
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -609,7 +608,7 @@ function ContactPage() {
               {/* Contact Details Grid */}
               <div className="flex flex-wrap gap-4">
                 {[
-                  { title: "Call or WhatsApp", value: "+91 9818866849", note: "Mon-Sat, 9 AM to 7 PM" },
+                  { title: "Call or WhatsApp", value: "+91 9818866849", note: "Mon-Sat, 10 AM to 7 PM" },
                   { title: "Email Us", value: "vasundhara.construction30@gmail.com", note: "Share drawings & requirements" },
                   { title: "Visit Us", value: "Mon to Sat, 10 AM - 7 PM", note: "Prior appointment recommended" }
                 ].map((detail, idx) => (
