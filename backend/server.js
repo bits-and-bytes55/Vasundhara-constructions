@@ -18,7 +18,8 @@ app.use(express.urlencoded({ limit: "10mb", extended: true }));
 
 
 const allowedOrigins = [
-  "https://vasundharaconstruction.co.in/",
+  "https://vasundharaconstruction.co.in",
+      "https://www.vasundharaconstruction.co.in",
   "http://localhost:5173",
   "http://localhost:5174",
   "http://127.0.0.1:5173"
@@ -45,18 +46,16 @@ app.use(
 
 
 
-// app.use("/api/contact", contactRoutes);
 app.use("/api/blogs", blogRoutes);
 app.use("/api/auth/adminlogin", authRoutes);
 app.use("/api/image", uploadRoutes);
 app.use('/api/testimonials', testimonialRoutes);
 
 
-// Email transporter configuration
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
   port: Number(process.env.SMTP_PORT),
-  secure: true, // true for 465, false for other ports
+  secure: true, 
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASSWORD,
@@ -110,7 +109,7 @@ mongoose
   .then(() => console.log("MongoDB Connected Successfully"))
   .catch(err => console.error("MongoDB Connection Error:", err));
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
