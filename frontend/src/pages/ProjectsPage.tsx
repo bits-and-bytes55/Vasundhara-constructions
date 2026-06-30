@@ -11,7 +11,7 @@ const faqImage = 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?ixli
 const typedWords = ['quality', 'trust', 'excellence', 'precision', 'care']
 
 const metrics = [
-  { value: '18+', label: 'years of excellence', note: 'Trust built on consistent delivery across residential projects.' },
+  { value: '12+', label: 'years of excellence', note: 'Trust built on consistent delivery across residential projects.' },
   { value: '500+', label: 'quality checks', note: 'Rigorous inspections at every stage of construction.' },
   { value: '4.5/5', label: 'client satisfaction', note: 'Rated by over 299 happy clients.' },
   { value: '100%', label: 'Protected', note: 'Payments are safe and released progressively with milestone completion.' },
@@ -198,7 +198,6 @@ const interiorProjects = [
 // ===== TEAM MEMBERS FROM PDF =====
 const teamMembers = [
   { name: 'Anoj Kumar Gupta', designation: 'Managing Director', experience: '15 years', icon: '👨‍💼' },
-  { name: 'Lokesh Kumar', designation: 'Co-director', experience: '10 years', icon: '👨‍🔧' },
   { name: 'Beena Bisht', designation: 'Admin', experience: '5 years', icon: '👩‍💼' },
   { name: 'Prajwal Mamgai', designation: 'Architect', experience: '5 years', icon: '👨‍🎨' },
   { name: 'Anita Harbola', designation: 'Project Engineer', experience: '6 years', icon: '👩‍🔧' },
@@ -283,7 +282,7 @@ function ProjectsPage() {
           <div className="absolute inset-0 bg-cover bg-center bg-fixed" style={{ backgroundImage: `url(${heroBgImage})`, filter: 'blur(5px)', transform: 'scale(1.1)' }}></div>
           <div className="absolute inset-0 bg-black bg-opacity-50"></div>
         </div>
-        <div className="relative py-10 md:py-20 z-10">
+        <div className="relative py-6 md:py-10 z-10">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div className="space-y-6 animate-fade-in-up">
@@ -444,7 +443,7 @@ function ProjectsPage() {
             <h2 className="text-3xl md:text-4xl font-black text-gray-900 mt-2">Meet Our <span className="text-blue-600">Team</span></h2>
             <p className="text-gray-600 max-w-2xl mx-auto mt-4">Dedicated professionals with decades of collective experience</p>
           </div>
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
             {teamMembers.map((member, idx) => (
               <div key={idx} className="text-center p-4 bg-gray-50 rounded-xl hover:shadow-lg transition">
                 <div className="w-20 h-20 mx-auto bg-blue-100 rounded-full flex items-center justify-center text-4xl mb-3">{member.icon}</div>

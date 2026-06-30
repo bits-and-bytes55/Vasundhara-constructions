@@ -20,7 +20,7 @@ const SERVICES = [
     id: "kitchen", label: "Kitchens", icon: "", tagline: "The heart of the home",
     desc: "From sleek parallel kitchens to island configurations — we engineer kitchens that are as ergonomic as they are beautiful, with premium finishes and smart storage.",
     features: ["Modular cabinetry (Hettich/Hafele)", "Quartz or granite countertops", "Under-cabinet LED lighting", "Integrated appliances provision", "Backsplash & tile design"],
-    image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=900&q=80",
+    image: "/images/kitchen2.jpeg",
   },
   {
     id: "bathroom", label: "Bathrooms", icon: "", tagline: "Spa-level indulgence",
@@ -32,7 +32,7 @@ const SERVICES = [
     id: "dining", label: "Dining Spaces", icon: "", tagline: "Gather in style",
     desc: "A Vasundhara dining space creates the perfect backdrop for every meal — from elegant crockery units and pendant clusters to seamless open-plan transitions.",
     features: ["Crockery unit design", "Pendant lighting cluster", "Dining table & chairs", "Open-plan coordination", "Wall art & décor curation"],
-    image: "https://images.unsplash.com/photo-1617104678098-de229db51175?w=900&q=80",
+    image: "/images/interiors.jpg",
   },
   {
     id: "study", label: "Study & Office", icon: "", tagline: "Focus meets finesse",
@@ -177,7 +177,7 @@ export default function InteriorPage() {
       </section>
 
       {/* ══ INTRO ══ */}
-      <section className="max-w-[1280px] mx-auto px-[5vw] py-20 md:py-24">
+      <section className="mx-auto px-[2vw] py-10 md:py-14">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-[72px] items-center">
           <div className="vr">
             <div className="font-dm inline-flex items-center gap-2.5 text-[10.5px] font-black tracking-[0.22em] uppercase text-sky-600 mb-4">
@@ -205,7 +205,7 @@ export default function InteriorPage() {
             <img
               src="https://images.unsplash.com/photo-1616137466211-f939a420be84?w=800&q=80"
               alt="Luxury interior"
-              className="w-full aspect-[4/5] object-cover rounded-2xl shadow-[0_24px_64px_rgba(0,0,0,0.14)]"
+              className="w-full aspect-[5/5] object-cover rounded-2xl shadow-[0_24px_64px_rgba(0,0,0,0.14)]"
             />
           </div>
         </div>
@@ -214,7 +214,7 @@ export default function InteriorPage() {
       <div className="h-px mx-0" style={{ background: "linear-gradient(to right, transparent, #e2e8f0 40%, #e2e8f0 60%, transparent)" }} />
 
       {/* ══ SERVICES ══ */}
-      <section className="max-w-[1280px] mx-auto px-[5vw] py-20 md:py-24" id="services">
+      <section className="mx-auto px-[2vw] py-10 md:py-14" id="services">
         <div className="vr">
           <div className="font-dm inline-flex items-center gap-2.5 text-[10.5px] font-black tracking-[0.22em] uppercase text-sky-600 mb-4">
             <span className="block w-5 h-[1.5px] bg-sky-600" /> What We Design
@@ -306,8 +306,8 @@ export default function InteriorPage() {
       </section>
 
       {/* ══ PROCESS ══ */}
-      <div className="bg-[#1a1a2e] mt-20 py-20 md:py-24 px-[5vw]">
-        <div className="max-w-[1280px] mx-auto">
+      <div className="bg-[#1a1a2e] mt-10 py-10 md:py-14 px-[2vw]">
+        <div className="mx-auto">
           <div className="vr text-center">
             <div className="font-dm inline-flex items-center justify-center gap-2.5 text-[10.5px] font-black tracking-[0.22em] uppercase text-[#b8975a] mb-4">
               <span className="block w-5 h-[1.5px] bg-[#b8975a]" /> How We Work
@@ -335,7 +335,7 @@ export default function InteriorPage() {
       </div>
 
       {/* ══ STYLES GALLERY ══ */}
-      <section className="max-w-[1280px] mx-auto px-[5vw] py-20 md:py-24">
+      <section className="mx-auto px-[2vw] py-10 md:py-14">
         <div className="vr">
           <div className="font-dm inline-flex items-center gap-2.5 text-[10.5px] font-black tracking-[0.22em] uppercase text-sky-600 mb-4">
             <span className="block w-5 h-[1.5px] bg-sky-600" /> Design Styles
@@ -367,8 +367,8 @@ export default function InteriorPage() {
       </section>
 
       {/* ══ WHY US ══ */}
-      <div className="bg-gradient-to-br from-sky-50 via-[#e0f2fe] to-sky-50 border-y border-sky-200 py-16 md:py-20 px-[5vw]">
-        <div className="max-w-[1280px] mx-auto">
+      <div className="bg-gradient-to-br from-sky-50 via-[#e0f2fe] to-sky-50 border-y border-sky-200 py-6 md:py-10 px-[2vw]">
+        <div className="mx-auto">
           <div className="vr text-center">
             <div className="font-dm inline-flex items-center justify-center gap-2.5 text-[10.5px] font-black tracking-[0.22em] uppercase text-sky-600 mb-4">
               <span className="block w-5 h-[1.5px] bg-sky-600" /> Why Vasundhara
@@ -392,13 +392,13 @@ export default function InteriorPage() {
       
 
       {/* ══ CTA BANNER ══ */}
-      <div className="relative overflow-hidden py-20 md:py-24 px-[5vw]"
+      <div className="relative overflow-hidden py-10 md:py-14 px-[2vw]"
         style={{ background: "linear-gradient(135deg, #0c1220 0%, #0369a1 60%, #0ea5e9 100%)" }}>
         {/* blobs */}
         <div className="absolute w-[400px] h-[400px] -top-36 -left-24 rounded-full bg-white/[0.04] pointer-events-none" />
         <div className="absolute w-[300px] h-[300px] -bottom-24 -right-20 rounded-full bg-white/[0.04] pointer-events-none" />
 
-        <div className="vr max-w-[760px] mx-auto text-center relative z-10">
+        <div className="vr mx-auto text-center relative z-10">
           <p className="font-dm text-[11px] font-black tracking-[0.2em] uppercase text-white/45 mb-4">— Start Your Journey —</p>
           <h2 className="font-cormorant text-[clamp(30px,5vw,58px)] font-semibold text-white leading-[1.1] mb-4">
             Your dream interior is one <em className="italic text-sky-300">conversation away</em>

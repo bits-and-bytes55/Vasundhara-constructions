@@ -184,7 +184,7 @@ function CompanyProfilePage() {
           />
         </div>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
+        <div className="relative 7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="animate-fadeInUp" style={{ animation: 'fadeInUp 0.8s ease-out' }}>
               <div className="inline-block bg-blue-500/20 backdrop-blur-sm px-4 py-2 rounded-full mb-6">
@@ -235,13 +235,13 @@ function CompanyProfilePage() {
 
         className="reveal-section py-10 bg-white"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <span className="text-blue-600 text-sm font-semibold uppercase tracking-wider">Our Foundation</span>
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mt-2 mb-4">
               Built on <span className="gradient-text">Strong Values</span>
             </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
+            <p className="text-gray-600 2xl mx-auto">
               These principles guide everything we do, from first consultation to final handover
             </p>
           </div>
@@ -315,13 +315,13 @@ function CompanyProfilePage() {
       <section
         ref={(el) => { sectionsRef.current[3] = el; }}        className="reveal-section py-20 bg-gradient-to-br from-blue-50 to-indigo-50"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <span className="text-blue-600 text-sm font-semibold uppercase tracking-wider">Our Journey</span>
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mt-2 mb-4">
               Excellence Through <span className="gradient-text">Experience</span>
             </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
+            <p className="text-gray-600 2xl mx-auto">
               From humble beginnings to industry leadership
             </p>
           </div>
@@ -355,10 +355,10 @@ function CompanyProfilePage() {
         ref={(el) => {sectionsRef.current[5] = el}}
         className="reveal-section gradient-bg text-white py-20"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Vasundhara by the Numbers</h2>
-            <p className="text-blue-100 max-w-2xl mx-auto">
+            <p className="text-blue-100 2xl mx-auto">
               The metrics that reflect our commitment to excellence
             </p>
           </div>
@@ -377,13 +377,13 @@ function CompanyProfilePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-10 bg-gray-50">
+        <div className="7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-3xl p-10 md:p-16 text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
               Ready to Build Your Dream Home?
             </h2>
-            <p className="text-blue-100 mb-8 max-w-2xl mx-auto">
+            <p className="text-blue-100 mb-8 2xl mx-auto">
               Let's discuss your project and create a space that exceeds your expectations
             </p>
             <div className="flex flex-wrap gap-4 justify-center">

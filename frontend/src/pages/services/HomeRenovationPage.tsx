@@ -266,8 +266,8 @@ export default function HomeRenovationPage() {
         </div>
         
         {/* Content */}
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <div className="max-w-3xl animate-fade-up">
+        <div className="relative z-10 7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+          <div className="3xl animate-fade-up">
             <div className="inline-flex items-center gap-2 bg-blue-500/20 backdrop-blur-sm px-4 py-2 rounded-full mb-6">
               <span className="text-blue-400 text-sm font-semibold">Expert Renovation Services</span>
             </div>
@@ -303,7 +303,7 @@ export default function HomeRenovationPage() {
         
         {/* Stats Bar */}
         <div className="absolute bottom-0 left-0 right-0 bg-black/50 backdrop-blur-md border-t border-white/10">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
               {STATS.map((stat, idx) => (
                 <div key={idx} className="text-center">
@@ -319,13 +319,13 @@ export default function HomeRenovationPage() {
       
       {/* Services Section */}
       <section id="services" className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 reveal-on-scroll">
             <span className="text-blue-600 text-sm font-semibold uppercase tracking-wider">Our Services</span>
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-4">
               Comprehensive <span className="gradient-text">Renovation Solutions</span>
             </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
+            <p className="text-gray-600 2xl mx-auto">
               Whether you need a full home transformation or targeted upgrades, 
               we have the expertise to bring your vision to life.
             </p>
@@ -402,13 +402,13 @@ export default function HomeRenovationPage() {
       
       {/* Before & After Section */}
       <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 reveal-on-scroll">
             <span className="text-blue-600 text-sm font-semibold uppercase tracking-wider">Transformations</span>
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-4">
                <span className="gradient-text">Renovations</span>
             </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
+            <p className="text-gray-600 2xl mx-auto">
               See the dramatic difference our renovation expertise can make
             </p>
           </div>
@@ -457,13 +457,13 @@ export default function HomeRenovationPage() {
       
       {/* Process Section */}
       <section className="py-20 bg-gradient-primary text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 reveal-on-scroll">
             <span className="text-blue-200 text-sm font-semibold uppercase tracking-wider">How We Work</span>
             <h2 className="text-4xl md:text-5xl font-bold mt-2 mb-4">
               Simple <span className="text-blue-200">Renovation Process</span>
             </h2>
-            <p className="text-blue-100 max-w-2xl mx-auto">
+            <p className="text-blue-100 2xl mx-auto">
               A streamlined approach that ensures quality, transparency, and timely delivery
             </p>
           </div>
@@ -484,13 +484,13 @@ export default function HomeRenovationPage() {
       
       {/* Why Choose Us */}
       <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 reveal-on-scroll">
             <span className="text-blue-600 text-sm font-semibold uppercase tracking-wider">Why Choose Us</span>
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-4">
               The <span className="gradient-text">Vasundhara Advantage</span>
             </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
+            <p className="text-gray-600 2xl mx-auto">
               What sets us apart in the renovation industry
             </p>
           </div>
@@ -512,12 +512,12 @@ export default function HomeRenovationPage() {
       
       {/* CTA Banner */}
       <section className="py-16 bg-gradient-primar">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="reveal-on-scroll">
             <h2 className="text-3xl md:text-4xl font-bold text-black mb-4">
               Ready to Start Your Renovation Journey?
             </h2>
-            <p className="text-blue-500 mb-8 max-w-2xl mx-auto">
+            <p className="text-blue-500 mb-8 2xl mx-auto">
               Let's discuss your vision and create a space you'll love for years to come
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
@@ -549,7 +549,7 @@ export default function HomeRenovationPage() {
           className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
           onClick={() => setIsModalOpen(false)}
         >
-          <div className="max-w-4xl w-full bg-white rounded-2xl overflow-hidden" onClick={e => e.stopPropagation()}>
+          <div className="4xl w-full bg-white rounded-2xl overflow-hidden" onClick={e => e.stopPropagation()}>
             <div className="grid md:grid-cols-2 gap-0">
               <div>
                 <div className="bg-gray-900 text-white p-3 text-center">BEFORE</div>

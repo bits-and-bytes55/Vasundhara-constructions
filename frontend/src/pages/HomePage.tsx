@@ -168,7 +168,7 @@ const whySlides = [
 ]
 
 const dreamSlides = [
-  { label: 'Modern Living Room', image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800' },
+  { label: 'Modern Living Room', image: '/images/Basic.jpg' },
   { label: 'Master Bedroom', image: 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=800' },
   { label: 'Kitchen Design', image: 'https://plus.unsplash.com/premium_photo-1661963667668-f53a412a5922?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fGtpdGNoZW4lMjBkZXNpZ258ZW58MHx8MHx8fDA%3D' },
   { label: 'Elevation View', image: 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=800' },
@@ -376,7 +376,7 @@ function HomePage() {
 
   // ----- Hero Slider using services.cards -----
   const heroSlides = services.cards.map((card) => {
-    const title = card.title || (card as any).name; // handle 'name' for Home Renovation
+    const title = card.title || (card as any).name; 
     let imageUrl = '';
     switch (title) {
       case 'Construction':
@@ -779,13 +779,13 @@ function HomePage() {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 reveal-on-scroll" style={{ transitionDelay: '0.1s' }}>
             {[
-              { title: 'Construction', desc: 'Quality civil construction delivered on time and within budget.', tag: 'Civil', img: 'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=600&auto=format&fit=crop&q=80', link: '/services/construction' },
-              { title: 'Interiors', desc: 'Stylish, functional, and personalized interior designing.', tag: 'Design', img: 'https://images.unsplash.com/photo-1600210492493-0946911123ea?w=600&auto=format&fit=crop&q=80', link: '/services/interior-design' },
-              { title: 'Elevations', desc: 'Transform the front facade to stand out with a premium look.', tag: 'Exterior', img: 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&auto=format&fit=crop&q=80', link: '/services/elevation-page' },
+              { title: 'Construction', desc: 'Quality civil construction delivered on time and within budget.', tag: 'Civil', img: '/images/home4.png', link: '/services/construction' },
+              { title: 'Interiors', desc: 'Stylish, functional, and personalized interior designing.', tag: 'Design', img: '/images/interiors.jpg', link: '/services/interior-design' },
+              { title: 'Elevations', desc: 'Transform the front facade to stand out with a premium look.', tag: 'Exterior', img: '/images/VasundharaP3.png', link: '/services/elevation-page' },
               { title: 'Terrace Garden', desc: 'Refresh your rooftop with lush and serene outdoor spaces.', tag: 'Outdoor', img: 'https://plus.unsplash.com/premium_photo-1714078254516-f7ff6ea91499?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8ODR8fHRlcnJhY2UlMjBnYXJkZW4lMjBpbWFnZXxlbnwwfHwwfHx8MA%3D%3D', link: '/services/terrace-garden-page' },
-              { title: 'Home Renovation', desc: 'Enhance your home’s comfort, design, and functionality with smart renovation solutions.', tag: 'Outdoor', img: '/images/home-renovation.jpg', link: '/services/home-renovation' },
+              { title: 'Home Renovation', desc: 'Enhance your home’s comfort, design, and functionality with smart renovation solutions.', tag: 'Outdoor', img: '/images/dream-master-bed-room.jpeg', link: '/services/home-renovation' },
             ].map((s) => (
-              <Link to={s.link} key={s.title} className="group relative rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 block" style={{ aspectRatio: '3/4' }}>
+              <Link to={s.link} key={s.title} className="group relative rounded-2xl overflow-hidden   transition-all duration-300 hover:-translate-y-2 block" style={{ aspectRatio: '3/4' }}>
                 <img src={s.img} alt={s.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                 <div className="absolute inset-0 flex flex-col justify-end p-5" style={{ background: 'linear-gradient(0deg, rgba(10,20,60,0.85) 0%, rgba(10,20,60,0.2) 60%, transparent 100%)' }}>
                   <span className="inline-block bg-blue-500/80 text-white text-[10px] font-black tracking-widest uppercase rounded-full px-3 py-1 mb-3 w-fit">{s.tag}</span>
@@ -1045,7 +1045,7 @@ function HomePage() {
             {/* Left side – image */}
             <div className="rounded-2xl overflow-hidden shadow-xl">
               <img
-                src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                src="/images/hero1.png"
                 alt="Construction blueprint and tools"
                 className="w-full h-auto object-cover"
               />

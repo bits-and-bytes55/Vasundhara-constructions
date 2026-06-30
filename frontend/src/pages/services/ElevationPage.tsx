@@ -32,7 +32,7 @@ const elevationStyles = [
       'Premium stone cladding',
       'Statement lighting'
     ],
-    image: 'https://images.unsplash.com/photo-1613490493576-7fde63acd349?w=800&q=80',
+    image: '/images/home4.png',
     priceRange: '₹250-400/sqft',
     popularity: 'Premium Choice'
   },
@@ -245,7 +245,7 @@ function ElevationPage() {
   return (
     <main className="bg-white">
       {/* Hero Section */}
-      <section className="relative min-h-[80vh] flex items-center overflow-hidden">
+      <section className="relative  flex items-center overflow-hidden">
         <div className="absolute inset-0">
           <img 
             src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1800&q=85"
@@ -255,12 +255,12 @@ function ElevationPage() {
           <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-transparent"></div>
         </div>
         
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div className="relative 7xl mx-auto px-2 sm:px-3 lg:px-5 py-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="max-w-3xl"
+            className="3xl"
           >
             <div className="inline-block bg-blue-600 text-white px-4 py-2 rounded-full text-sm font-semibold mb-6">
               Architectural Elevation Design
@@ -305,7 +305,7 @@ function ElevationPage() {
 
       {/* Elevation Styles Section */}
       <section className="py-24 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             ref={ref}
             initial="hidden"
@@ -319,7 +319,7 @@ function ElevationPage() {
             <motion.h2 variants={itemVariants} className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
               Choose Your Perfect Style
             </motion.h2>
-            <motion.p variants={itemVariants} className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <motion.p variants={itemVariants} className="text-xl text-gray-600 3xl mx-auto">
               Explore our curated collection of architectural elevation designs
             </motion.p>
           </motion.div>
@@ -403,7 +403,7 @@ function ElevationPage() {
 
       {/* Elevation Elements Gallery */}
       <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <div className="inline-block bg-blue-100 text-blue-600 px-4 py-2 rounded-full text-sm font-semibold mb-4">
               Design Elements
@@ -411,7 +411,7 @@ function ElevationPage() {
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
               Crafting Your Facade
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-600 3xl mx-auto">
               Every element contributes to your home's unique character
             </p>
           </div>
@@ -446,7 +446,7 @@ function ElevationPage() {
 
       {/* Project Gallery */}
       <section className="py-24 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <div className="inline-block bg-blue-100 text-blue-600 px-4 py-2 rounded-full text-sm font-semibold mb-4">
               Our Work
@@ -454,7 +454,7 @@ function ElevationPage() {
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
               Stunning Elevations
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-600 3xl mx-auto">
               projects showcasing  elevation design expertise
             </p>
           </div>
@@ -498,7 +498,7 @@ function ElevationPage() {
 
       {/* Design Process */}
       <section className="py-24 bg-gradient-to-br from-blue-900 to-blue-800 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <div className="inline-block bg-white/20 text-white px-4 py-2 rounded-full text-sm font-semibold mb-4">
               Design Process
@@ -506,7 +506,7 @@ function ElevationPage() {
             <h2 className="text-4xl md:text-5xl font-bold mb-4">
               From Concept to Reality
             </h2>
-            <p className="text-xl text-blue-100 max-w-3xl mx-auto">
+            <p className="text-xl text-blue-100 3xl mx-auto">
               Our systematic approach ensures your elevation design exceeds expectations
             </p>
           </div>
@@ -533,8 +533,8 @@ function ElevationPage() {
       </section>
 
       {/* Why Choose Us */}
-      <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-14 bg-white">
+        <div className="7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <div className="inline-block bg-blue-100 text-blue-600 px-4 py-2 rounded-full text-sm font-semibold mb-4">
@@ -565,27 +565,27 @@ function ElevationPage() {
               </div>
             </div>
             
-            <div className="relative">
-              <img 
-                src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=800&q=80"
-                alt="Elevation Design"
-                className="rounded-2xl shadow-2xl"
-              />
-              <div className="absolute -bottom-6 -right-6 bg-blue-600 text-white p-6 rounded-2xl shadow-xl">
-                <div className="text-sm">Elevations Designed</div>
-              </div>
-            </div>
+            <div className="relative w-full h-64 md:h-80 lg:h-96">
+  <img 
+    src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=800&q=80"
+    alt="Elevation Design"
+    className="w-full h-full object-cover rounded-2xl shadow-2xl"
+  />
+  <div className="absolute -bottom-6 -right-6 bg-blue-600 text-white p-6 rounded-2xl shadow-xl">
+    <div className="text-sm">Elevations Designed</div>
+  </div>
+</div>
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-blue-600 to-blue-700">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <section className="py-10 bg-gradient-to-r from-blue-600 to-blue-700">
+        <div className="7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             Ready to Elevate Your Home's Style?
           </h2>
-          <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+          <p className="text-xl text-blue-100 mb-8 2xl mx-auto">
             Get a free consultation with our elevation design experts and bring your vision to life
           </p>
           <div className="flex flex-wrap gap-4 justify-center">

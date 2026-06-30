@@ -340,19 +340,19 @@ const BlogsPage = () => {
           <div className="absolute top-20 left-10 w-72 h-72 bg-white rounded-full blur-3xl" />
           <div className="absolute bottom-10 right-10 w-96 h-96 bg-[#60a5fa] rounded-full blur-3xl" />
         </div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 relative z-10">
+        <div className="7xl mx-auto px-4 sm:px-6 lg:px-10 relative z-10">
           <Reveal>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-4">
               Insights & Stories
             </h1>
           </Reveal>
           <Reveal delay={0.1}>
-            <p className="text-white/80 text-lg md:text-xl max-w-2xl mb-8">
+            <p className="text-white/80 text-lg md:text-xl 2xl mb-8">
               Explore expert perspectives on digital marketing, web development, SEO, and growth strategies.
             </p>
           </Reveal>
           <Reveal delay={0.2}>
-            <form onSubmit={handleSearch} className="max-w-md">
+            <form onSubmit={handleSearch} className="md">
               <div className="relative">
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                 <input
@@ -369,7 +369,7 @@ const BlogsPage = () => {
       </section>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-12">
+      <div className="7xl mx-auto px-4 sm:px-6 lg:px-10 py-12">
         {/* Filter Bar */}
         <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
           <div className="flex items-center gap-3">

@@ -237,42 +237,40 @@ const processSteps = [
     title: 'Site Assessment',
     description: 'Structural evaluation and space planning',
     icon: '📏',
-    duration: '2-3 days'
+
   },
   {
     step: '02',
     title: 'Design Concept',
     description: 'Creating your dream garden layout',
-    icon: '🎨',
-    duration: '1 week'
+    icon: '🎨'
   },
   {
     step: '03',
     title: 'Waterproofing',
     description: 'Ensuring complete leak protection',
-    icon: '💧',
-    duration: '1 week'
+    icon: '💧'
   },
   {
     step: '04',
     title: 'Installation',
     description: 'Professional construction and planting',
     icon: '🌱',
-    duration: '2-4 weeks'
+  
   },
   {
     step: '05',
     title: 'Irrigation Setup',
     description: 'Automated watering systems',
     icon: '💦',
-    duration: '2-3 days'
+
   },
   {
     step: '06',
     title: 'Final Touches',
     description: 'Furniture, lighting, and styling',
     icon: '✨',
-    duration: '3-5 days'
+
   }
 ]
 
@@ -317,7 +315,7 @@ function TerraceGardenPage() {
   return (
     <main className="bg-white">
       {/* Hero Section */}
-      <section className="relative min-h-[80vh] flex items-center overflow-hidden">
+      <section className="relative flex items-center overflow-hidden">
         <div className="absolute inset-0">
           <img 
             src="https://images.unsplash.com/photo-1633330948542-0b3bdeefcdb3?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dGVycmFjZSUyMEdhcmRlbnxlbnwwfHwwfHx8MA%3D%3D"
@@ -327,12 +325,12 @@ function TerraceGardenPage() {
           <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-transparent"></div>
         </div>
         
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div className="relative 7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="max-w-3xl"
+            className="3xl"
           >
             <div className="inline-block bg-green-600 text-white px-4 py-2 rounded-full text-sm font-semibold mb-6">
               Terrace Garden Design
@@ -366,7 +364,7 @@ function TerraceGardenPage() {
 
       {/* Garden Styles Section */}
       <section className="py-24 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             ref={ref}
             initial="hidden"
@@ -380,7 +378,7 @@ function TerraceGardenPage() {
             <motion.h2 variants={itemVariants} className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
               Choose Your Garden Style
             </motion.h2>
-            <motion.p variants={itemVariants} className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <motion.p variants={itemVariants} className="text-xl text-gray-600 3xl mx-auto">
               Explore our diverse range of terrace garden designs
             </motion.p>
           </motion.div>
@@ -468,7 +466,7 @@ function TerraceGardenPage() {
 
       {/* Benefits Section */}
       <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <div className="inline-block bg-green-100 text-green-600 px-4 py-2 rounded-full text-sm font-semibold mb-4">
               Benefits
@@ -476,7 +474,7 @@ function TerraceGardenPage() {
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
               Why Create a Terrace Garden?
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-600 3xl mx-auto">
               Transform your unused space into a valuable asset
             </p>
           </div>
@@ -508,7 +506,7 @@ function TerraceGardenPage() {
 
       {/* Garden Features */}
       <section className="py-24 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <div className="inline-block bg-green-100 text-green-600 px-4 py-2 rounded-full text-sm font-semibold mb-4">
               Design Elements
@@ -516,7 +514,7 @@ function TerraceGardenPage() {
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
               Creating Your Perfect Garden
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-600 3xl mx-auto">
               Every element carefully selected for beauty and functionality
             </p>
           </div>
@@ -551,7 +549,7 @@ function TerraceGardenPage() {
 
       {/* Technical Considerations */}
       <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <div className="inline-block bg-green-100 text-green-600 px-4 py-2 rounded-full text-sm font-semibold mb-4">
               Technical Excellence
@@ -559,7 +557,7 @@ function TerraceGardenPage() {
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
               Built to Last
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-600 3xl mx-auto">
               Professional engineering ensures safety and longevity
             </p>
           </div>
@@ -590,7 +588,7 @@ function TerraceGardenPage() {
 
       {/* Project Gallery */}
       <section className="py-24 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <div className="inline-block bg-green-100 text-green-600 px-4 py-2 rounded-full text-sm font-semibold mb-4">
               Our Work
@@ -598,7 +596,7 @@ function TerraceGardenPage() {
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
               Beautiful Gardens We've Created
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-600 3xl mx-auto">
               Real projects showcasing our terrace garden expertise
             </p>
           </div>
@@ -643,7 +641,7 @@ function TerraceGardenPage() {
 
       {/* Process Section */}
       <section className="py-24 bg-gradient-to-br from-green-900 to-green-800 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <div className="inline-block bg-white/20 text-white px-4 py-2 rounded-full text-sm font-semibold mb-4">
               Our Process
@@ -651,7 +649,7 @@ function TerraceGardenPage() {
             <h2 className="text-4xl md:text-5xl font-bold mb-4">
               From Vision to Reality
             </h2>
-            <p className="text-xl text-green-100 max-w-3xl mx-auto">
+            <p className="text-xl text-green-100 3xl mx-auto">
               A systematic approach ensuring quality and satisfaction
             </p>
           </div>
@@ -670,7 +668,6 @@ function TerraceGardenPage() {
                 <div className="text-3xl mb-3">{step.icon}</div>
                 <h3 className="text-xl font-bold mb-2">{step.title}</h3>
                 <p className="text-green-100 text-sm mb-3">{step.description}</p>
-                <div className="text-xs text-green-200">⏱️ {step.duration}</div>
               </motion.div>
             ))}
           </div>
@@ -680,11 +677,11 @@ function TerraceGardenPage() {
       
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-green-600 to-green-700">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             Ready to Create Your Green Paradise?
           </h2>
-          <p className="text-xl text-green-100 mb-8 max-w-2xl mx-auto">
+          <p className="text-xl text-green-100 mb-8 2xl mx-auto">
             Let's transform your terrace into a beautiful, functional garden space
           </p>
           <div className="flex flex-wrap gap-4 justify-center">

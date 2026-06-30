@@ -212,8 +212,8 @@ const PackageDetailPage = () => {
         className="relative bg-gradient-to-r from-blue-900 via-blue-800 to-blue-900 text-white overflow-hidden"
       >
         <div className="absolute inset-0 bg-black opacity-20"></div>
-        <div className="relative container mx-auto px-4 py-16 md:py-24">
-          <motion.div {...fadeInUp} className="text-center max-w-4xl mx-auto">
+        <div className="relative container mx-auto px-4 py-6 md:py-14">
+          <motion.div {...fadeInUp} className="text-center 4xl mx-auto">
             <div className="flex justify-center mb-4">
               <HardHat className="w-16 h-16 text-blue-300" />
             </div>

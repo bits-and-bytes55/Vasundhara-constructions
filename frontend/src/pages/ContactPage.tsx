@@ -51,7 +51,7 @@ const contactPageData = {
     subtitle: 'Your trusted partner for quality construction, timely delivery, and transparent execution.',
     visualLabel: 'Featured Project',
     visualTitle: 'Sukoon Heights',
-    visualText: 'Luxury residential complex completed in record 18 months',
+    visualText: 'Luxury residential complex completed in record months',
     visualImage: 'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80',
     highlights: [
       { value: '70+', label: 'Projects', detail: 'Successfully Delivered' },
@@ -217,7 +217,7 @@ function ContactPage() {
           }}
         />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="flex flex-wrap gap-12 items-center justify-between">
             <motion.div
               initial="hidden"
@@ -245,7 +245,7 @@ function ContactPage() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
-                className="text-lg text-[#5a6b6e] mb-8 max-w-xl"
+                className="text-lg text-[#5a6b6e] mb-8 xl"
               >
                 {contactPageData.hero.subtitle}
               </motion.p>
@@ -341,7 +341,7 @@ function ContactPage() {
 
       {/* Contact & Enquiry Section */}
       <section className="py-20 bg-white relative">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="7xl mx-auto px-4 sm:px-6 lg:px-8">
           <ScrollReveal>
             <div className="text-center mb-14">
               <motion.div
@@ -367,7 +367,7 @@ function ContactPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
                 viewport={{ once: true }}
-                className="text-[#6a7f7f] max-w-2xl mx-auto"
+                className="text-[#6a7f7f] 2xl mx-auto"
               >
                 Fill out the form below and our team will get back to you within 24 hours.
                 For urgent inquiries, call our project helpline directly.
@@ -651,7 +651,7 @@ function ContactPage() {
           }}
         />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <ScrollReveal>
             <div className="text-center mb-14">
               <div className="inline-block bg-[#2e7cc4]/10 text-[#2e7cc4] text-xs tracking-wider uppercase font-semibold px-3 py-1.5 rounded-full mb-4">
@@ -660,7 +660,7 @@ function ContactPage() {
               <h2 className="text-3xl md:text-4xl font-bold text-[#1e2a2e] mb-4">
                 What to Prepare Before Consultation
               </h2>
-              <p className="text-[#6a7f7f] max-w-2xl mx-auto">
+              <p className="text-[#6a7f7f] 2xl mx-auto">
                 Help us understand your project better by having these details ready for the first meeting.
               </p>
             </div>
@@ -732,7 +732,7 @@ function ContactPage() {
 
       {/* CTA Band */}
       <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -750,7 +750,7 @@ function ContactPage() {
               <h3 className="text-2xl md:text-3xl font-bold text-white mb-3">
                 Need Cost Clarity Before Filling the Form?
               </h3>
-              <p className="text-[#cddad5] max-w-xl leading-relaxed">
+              <p className="text-[#cddad5] xl leading-relaxed">
                 Use our construction cost estimator or compare our project packages to get a clearer
                 picture of your investment.
               </p>

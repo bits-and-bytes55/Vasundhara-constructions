@@ -19,7 +19,7 @@ app.use(express.urlencoded({ limit: "10mb", extended: true }));
 
 const allowedOrigins = [
   "https://vasundharaconstruction.co.in",
-      "https://www.vasundharaconstruction.co.in",
+  "https://www.vasundharaconstruction.co.in",
   "http://localhost:5173",
   "http://localhost:5174",
   "http://127.0.0.1:5173"
@@ -62,17 +62,14 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// POST /api/contact
 app.post('/api/contact', async (req, res) => {
   const { fullName, phone, email, city, service, projectScale, message } = req.body;
 
-  // Basic validation
   if (!fullName || !phone || !email) {
     return res.status(400).json({ error: 'Name, phone and email are required.' });
   }
 
   try {
-    // Email content
     const mailOptions = {
       from: `"Vasundhara Website" <${process.env.SMTP_USER}>`,
       to: process.env.RECIPIENT_EMAIL,
@@ -98,12 +95,10 @@ app.post('/api/contact', async (req, res) => {
   }
 });
 
-// Default route
 app.get("/", (req, res) => {
   res.send("Backend is running...");
 });
 
-// MongoDB
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB Connected Successfully"))

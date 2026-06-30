@@ -208,22 +208,22 @@ function ConstructionPage() {
   return (
     <main className="bg-white">
       {/* Hero Section */}
-      <section className="relative min-h-[90vh] flex items-center overflow-hidden">
+      <section className="relative flex items-center overflow-hidden">
         <div className="absolute inset-0">
           <img 
-            src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=1800&q=85"
+            src="/images/home4.png"
             alt="Construction"
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent"></div>
         </div>
         
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div className="relative 7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="max-w-3xl"
+            className="3xl"
           >
             <div className="inline-block bg-blue-600 text-white px-4 py-2 rounded-full text-sm font-semibold mb-6">
               Quality Construction Since 2005
@@ -267,8 +267,8 @@ function ConstructionPage() {
       </section>
 
       {/* Services Section */}
-      <section className="py-24 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-14 bg-gray-50">
+        <div className="7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             ref={ref}
             initial="hidden"
@@ -282,7 +282,7 @@ function ConstructionPage() {
             <motion.h2 variants={itemVariants} className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
               Comprehensive Construction Solutions
             </motion.h2>
-            <motion.p variants={itemVariants} className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <motion.p variants={itemVariants} className="text-xl text-gray-600 3xl mx-auto">
               From concept to completion, we deliver exceptional construction services tailored to your needs
             </motion.p>
           </motion.div>
@@ -332,8 +332,8 @@ function ConstructionPage() {
       </section>
 
       {/* Project Types Grid */}
-      <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-14 bg-white">
+        <div className="7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <div className="inline-block bg-blue-100 text-blue-600 px-4 py-2 rounded-full text-sm font-semibold mb-4">
               Project Portfolio
@@ -341,7 +341,7 @@ function ConstructionPage() {
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
               What We Build
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-600 3xl mx-auto">
               Diverse portfolio showcasing our construction expertise
             </p>
           </div>
@@ -372,8 +372,8 @@ function ConstructionPage() {
       </section>
 
       {/* Construction Process */}
-      <section className="py-24 bg-gradient-to-br from-blue-900 to-blue-800 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-14 bg-gradient-to-br from-blue-900 to-blue-800 text-white">
+        <div className="7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <div className="inline-block bg-white/20 text-white px-4 py-2 rounded-full text-sm font-semibold mb-4">
               Our Process
@@ -381,7 +381,7 @@ function ConstructionPage() {
             <h2 className="text-4xl md:text-5xl font-bold mb-4">
               How We Build Excellence
             </h2>
-            <p className="text-xl text-blue-100 max-w-3xl mx-auto">
+            <p className="text-xl text-blue-100 3xl mx-auto">
               A systematic approach ensuring quality at every step
             </p>
           </div>
@@ -408,8 +408,8 @@ function ConstructionPage() {
       </section>
 
       {/* Why Choose Us */}
-      <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-14 bg-white">
+        <div className="7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <div className="inline-block bg-blue-100 text-blue-600 px-4 py-2 rounded-full text-sm font-semibold mb-4">
@@ -458,12 +458,12 @@ function ConstructionPage() {
 
      
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-blue-600 to-blue-700">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <section className="py-10 bg-gradient-to-r from-blue-600 to-blue-700">
+        <div className="7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             Ready to Build Your Dream Project?
           </h2>
-          <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+          <p className="text-xl text-blue-100 mb-8 2xl mx-auto">
             Let's discuss your construction needs and create something extraordinary together
           </p>
           <div className="flex flex-wrap gap-4 justify-center">

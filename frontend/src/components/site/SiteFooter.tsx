@@ -19,9 +19,7 @@ function SiteFooter() {
   return (
     <footer className="bg-black text-gray-200">
       <div className="container mx-auto px-4 sm:px-2 lg:px-4 py-6">
-        {/* Top section - responsive grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 pb-2 border-b border-gray-800">
-          {/* Brand column - spans full width on mobile, 2 columns on tablet and desktop */}
           <div className="sm:col-span-2">
             <Link className="inline-flex items-center gap-3 mb-4" to="/">
               <span className="h-10 w-auto">
@@ -182,19 +180,15 @@ function SiteFooter() {
         </div>
 
         {/* Bottom meta */}
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 pt-8 text-xs text-gray-500">
+        <div className="flex flex-col sm:flex-row justify-around items-center gap-4 pt-8 text-xs text-gray-500">
           <div>
             © {new Date().getFullYear()} Vasundhara Construction & Interiors. All rights reserved.
           </div>
-          <div className="flex gap-4">
-            <span className="hover:text-white transition cursor-pointer">Privacy Policy</span>
-            <span className="hover:text-white transition cursor-pointer">Terms of Use</span>
-            <span className="hover:text-white transition cursor-pointer">SiteMap</span>
-          </div>
+          
           <div className="flex flex-wrap justify-center gap-4 text-gray-400">
-            <span>🔒 Protected</span>
-            <span>✅ 500+ Quality Checks</span>
-            <span>🏗️ Architect-Led Delivery</span>
+            <span>Protected</span>
+            <span>500+ Quality Checks</span>
+            <span>Architect-Led Delivery</span>
           </div>
         </div>
       </div>
